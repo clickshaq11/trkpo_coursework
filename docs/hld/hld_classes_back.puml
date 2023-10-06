@@ -1,0 +1,33 @@
+@startuml
+hide empty members
+
+class SecurityController {}
+
+SecurityController --> SecurityService
+SecurityService --> UserRepository
+
+UserController --> UserService
+UserService --> UserRepository
+UserService --> SubscriptionRepository
+
+PostController --> PostService
+PostService --> PostRepository
+PostService --> LikeRepository
+PostService --> CommentRepository
+PostService --> UserRepository
+
+CommentController --> CommentService
+CommentService --> CommentRepository
+CommentService --> PostRepository
+
+SubscriptionController --> SubscriptionService
+SubscriptionService --> SubscriptionRepository
+SubscriptionService --> UserRepository
+
+LikeController --> LikeService
+LikeService --> LikeRepository
+LikeService --> PostRepository
+
+NotificationController --> NotificationService
+NotificationService --> NotificationRepository
+@enduml
