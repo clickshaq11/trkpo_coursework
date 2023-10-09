@@ -1,0 +1,60 @@
+@startuml
+skinparam linetype ortho
+
+entity "User" {
+  id: serial PK
+  --
+  login: varchar
+  hashedPassword: varchar
+  shortInfo: varchar
+}
+
+entity "Post" {
+  id : serial PK
+  --
+  authorId: int FK
+  title: varchar
+  body: varchar
+  createdAt: bigint
+}
+
+entity "Comment" {
+  id : serial PK
+  --
+  postId: int FK
+  userId: int FK
+  body: varchar
+}
+
+entity "PostToUserLike" {
+  id : serial PK
+  --
+  postId: int FK
+  userId: int FK
+}
+
+entity "UserToSubscribedUser" {
+  id : serial PK
+  --
+  creatorId: int FK
+  subscriberId: int FK
+}
+
+entity "Notification" {
+  id : serial PK
+  --
+  userId: int FK
+  postId: int FK
+  createdAt: bigint
+}
+
+User ||-r-{ Post
+User ||-u-{ PostToUserLike
+User }-l-{ UserToSubscribedUser
+User ||--{ Comment
+User ||--{ Notification
+Post ||-u-{ PostToUserLike
+Post ||--{ Comment
+Post ||--{ Notification
+
+@enduml

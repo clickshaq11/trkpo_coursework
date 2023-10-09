@@ -1,0 +1,14 @@
+= High level design для сайта-блога с постами и комментариями
+:sectnums:
+:sectnumlevels: 3
+:toc: right
+:toclevels: 3
+:data-uri:
+
+include::hld_tech_stack.adoc[]
+
+include::hld_classes_back.adoc[]
+
+include::hld_db.adoc[]
+
+include::hld_api.adoc[]

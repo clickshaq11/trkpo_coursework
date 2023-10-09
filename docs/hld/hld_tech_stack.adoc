@@ -1,0 +1,7 @@
+== Стэк технологий
+
+Front: TODO
+
+Back: Java, Spring Data/Security/MVC/Core/Boot, Maven
+
+Остальное: Postgres, Docker, Github, Github Projects
