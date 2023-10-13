@@ -1,0 +1,7 @@
+== Общая схема
+
+
+[plantuml,"hld_overall_scheme","png"]
+----------
+include::hld_overall_scheme.puml[]
+----------

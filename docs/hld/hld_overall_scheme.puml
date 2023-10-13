@@ -1,0 +1,15 @@
+@startuml
+actor user
+participant front
+participant back
+database database
+
+user -> front
+front -> back
+back -> database
+
+database -> back
+back -> front
+front -> user
+
+@enduml
