@@ -7,6 +7,8 @@
 
 include::hld_tech_stack.adoc[]
 
+include::hld_overall_scheme.adoc[]
+
 include::hld_classes_back.adoc[]
 
 include::hld_db.adoc[]
