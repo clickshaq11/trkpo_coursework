@@ -1,0 +1,19 @@
+== Макет дизайна frontend - части 
+
+.Страница логина
+image::assets/login.png[]
+
+.Страница регистрации
+image::assets/register.png[]
+
+.Страница ньюс фида
+image::assets/feed.png[]
+
+.Страница собственного профиля
+image::assets/my-profile.png[]
+
+.Страница чужого профиля
+image::assets/other-profile.png[]
+
+.Страница поста
+image::assets/post.png[]
