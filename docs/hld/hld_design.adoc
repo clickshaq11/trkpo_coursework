@@ -30,3 +30,9 @@ image::assets/edit-post.png[]
 
 .Изменение информации в профиле
 image::assets/edit-short-info.png[]
+
+.Уведомления
+image::assets/notifications.png[]
+
+.Поиск
+image::assets/search.png[]
