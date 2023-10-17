@@ -1,5 +1,7 @@
 == Макет дизайна frontend - части 
 
+=== Основные страницы
+
 .Страница логина
 image::assets/login.png[]
 
@@ -17,3 +19,14 @@ image::assets/other-profile.png[]
 
 .Страница поста
 image::assets/post.png[]
+
+=== Всплывающие окна
+
+.Создание нового поста
+image::assets/create-new-post.png[]
+
+.Изменение поста
+image::assets/edit-post.png[]
+
+.Изменение информации в профиле
+image::assets/edit-short-info.png[]
