@@ -1,9 +1,11 @@
-= High level design для сайта-блога с постами и комментариями
 :sectnums:
 :sectnumlevels: 3
-:toc: right
+:toc: macro
 :toclevels: 3
 :data-uri:
+include::title_page.adoc[]
+
+toc::[]
 
 include::hld_tech_stack.adoc[]
 
