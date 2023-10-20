@@ -1,0 +1,49 @@
+== Макет дизайна frontend - части 
+
+=== Основные страницы
+
+.Страница логина
+image::assets/login.png[]
+
+.Страница регистрации
+image::assets/register.png[]
+
+.Страница ньюс фида
+image::assets/feed.png[]
+
+.Страница собственного профиля
+image::assets/my-profile.png[]
+
+.Страница чужого профиля
+image::assets/other-profile.png[]
+
+.Страница поста
+image::assets/post.png[]
+
+=== Всплывающие окна
+
+.Создание нового поста
+image::assets/create-new-post.png[]
+
+.Изменение поста
+image::assets/edit-post.png[]
+
+.Изменение информации в профиле
+image::assets/edit-short-info.png[]
+
+=== Выпадающие списки
+
+.Уведомления
+image::assets/notifications.png[]
+
+.Поиск
+image::assets/search.png[]
+
+.Тип сортировки
+image::assets/profile-sort-type.png[]
+
+.Порядок сортировки
+image::assets/profile-sort.png[]
+
+.Функции поста (удалить/редактировать)
+image::assets/post-dropdown.png[]
