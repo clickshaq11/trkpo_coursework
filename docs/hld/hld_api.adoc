@@ -234,7 +234,7 @@
 
 ==== Получение всех своих постов
 
-`GET /api/v1/post/filter/mine?page={page}&size={size}&sort={sort}`
+`GET /api/v1/post/filter/mine?page={page}&size={size}&custom_sort={sort}`
 
 где {page}, {size}, {sort} - параметры пагинации
 
@@ -252,6 +252,7 @@
         "id": 1,
         "title": "string",
         "body": "string",
+        "createdAt": 1111111111,
         "likeCounter": 1,
         "hitLike": true
         "firstComments": [
@@ -275,7 +276,7 @@
 
 ==== Получение всех постов пользователя
 
-`GET /api/v1/post/user/{id}?page={page}&size={size}&sort={sort}`
+`GET /api/v1/post/user/{id}?page={page}&size={size}&custom_sort={sort}`
 
 где {page}, {size}, {sort} - параметры пагинации, {id} - идентификатор пользователя
 
@@ -293,6 +294,7 @@
         "id": 1,
         "title": "string",
         "body": "string",
+        "createdAt": 111111111,
         "likeCounter": 1,
         "hitLike": true
         "firstComments": [
@@ -319,7 +321,7 @@
 
 ==== Получение постов фида новостей
 
-`GET /api/v1/post/filter/feed?page={page}&size={size}&sort={sort}`
+`GET /api/v1/post/filter/feed?page={page}&size={size}&custom_sort={sort}`
 
 где {page}, {size}, {sort} - параметры пагинации
 
