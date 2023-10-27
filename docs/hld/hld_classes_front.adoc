@@ -1,4 +1,4 @@
-== Схема классов back
+== Схема классов front
 
 [plantuml,"hld_classes_front","png"]
 ----------
