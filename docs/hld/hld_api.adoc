@@ -234,7 +234,7 @@
 
 ==== Получение всех своих постов
 
-`GET /api/v1/post/filter/mine?page={page}&size={size}&custom_sort={sort}`
+`GET /api/v1/post/filter/mine?page={page}&size={size}&sort={sort}`
 
 где {page}, {size}, {sort} - параметры пагинации
 
@@ -276,7 +276,7 @@
 
 ==== Получение всех постов пользователя
 
-`GET /api/v1/post/user/{id}?page={page}&size={size}&custom_sort={sort}`
+`GET /api/v1/post/user/{id}?page={page}&size={size}&sort={sort}`
 
 где {page}, {size}, {sort} - параметры пагинации, {id} - идентификатор пользователя
 
@@ -321,7 +321,7 @@
 
 ==== Получение постов фида новостей
 
-`GET /api/v1/post/filter/feed?page={page}&size={size}&custom_sort={sort}`
+`GET /api/v1/post/filter/feed?page={page}&size={size}&sort={sort}`
 
 где {page}, {size}, {sort} - параметры пагинации
 
