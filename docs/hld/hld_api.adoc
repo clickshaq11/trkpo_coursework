@@ -321,9 +321,7 @@
 
 ==== Получение постов фида новостей
 
-`GET /api/v1/post/filter/feed?page={page}&size={size}&sort={sort}`
-
-где {page}, {size}, {sort} - параметры пагинации
+`GET /api/v1/post/filter/feed`
 
 ===== Входные данные
 
