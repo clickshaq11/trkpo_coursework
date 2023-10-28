@@ -4,9 +4,9 @@
 :toclevels: 3
 :data-uri:
 :doctype: book
-toc::[]
-
 include::title_page.adoc[]
+
+toc::[]
 
 include::hld_design.adoc[]
 
@@ -21,4 +21,3 @@ include::hld_classes_back.adoc[]
 include::hld_db.adoc[]
 
 include::hld_api.adoc[]
-

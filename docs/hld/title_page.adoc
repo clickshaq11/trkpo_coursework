@@ -35,12 +35,7 @@
 {empty} +
 {empty} +
 {empty} +
-{empty} +
-{empty} +
-{empty} +
-{empty} +
-{empty} +
-{empty} +
+
 
 [grid=none, frame=none]
 [%autowidth.stretch]
@@ -57,3 +52,10 @@
 >|{empty} +
 Маслаков А.П.
 |===
+
+{empty} +
+{empty} +
+
+[.text-center]
+Санкт-Петербург +
+2023

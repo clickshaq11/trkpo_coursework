@@ -252,6 +252,7 @@
         "id": 1,
         "title": "string",
         "body": "string",
+        "createdAt": 1111111111,
         "likeCounter": 1,
         "hitLike": true
         "firstComments": [
@@ -293,6 +294,7 @@
         "id": 1,
         "title": "string",
         "body": "string",
+        "createdAt": 111111111,
         "likeCounter": 1,
         "hitLike": true
         "firstComments": [
