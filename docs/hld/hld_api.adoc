@@ -252,6 +252,8 @@
         "id": 1,
         "title": "string",
         "body": "string",
+        "authorId": 1,
+        "authorLogin": "string",
         "createdAt": 1111111111,
         "likeCounter": 1,
         "hitLike": true
@@ -294,6 +296,8 @@
         "id": 1,
         "title": "string",
         "body": "string",
+        "authorId": 1,
+        "authorLogin": "string",
         "createdAt": 111111111,
         "likeCounter": 1,
         "hitLike": true
