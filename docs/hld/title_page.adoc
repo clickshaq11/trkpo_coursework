@@ -1,0 +1,61 @@
+:nofooter:
+[.text-center]
+Министерство образования и науки РФ +
+Санкт-Петербургский политехнический университет Петра Великого +
+Институт компьютерных наук и технологий +
+Высшая школа программной инженерии
+
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+
+[.text-center]
+[big]*High level design для сайта-блога с постами и комментариями*
+
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+
+
+[grid=none, frame=none]
+[%autowidth.stretch]
+|===
+||
+|Выполнили студенты гр. 5130904/00101
+>|Прудников Д.А. +
+Кривенко М.Д. +
+Баталова Е.А. +
+Федоров Г.Ю.
+
+|{empty} +
+Руководитель
+>|{empty} +
+Маслаков А.П.
+|===
+
+{empty} +
+{empty} +
+
+[.text-center]
+Санкт-Петербург +
+2023

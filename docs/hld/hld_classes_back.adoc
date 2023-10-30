@@ -1,0 +1,6 @@
+== Схема классов back
+
+[plantuml,"hld_classes_back","png"]
+----------
+include::hld_classes_back.puml[]
+----------

@@ -1,0 +1,6 @@
+== Схема классов front
+
+[plantuml,"hld_classes_front","png"]
+----------
+include::hld_classes_front.puml[]
+----------

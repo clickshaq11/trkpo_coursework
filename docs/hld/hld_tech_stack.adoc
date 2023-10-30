@@ -1,0 +1,7 @@
+== Стэк технологий
+
+Front: React, Vite, MaterialUI, Typescript, axios, dayjs, react-query
+
+Back: Java, Spring Data/Security/MVC/Core/Boot, Maven
+
+Остальное: Postgres, Docker, Nginx, Github, Github Projects
