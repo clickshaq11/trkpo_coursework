@@ -1,7 +1,9 @@
 package com.trkpo.controller;
 
 import com.trkpo.model.dto.request.LoginRequestDto;
+import com.trkpo.model.dto.request.RegistrationRequestDto;
 import com.trkpo.model.dto.response.LoginResponseDto;
+import com.trkpo.model.dto.response.RegistrationResponseDto;
 import com.trkpo.service.SecurityService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,5 +21,10 @@ public class SecurityController {
     @PostMapping("/auth")
     public LoginResponseDto login(@RequestBody @Valid LoginRequestDto dto) {
         return service.login(dto);
+    }
+
+    @PostMapping("/register")
+    public RegistrationResponseDto register(@RequestBody @Valid RegistrationRequestDto dto) {
+        return service.register(dto);
     }
 }
