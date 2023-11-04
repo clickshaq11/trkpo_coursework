@@ -1,10 +1,14 @@
 package com.trkpo.service;
 
 import com.trkpo.model.dto.request.LoginRequestDto;
+import com.trkpo.model.dto.request.RegistrationRequestDto;
 import com.trkpo.model.dto.response.LoginResponseDto;
+import com.trkpo.model.dto.response.RegistrationResponseDto;
+import com.trkpo.model.entity.UserEntity;
 import com.trkpo.repository.UserRepository;
 import com.trkpo.service.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,5 +29,19 @@ public class SecurityService {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Passwords don't match");
         }
         return new LoginResponseDto(jwtService.createJwt(login));
+    }
+
+    public RegistrationResponseDto register(RegistrationRequestDto dto) {
+        var user = UserEntity.builder()
+            .login(dto.getLogin())
+            .shortInfo(dto.getShortInfo())
+            .hashedPassword(passwordEncoder.encode(dto.getPassword()))
+            .build();
+        try {
+            userRepository.save(user);
+        } catch (DataIntegrityViolationException e) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Login is already taken");
+        }
+        return new RegistrationResponseDto(jwtService.createJwt(dto.getLogin()));
     }
 }
