@@ -1,0 +1,35 @@
+@import '@/styles/colors.scss';
+
+.button {
+  padding: 0.5rem;
+
+  border-width: 0;
+  border-radius: 5px;
+
+  &:disabled {
+    background-color: rgba(#000, 0.5);
+    color: #ccc;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(&:disabled) {
+    filter: brightness(80%);
+    cursor: pointer;
+  }
+}
+
+.primary {
+  background-color: $main-color;
+  color: white;
+}
+
+.secondary {
+  background-color: transparent;
+  color: $main-color;
+}
+
+.tertiary {
+  background-color: transparent;
+  color: $main-color;
+  border: 1px solid $main-color;
+}
