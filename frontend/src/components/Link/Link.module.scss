@@ -1,0 +1,11 @@
+@import '@/styles/colors.scss';
+
+.link {
+    color: black;
+    text-decoration: none;
+
+    &:hover {
+        scale: 1.01;
+        color: $main-color;
+    }
+}
