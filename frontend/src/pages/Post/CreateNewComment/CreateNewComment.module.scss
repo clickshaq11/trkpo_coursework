@@ -1,0 +1,14 @@
+.create {
+  display: flex;
+  width: 600px;
+  margin-top: 1rem;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input {
+  resize: none;
+  height: 150px;
+  font-size: 16px;
+  padding: 0.5rem;
+}
