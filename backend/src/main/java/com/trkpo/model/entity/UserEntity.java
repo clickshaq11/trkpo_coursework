@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Set;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,17 +16,22 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity(name = "userEntity")
 public class UserEntity {
     @Id
     @GeneratedValue
+    @Column(columnDefinition = "serial")
     private Integer id;
 
-    @Column(unique = true)
+    @Size(min = 8, max = 50)
+    @Column(unique = true, nullable = false)
     private String login;
 
+    @Column(nullable = false)
     private String hashedPassword;
 
+    @Size(min = 1, max = 250)
+    @Column(nullable = false)
     private String shortInfo;
 
     @OneToMany(mappedBy = "user")
