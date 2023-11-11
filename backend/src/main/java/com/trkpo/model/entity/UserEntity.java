@@ -47,8 +47,8 @@ public class UserEntity {
     private Set<LikeEntity> likes;
 
     @OneToMany(mappedBy = "creator")
-    private Set<SubscribtionEntity> subscribers;
+    private Set<SubscriptionEntity> subscribers;
 
     @OneToMany(mappedBy = "subscriber")
-    private Set<SubscribtionEntity> subscriptions;
+    private Set<SubscriptionEntity> subscriptions;
 }

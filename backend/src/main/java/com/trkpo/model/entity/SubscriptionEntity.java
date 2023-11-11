@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
         columnNames = {"creatorId", "subscriberId"}
     )
 })
-public class SubscribtionEntity {
+public class SubscriptionEntity {
     @Id
     @GeneratedValue
     @Column(columnDefinition = "serial")
