@@ -2,6 +2,7 @@ package com.trkpo.controller;
 
 import com.trkpo.model.dto.request.UpdatePostDto;
 import com.trkpo.model.dto.response.MyPostDto;
+import com.trkpo.model.dto.response.OtherPostDto;
 import com.trkpo.service.PostService;
 import java.security.Principal;
 import java.util.List;
@@ -25,6 +26,11 @@ public class PostController {
     @GetMapping("/filter/mine")
     public List<MyPostDto> getMine(Principal principal, Pageable pageable){
         return service.getMine(principal.getName(), pageable);
+    }
+
+    @GetMapping("/user/{id}")
+    public List<OtherPostDto> getByUserId(@PathVariable Integer id, Pageable pageable) {
+        return service.getByUserId(id, pageable);
     }
 
     @PutMapping("/{id}")
