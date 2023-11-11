@@ -1,7 +1,6 @@
 package com.trkpo.repository;
 
 import com.trkpo.model.dto.projection.MyPostProjection;
-import com.trkpo.model.dto.response.MyPostDto;
 import com.trkpo.model.entity.PostEntity;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +13,7 @@ public interface PostRepository extends JpaRepository<PostEntity, Integer> {
         + "FROM likeEntity l "
         + "RIGHT JOIN l.post p "
         + "JOIN p.user u "
-        + "WHERE u.login = ?1 "
+        + "WHERE u.id = ?1 "
         + "GROUP BY p.id, u.id")
-    List<MyPostProjection> findMyPosts(String login, Pageable pageable);
+    List<MyPostProjection> findPostsByUserId(Integer id, Pageable pageable);
 }

@@ -3,6 +3,7 @@ package com.trkpo.service;
 import com.trkpo.model.dto.request.UpdatePostDto;
 import com.trkpo.model.dto.response.FirstCommentDto;
 import com.trkpo.model.dto.response.MyPostDto;
+import com.trkpo.model.dto.response.OtherPostDto;
 import com.trkpo.repository.CommentRepository;
 import com.trkpo.repository.LikeRepository;
 import com.trkpo.repository.PostRepository;
@@ -32,7 +33,8 @@ public class PostService {
     private final UserRepository userRepository;
 
     public List<MyPostDto> getMine(String login, Pageable pageable) {
-        var projections = postRepository.findMyPosts(login, pageable);
+        var user = userRepository.findByLoginOrThrow(login);
+        var projections = postRepository.findPostsByUserId(user.getId(), pageable);
         log.info("Get my posts for login {}", login);
         return projections.stream()
             .map(projection -> MyPostDto.builder()
@@ -43,7 +45,29 @@ public class PostService {
                 .authorLogin(projection.getAuthorLogin())
                 .likeCounter(projection.getLikeCounter())
                 .createdAt(projection.getCreatedAt())
-                .hitLike(likeRepository.existsByPostId(projection.getId()))
+                .hitLike(likeRepository.existsByUserIdAndPostId(user.getId(), projection.getId()))
+                .firstComments(getFirstComments(projection.getId()))
+                .build()
+            )
+            .toList();
+    }
+
+    public List<OtherPostDto> getByUserId(Integer id, Pageable pageable) {
+        if (!userRepository.existsById(id)) {
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Could not find user with id " + id);
+        }
+        var projections = postRepository.findPostsByUserId(id, pageable);
+        log.info("Get other posts for userId {}", id);
+        return projections.stream()
+            .map(projection -> OtherPostDto.builder()
+                .id(projection.getId())
+                .title(projection.getTitle())
+                .body(projection.getBody())
+                .authorId(projection.getAuthorId())
+                .authorLogin(projection.getAuthorLogin())
+                .likeCounter(projection.getLikeCounter())
+                .createdAt(projection.getCreatedAt())
+                .hitLike(likeRepository.existsByUserIdAndPostId(id, projection.getId()))
                 .firstComments(getFirstComments(projection.getId()))
                 .build()
             )
