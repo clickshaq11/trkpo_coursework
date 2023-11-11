@@ -8,4 +8,6 @@ public interface LikeRepository extends JpaRepository<LikeEntity, Integer> {
     Boolean existsByUserIdAndPostId(Integer userId, Integer postId);
 
     Optional<LikeEntity> findByUserIdAndPostId(Integer userId, Integer postId);
+
+    Integer countByPostId(Integer postId);
 }

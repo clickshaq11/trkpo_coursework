@@ -4,6 +4,7 @@ import com.trkpo.model.dto.request.UpdatePostDto;
 import com.trkpo.model.dto.response.FirstCommentDto;
 import com.trkpo.model.dto.response.MyPostDto;
 import com.trkpo.model.dto.response.OtherPostDto;
+import com.trkpo.model.dto.response.PostDto;
 import com.trkpo.repository.CommentRepository;
 import com.trkpo.repository.LikeRepository;
 import com.trkpo.repository.PostRepository;
@@ -72,6 +73,21 @@ public class PostService {
                 .build()
             )
             .toList();
+    }
+
+    public PostDto getById(String login, Integer id) {
+        var user = userRepository.findByLoginOrThrow(login);
+        var post = postRepository.findById(id)
+            .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND, "Could not find post with id " + id));
+        return PostDto.builder()
+            .title(post.getTitle())
+            .body(post.getBody())
+            .createdAt(post.getCreatedAt())
+            .authorId(post.getUser().getId())
+            .authorLogin(post.getUser().getLogin())
+            .likeCounter(likeRepository.countByPostId(post.getId()))
+            .hitLike(likeRepository.existsByUserIdAndPostId(user.getId(), post.getId()))
+            .build();
     }
 
     public void updateById(String login, UpdatePostDto dto, Integer id) {

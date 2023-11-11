@@ -3,6 +3,7 @@ package com.trkpo.controller;
 import com.trkpo.model.dto.request.UpdatePostDto;
 import com.trkpo.model.dto.response.MyPostDto;
 import com.trkpo.model.dto.response.OtherPostDto;
+import com.trkpo.model.dto.response.PostDto;
 import com.trkpo.service.PostService;
 import java.security.Principal;
 import java.util.List;
@@ -31,6 +32,11 @@ public class PostController {
     @GetMapping("/user/{id}")
     public List<OtherPostDto> getByUserId(@PathVariable Integer id, Pageable pageable) {
         return service.getByUserId(id, pageable);
+    }
+
+    @GetMapping("/{id}")
+    public PostDto getById(Principal principal, @PathVariable Integer id) {
+        return service.getById(principal.getName(), id);
     }
 
     @PutMapping("/{id}")
