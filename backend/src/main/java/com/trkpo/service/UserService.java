@@ -6,11 +6,9 @@ import com.trkpo.model.dto.response.SubscriptionDto;
 import com.trkpo.repository.SubscriptionRepository;
 import com.trkpo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.client.HttpServerErrorException;
 
 @Service
 @RequiredArgsConstructor

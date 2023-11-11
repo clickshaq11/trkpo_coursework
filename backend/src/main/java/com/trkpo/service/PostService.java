@@ -1,12 +1,15 @@
 package com.trkpo.service;
 
+import com.trkpo.model.dto.request.UpdatePostDto;
 import com.trkpo.model.dto.response.FirstCommentDto;
 import com.trkpo.model.dto.response.MyPostDto;
 import com.trkpo.repository.CommentRepository;
 import com.trkpo.repository.LikeRepository;
 import com.trkpo.repository.PostRepository;
+import com.trkpo.repository.UserRepository;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +17,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.client.HttpClientErrorException;
 
 @Slf4j
 @Service
@@ -23,6 +29,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final LikeRepository likeRepository;
+    private final UserRepository userRepository;
 
     public List<MyPostDto> getMine(String login, Pageable pageable) {
         var projections = postRepository.findMyPosts(login, pageable);
@@ -41,6 +48,38 @@ public class PostService {
                 .build()
             )
             .toList();
+    }
+
+    public void updateById(String login, UpdatePostDto dto, Integer id) {
+        var user = userRepository.findByLoginOrThrow(login);
+        var post = postRepository.findById(id)
+            .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND, "Could not find post with id " + id));
+        if (!Objects.equals(post.getUser().getId(), user.getId())) {
+            throw new HttpClientErrorException(
+                HttpStatus.FORBIDDEN,
+                "User " + login + " attempts to delete post " + id + " from other user"
+            );
+        }
+        if (StringUtils.hasText(dto.getTitle())) {
+            post.setTitle(dto.getTitle());
+        }
+        if (StringUtils.hasText(dto.getBody())) {
+            post.setTitle(dto.getBody());
+        }
+        postRepository.save(post);
+    }
+
+    public void deleteById(String login, Integer id) {
+        var user = userRepository.findByLoginOrThrow(login);
+        var post = postRepository.findById(id)
+            .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND, "Could not find post with id " + id));
+        if (!Objects.equals(post.getUser().getId(), user.getId())) {
+            throw new HttpClientErrorException(
+                HttpStatus.FORBIDDEN,
+                "User " + login + " attempts to delete post " + id + " from other user"
+            );
+        }
+        postRepository.deleteById(id);
     }
 
     private List<FirstCommentDto> getFirstComments(Integer postId) {
