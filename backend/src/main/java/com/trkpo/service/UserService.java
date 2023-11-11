@@ -20,8 +20,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public MyProfileDto getMe(String login) {
-        var userEntity = userRepository.findByLogin(login)
-            .orElseThrow(() -> new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not find user with login " + login));
+        var userEntity = userRepository.findByLoginOrThrow(login);
         var subscriptions = subscriptionRepository.findBySubscriberId(userEntity.getId()).stream()
             .map(subscribtionEntity -> SubscriptionDto.builder()
                 .id(subscribtionEntity.getId())
@@ -40,8 +39,7 @@ public class UserService {
         if (!StringUtils.hasText(dto.getPassword()) && !StringUtils.hasText(dto.getShortInfo())) {
             return;
         }
-        var user = userRepository.findByLogin(login)
-            .orElseThrow(() -> new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not find user with login " + login));
+        var user = userRepository.findByLoginOrThrow(login);
         if (StringUtils.hasText(dto.getPassword())) {
             user.setHashedPassword(passwordEncoder.encode(dto.getPassword()));
         }

@@ -24,8 +24,7 @@ public class LikeService {
         if (!postRepository.existsById(postId)) {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Post with id " + postId + " could not be found");
         }
-        var user = userRepository.findByLogin(login)
-                .orElseThrow(() -> new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "You do not exist in db"));
+        var user = userRepository.findByLoginOrThrow(login);
         var likeOptional = likeRepository.findByUserIdAndPostId(user.getId(), postId);
         if (likeOptional.isPresent()) {
             likeRepository.deleteById(likeOptional.get().getId());
