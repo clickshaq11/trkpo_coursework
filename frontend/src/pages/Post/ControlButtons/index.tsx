@@ -1,0 +1,107 @@
+import { useState } from 'react';
+import { Modal, DialogContent } from '@mui/material';
+import styles from './ControlButtons.module.scss';
+import { useLikePost } from '@/api/hooks/shared/useLikePost';
+import { PostPageEntity } from '@/types/posts';
+import { StyledButton } from '@/components/Button';
+import Dropdown from '@/components/Dropdown';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { EditPostModalContent } from '../EditPostModalContent';
+import { useNavigate } from 'react-router-dom';
+import { useDeletePost } from '@/api/hooks/post/useDeletePost';
+import { useUpdatePost } from '@/api/hooks/post/useUpdatePost';
+
+type ControlButtonsProps = Pick<
+  PostPageEntity,
+  'hitLike' | 'likeCounter' | 'isAuthor' | 'title' | 'body'
+> & {
+  postId: number;
+};
+
+function ControlButtons({
+  postId,
+  hitLike,
+  likeCounter,
+  isAuthor,
+  title,
+  body,
+}: ControlButtonsProps) {
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const navigate = useNavigate();
+
+  const { mutate: onClickLike } = useLikePost();
+  const { mutate: deletePost } = useDeletePost(postId);
+  const { mutate: onPostEdit } = useUpdatePost(postId);
+
+  const onClickDelete = () => {
+    deletePost(postId);
+    navigate('/');
+  };
+
+  return (
+    <div
+      className={styles.buttons}
+      onClick={() => onClickLike({ currentLikeState: hitLike, postId })}
+    >
+      <div className={styles.likes}>
+        <span className={styles.like_counter}>{likeCounter}</span>
+        <FavoriteIcon
+          sx={{
+            stroke: hitLike ? undefined : 'red',
+            color: hitLike ? 'red' : 'white',
+          }}
+        />
+      </div>
+      {isAuthor && (
+        <div className={styles.controls}>
+          <StyledButton
+            variant="secondary"
+            onClick={e => setAnchorEl(anchorEl ? null : e.currentTarget)}
+          >
+            <SettingsIcon />
+          </StyledButton>
+          <Dropdown anchorEl={anchorEl} onClose={() => setAnchorEl(null)}>
+            <StyledButton
+              variant="secondary"
+              onClick={() => {
+                setAnchorEl(null);
+                setIsEditModalOpen(true);
+              }}
+            >
+              Редактировать пост
+            </StyledButton>
+            <StyledButton
+              variant="secondary"
+              onClick={() => {
+                setAnchorEl(null);
+                onClickDelete();
+              }}
+            >
+              Удалить пост
+            </StyledButton>
+          </Dropdown>
+
+          <Modal
+            open={isEditModalOpen}
+            onClose={() => setIsEditModalOpen(false)}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <DialogContent>
+              <EditPostModalContent
+                defaultValues={{ title, body }}
+                onClose={() => setIsEditModalOpen(false)}
+                save={onPostEdit}
+              />
+            </DialogContent>
+          </Modal>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export { ControlButtons };
