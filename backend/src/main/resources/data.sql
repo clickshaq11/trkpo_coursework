@@ -7,6 +7,12 @@ VALUES ('login456', '$2a$10$MO/dA/SSgyjhoO0wFhcw9enmzWpNmM0iMIp3BRQ0A.Mstebe0VVj
 INSERT INTO user_entity("login", "hashed_password", "short_info")
 VALUES ('login789', '$2a$10$MO/dA/SSgyjhoO0wFhcw9enmzWpNmM0iMIp3BRQ0A.Mstebe0VVju', 'Здоровая такая инфо, совсем не шорт')
     ON CONFLICT DO NOTHING;
+INSERT INTO user_entity("login", "hashed_password", "short_info")
+VALUES ('login000', '$2a$10$MO/dA/SSgyjhoO0wFhcw9enmzWpNmM0iMIp3BRQ0A.Mstebe0VVju', 'Короткая инфа')
+    ON CONFLICT DO NOTHING;
+INSERT INTO user_entity("login", "hashed_password", "short_info")
+VALUES ('blackberry', '$2a$10$MO/dA/SSgyjhoO0wFhcw9enmzWpNmM0iMIp3BRQ0A.Mstebe0VVju', 'Пурум пум pum')
+    ON CONFLICT DO NOTHING;
 
 INSERT INTO post("author_id", "title", "body", "created_at")
     VALUES (1, 'West branch', 'Why do i do whole backend alone without any help', 1699646474000)
@@ -20,11 +26,16 @@ VALUES (2, 'Еще пост', 'Помогите', 1668099534000)
 INSERT INTO post("author_id", "title", "body", "created_at")
 VALUES (3, 'Зачем', 'Просто зачтите, нормальный сайтик, по спеке норм совпадает, хлд красиво аскидоком отрендерена', 1668099534000)
     ON CONFLICT DO NOTHING;
+INSERT INTO post("author_id", "title", "body", "created_at")
+VALUES (4, 'Почему', 'Не надо читать тексты постов, которые нужны только для инита', 1668099534000)
+    ON CONFLICT DO NOTHING;
 
 INSERT INTO like_entity("user_id", "post_id") VALUES (1, 1) ON CONFLICT DO NOTHING;
 INSERT INTO like_entity("user_id", "post_id") VALUES (2, 1) ON CONFLICT DO NOTHING;
 INSERT INTO like_entity("user_id", "post_id") VALUES (2, 2) ON CONFLICT DO NOTHING;
 INSERT INTO like_entity("user_id", "post_id") VALUES (3, 1) ON CONFLICT DO NOTHING;
+INSERT INTO like_entity("user_id", "post_id") VALUES (4, 1) ON CONFLICT DO NOTHING;
+INSERT INTO like_entity("user_id", "post_id") VALUES (4, 3) ON CONFLICT DO NOTHING;
 
 INSERT INTO comment("user_id", "post_id", "body")
     VALUES (2, 1, 'Спецификация очень красиво рендерится аскидоком, очень адвансед стаф')
@@ -41,7 +52,14 @@ INSERT INTO comment("user_id", "post_id", "body")
 INSERT INTO comment("user_id", "post_id", "body")
     VALUES (1, 1, 'Я умираю')
     ON CONFLICT DO NOTHING;
+INSERT INTO comment("user_id", "post_id", "body")
+VALUES (4, 1, 'Я тегаю @login123 хехехехехехехех и @blackberry!!! и @login456')
+    ON CONFLICT DO NOTHING;
 
 INSERT INTO subscription("creator_id", "subscriber_id") VALUES (1, 3) ON CONFLICT DO NOTHING;
 INSERT INTO subscription("creator_id", "subscriber_id") VALUES (1, 2) ON CONFLICT DO NOTHING;
 INSERT INTO subscription("creator_id", "subscriber_id") VALUES (2, 3) ON CONFLICT DO NOTHING;
+
+INSERT INTO notification("user_id", "post_id") VALUES (1, 1) ON CONFLICT DO NOTHING;
+INSERT INTO notification("user_id", "post_id") VALUES (5, 1) ON CONFLICT DO NOTHING;
+INSERT INTO notification("user_id", "post_id") VALUES (2, 1) ON CONFLICT DO NOTHING;
