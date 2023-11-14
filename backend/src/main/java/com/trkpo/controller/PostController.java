@@ -3,6 +3,7 @@ package com.trkpo.controller;
 import com.trkpo.model.dto.request.CreatePostDto;
 import com.trkpo.model.dto.request.UpdatePostDto;
 import com.trkpo.model.dto.response.MyPostDto;
+import com.trkpo.model.dto.response.NewsFeedPostDto;
 import com.trkpo.model.dto.response.OtherPostDto;
 import com.trkpo.model.dto.response.PostDto;
 import com.trkpo.service.PostService;
@@ -34,6 +35,11 @@ public class PostController {
     @GetMapping("/filter/mine")
     public List<MyPostDto> getMine(Principal principal, Pageable pageable){
         return service.getMine(principal.getName(), pageable);
+    }
+
+    @GetMapping("/filter/feed")
+    public List<NewsFeedPostDto> getMyNewsFeed(Principal principal, Pageable pageable) {
+        return service.getMyNewsFeed(principal.getName(), pageable);
     }
 
     @GetMapping("/user/{id}")
