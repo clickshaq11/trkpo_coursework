@@ -1,14 +1,20 @@
 package com.trkpo.service;
 
+import com.trkpo.config.TagProperties;
+import com.trkpo.model.dto.request.CreatePostDto;
 import com.trkpo.model.dto.request.UpdatePostDto;
 import com.trkpo.model.dto.response.FirstCommentDto;
 import com.trkpo.model.dto.response.MyPostDto;
 import com.trkpo.model.dto.response.OtherPostDto;
 import com.trkpo.model.dto.response.PostDto;
+import com.trkpo.model.entity.NotificationEntity;
+import com.trkpo.model.entity.PostEntity;
 import com.trkpo.repository.CommentRepository;
 import com.trkpo.repository.LikeRepository;
+import com.trkpo.repository.NotificationRepository;
 import com.trkpo.repository.PostRepository;
 import com.trkpo.repository.UserRepository;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -32,6 +38,7 @@ public class PostService {
     private final CommentRepository commentRepository;
     private final LikeRepository likeRepository;
     private final UserRepository userRepository;
+    private final NotificationRepository notificationRepository;
 
     public List<MyPostDto> getMine(String login, Pageable pageable) {
         var user = userRepository.findByLoginOrThrow(login);
@@ -90,6 +97,19 @@ public class PostService {
             .build();
     }
 
+    public void createPost(String login, CreatePostDto dto) {
+        var post = postRepository.save(PostEntity.builder()
+            .title(dto.getTitle())
+            .body(dto.getBody())
+            .createdAt(Instant.now().toEpochMilli())
+            .user(userRepository.findByLoginOrThrow(login))
+            .build()
+        );
+        var matcher = TagProperties.TAG_PATTERN.matcher(dto.getBody());
+        log.info("For comment {} found {} tag matches", dto.getBody(), matcher.groupCount());
+        matcher.results().forEach(match -> attemptToCreateNotification(match.group(), post.getId()));
+    }
+
     public void updateById(String login, UpdatePostDto dto, Integer id) {
         var user = userRepository.findByLoginOrThrow(login);
         var post = postRepository.findById(id)
@@ -142,5 +162,20 @@ public class PostService {
             return Stream.concat(realComments.stream(), Collections.nCopies(3 - realComments.size(), phantomComment).stream()).toList();
         }
         return realComments;
+    }
+
+    private void attemptToCreateNotification(String tag, Integer postId) {
+        var userOptional = userRepository.findByLogin(tag);
+        if (userOptional.isEmpty()) {
+            log.info("Possible tag {} for postId {}, could not find user with that login", tag, postId);
+            return;
+        }
+        log.info("Creating tag {} for postId {}", tag, postId);
+        notificationRepository.save(NotificationEntity.builder()
+            .user(userOptional.get())
+            .post(postRepository.getReferenceById(postId))
+            .createdAt(Instant.now().toEpochMilli())
+            .build()
+        );
     }
 }
