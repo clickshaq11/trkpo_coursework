@@ -5,6 +5,7 @@ import com.trkpo.model.dto.request.CreatePostDto;
 import com.trkpo.model.dto.request.UpdatePostDto;
 import com.trkpo.model.dto.response.FirstCommentDto;
 import com.trkpo.model.dto.response.MyPostDto;
+import com.trkpo.model.dto.response.NewsFeedPostDto;
 import com.trkpo.model.dto.response.OtherPostDto;
 import com.trkpo.model.dto.response.PostDto;
 import com.trkpo.model.entity.NotificationEntity;
@@ -40,10 +41,23 @@ public class PostService {
     private final UserRepository userRepository;
     private final NotificationRepository notificationRepository;
 
+    public void createPost(String login, CreatePostDto dto) {
+        var post = postRepository.save(PostEntity.builder()
+            .title(dto.getTitle())
+            .body(dto.getBody())
+            .createdAt(Instant.now().toEpochMilli())
+            .user(userRepository.findByLoginOrThrow(login))
+            .build()
+        );
+        var matcher = TagProperties.TAG_PATTERN.matcher(dto.getBody());
+        log.info("For post {} found {} tag matches", dto.getBody(), matcher.groupCount());
+        matcher.results().forEach(match -> attemptToCreateNotification(match.group(), post.getId()));
+    }
+
     public List<MyPostDto> getMine(String login, Pageable pageable) {
         var user = userRepository.findByLoginOrThrow(login);
         var projections = postRepository.findPostsByUserId(user.getId(), pageable);
-        log.info("Get my posts for login {}", login);
+        log.info("Getting my posts for login {}", login);
         return projections.stream()
             .map(projection -> MyPostDto.builder()
                 .id(projection.getId())
@@ -65,7 +79,7 @@ public class PostService {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Could not find user with id " + id);
         }
         var projections = postRepository.findPostsByUserId(id, pageable);
-        log.info("Get other posts for userId {}", id);
+        log.info("Getting other posts for userId {}", id);
         return projections.stream()
             .map(projection -> OtherPostDto.builder()
                 .id(projection.getId())
@@ -97,17 +111,24 @@ public class PostService {
             .build();
     }
 
-    public void createPost(String login, CreatePostDto dto) {
-        var post = postRepository.save(PostEntity.builder()
-            .title(dto.getTitle())
-            .body(dto.getBody())
-            .createdAt(Instant.now().toEpochMilli())
-            .user(userRepository.findByLoginOrThrow(login))
-            .build()
-        );
-        var matcher = TagProperties.TAG_PATTERN.matcher(dto.getBody());
-        log.info("For comment {} found {} tag matches", dto.getBody(), matcher.groupCount());
-        matcher.results().forEach(match -> attemptToCreateNotification(match.group(), post.getId()));
+    public List<NewsFeedPostDto> getMyNewsFeed(String login, Pageable pageable) {
+        var user = userRepository.findByLoginOrThrow(login);
+        log.info("Getting news feed for user {} with pageable {}", login, pageable);
+        var projections = postRepository.findNewsFeedByUserId(user.getId(), pageable);
+        return projections.stream()
+            .map(projection -> NewsFeedPostDto.builder()
+                .id(projection.getId())
+                .title(projection.getTitle())
+                .body(projection.getBody())
+                .authorId(projection.getAuthorId())
+                .authorLogin(projection.getAuthorLogin())
+                .likeCounter(projection.getLikeCounter())
+                .createdAt(projection.getCreatedAt())
+                .hitLike(likeRepository.existsByUserIdAndPostId(user.getId(), projection.getId()))
+                .firstComments(getFirstComments(projection.getId()))
+                .build()
+            )
+            .toList();
     }
 
     public void updateById(String login, UpdatePostDto dto, Integer id) {
@@ -117,7 +138,7 @@ public class PostService {
         if (!Objects.equals(post.getUser().getId(), user.getId())) {
             throw new HttpClientErrorException(
                 HttpStatus.FORBIDDEN,
-                "User " + login + " attempts to delete post " + id + " from other user"
+                "User " + login + " attempts to update post " + id + " from other user"
             );
         }
         if (StringUtils.hasText(dto.getTitle())) {

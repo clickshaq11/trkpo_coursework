@@ -1,6 +1,6 @@
 package com.trkpo.model.dto.projection;
 
-public interface MyPostProjection {
+public interface PostProjection {
     Integer getId();
 
     String getTitle();
