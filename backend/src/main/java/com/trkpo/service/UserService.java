@@ -6,17 +6,23 @@ import com.trkpo.model.dto.response.OtherProfileDto;
 import com.trkpo.model.dto.response.SubscriptionDto;
 import com.trkpo.repository.SubscriptionRepository;
 import com.trkpo.repository.UserRepository;
+import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
+    private static final Pattern LOGIN_PATTERN = Pattern.compile("^[A-Za-z0-9]+$");
 
     private final UserRepository userRepository;
     private final SubscriptionRepository subscriptionRepository;
@@ -55,6 +61,27 @@ public class UserService {
                 ).isPresent()
             )
             .build();
+    }
+
+    public List<OtherProfileDto> getByLoginPart(String requestingLogin, String requestedLogin) {
+        var requestingUser = userRepository.findByLoginOrThrow(requestingLogin);
+        var matcher = LOGIN_PATTERN.matcher(requestedLogin);
+        if (!matcher.matches()) {
+            log.info("Requested login {} is invalid, returning empty result of search by login", requestedLogin);
+        }
+        return userRepository.findByLoginContaining(requestedLogin).stream()
+            .filter(entity -> !entity.getLogin().equals(requestingLogin))
+            .map(entity -> OtherProfileDto.builder()
+                .id(entity.getId())
+                .login(entity.getLogin())
+                .shortInfo(entity.getShortInfo())
+                .subscribed(subscriptionRepository.findByCreatorIdAndSubscriberId(
+                        entity.getId(),
+                        requestingUser.getId()
+                    ).isPresent()
+                )
+                .build()
+            ).toList();
     }
 
     public void updateMe(String login, UpdateMeDto dto) {

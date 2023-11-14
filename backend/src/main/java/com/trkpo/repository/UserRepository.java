@@ -1,6 +1,7 @@
 package com.trkpo.repository;
 
 import com.trkpo.model.entity.UserEntity;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
@@ -13,4 +14,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     }
 
     Optional<UserEntity> findByLogin(String login);
+
+    List<UserEntity> findByLoginContaining(String login);
 }

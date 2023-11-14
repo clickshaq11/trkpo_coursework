@@ -5,6 +5,7 @@ import com.trkpo.model.dto.response.MyProfileDto;
 import com.trkpo.model.dto.response.OtherProfileDto;
 import com.trkpo.service.UserService;
 import java.security.Principal;
+import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,11 @@ public class UserController {
     @GetMapping("/id/{id}")
     public OtherProfileDto getOtherProfile(Principal principal, @PathVariable Integer id) {
         return service.getOtherProfile(principal.getName(), id);
+    }
+
+    @GetMapping("/login/{login}")
+    public List<OtherProfileDto> getByLoginPart(Principal principal, @PathVariable String login) {
+        return service.getByLoginPart(principal.getName(), login);
     }
 
     @PutMapping
