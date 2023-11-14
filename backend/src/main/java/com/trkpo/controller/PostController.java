@@ -1,5 +1,6 @@
 package com.trkpo.controller;
 
+import com.trkpo.model.dto.request.CreatePostDto;
 import com.trkpo.model.dto.request.UpdatePostDto;
 import com.trkpo.model.dto.response.MyPostDto;
 import com.trkpo.model.dto.response.OtherPostDto;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService service;
+
+    @PostMapping
+    public void createPost(Principal principal, @RequestBody @Valid CreatePostDto dto) {
+        service.createPost(principal.getName(), dto);
+    }
 
     @GetMapping("/filter/mine")
     public List<MyPostDto> getMine(Principal principal, Pageable pageable){
