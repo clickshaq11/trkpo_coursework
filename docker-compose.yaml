@@ -1,6 +1,16 @@
 version: "3.7"
 
 services:
+  nginx:
+    container_name: "nginx"
+    build:
+      dockerfile: "docker/frontend.dockerfile"
+    restart: "always"
+    ports:
+      - "80:80"
+    depends_on:
+      - "back"
+
   postgres:
     container_name: "postgres"
     image: "postgres:latest"
@@ -15,7 +25,7 @@ services:
   back:
     container_name: "back"
     build:
-      dockerfile: "Dockerfile"
+      dockerfile: "docker/backend.dockerfile"
     environment:
       DB_URL: "jdbc:postgresql://postgres:5432/main"
     ports:
