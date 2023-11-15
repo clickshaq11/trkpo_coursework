@@ -60,6 +60,6 @@ INSERT INTO subscription("creator_id", "subscriber_id") VALUES (1, 3) ON CONFLIC
 INSERT INTO subscription("creator_id", "subscriber_id") VALUES (1, 2) ON CONFLICT DO NOTHING;
 INSERT INTO subscription("creator_id", "subscriber_id") VALUES (2, 3) ON CONFLICT DO NOTHING;
 
-INSERT INTO notification("user_id", "post_id") VALUES (1, 1) ON CONFLICT DO NOTHING;
-INSERT INTO notification("user_id", "post_id") VALUES (5, 1) ON CONFLICT DO NOTHING;
-INSERT INTO notification("user_id", "post_id") VALUES (2, 1) ON CONFLICT DO NOTHING;
+INSERT INTO notification("user_id", "post_id", "created_at") VALUES (1, 1, 1668090004000) ON CONFLICT DO NOTHING;
+INSERT INTO notification("user_id", "post_id", "created_at") VALUES (5, 1, 1668069734000) ON CONFLICT DO NOTHING;
+INSERT INTO notification("user_id", "post_id", "created_at") VALUES (2, 1, 1668013332000) ON CONFLICT DO NOTHING;

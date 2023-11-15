@@ -20,9 +20,9 @@ public interface PostRepository extends JpaRepository<PostEntity, Integer> {
     @Query(value = "SELECT p.id AS id, p.title AS title, p.body AS body, u.id AS authorId, u.login AS authorLogin, "
         + "COUNT(l.id) AS likeCounter, p.createdAt AS createdAt "
         + "FROM userEntity u "
-        + "JOIN subscription s ON u.id = s.subscriberId "
-        + "JOIN post p ON p.authorId = s.creatorId "
-        + "JOIN likeEntity l ON p.id = l.postId "
+        + "JOIN subscription s ON u.id = s.subscriber.id "
+        + "JOIN post p ON p.user.id = s.creator.id "
+        + "JOIN likeEntity l ON p.id = l.post.id "
         + "WHERE u.id = ?1 "
         + "GROUP BY p.id, u.id")
     List<PostProjection> findNewsFeedByUserId(Integer id, Pageable pageable);
