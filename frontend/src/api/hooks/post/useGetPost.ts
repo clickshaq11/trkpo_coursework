@@ -15,11 +15,6 @@ function getPostQueryKey(postId: number) {
 }
 
 async function getPostData({ id, signal }: GetPostDataProps) {
-  //TODO: change
-  return new Promise<PostPageEntity>(res =>
-    setTimeout(() => res(fakePost), 100),
-  );
-
   const { data } = await axios.get(`/post/${id}`, {
     signal,
   });

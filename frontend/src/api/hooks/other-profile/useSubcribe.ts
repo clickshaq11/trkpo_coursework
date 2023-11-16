@@ -5,9 +5,6 @@ import { ProfileEntity } from '@/types/profiles';
 import axios from '@/api/axios';
 
 async function subcribe(userId: number) {
-  // TODO: remove
-  return new Promise<void>(res => setTimeout(res, 200));
-
   await axios.post<void>(`subscription/${userId}`);
 }
 

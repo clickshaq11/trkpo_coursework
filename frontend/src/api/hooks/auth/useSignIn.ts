@@ -5,9 +5,6 @@ import { useMutation } from 'react-query';
 import { NavigateFunction } from 'react-router-dom';
 
 async function signIn({ login, password }: LoginFields) {
-  // TODO: remove
-  return new Promise<AuthResponse>(res => setTimeout(() => res({token: 'asuidnusan8fsanfsaf'}), 4000));
-
   const { data } = await axios.post<AuthResponse>('security/auth', {
     login,
     password,

@@ -13,10 +13,6 @@ interface CreateCommentProps {
 }
 
 async function createComment({ postId, body }: CreateCommentProps) {
-  // TODO: remove
-  await new Promise<void>(res => setTimeout(res, 200));
-  return;
-
   await axios.post<void>(`post/${postId}/comment`, {
     body,
   });

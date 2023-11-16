@@ -5,9 +5,6 @@ import { useMutation, useQueryClient } from 'react-query';
 import { MY_PROFILE_QUERY_KEY } from './useGetMyProfile';
 
 async function updateMyProfile(data: EditProfileEntity) {
-  // TODO: remove 
-  return new Promise<void>(res => setTimeout(res, 500));
-
   await axios.put('user', data);
 }
 

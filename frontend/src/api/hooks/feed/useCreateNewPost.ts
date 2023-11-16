@@ -6,10 +6,6 @@ import queryClient from '@/api/react-query';
 import { AxiosError } from 'axios';
 
 async function createNewPost(newPostData: EditableContent) {
-  // TODO: change
-  await new Promise<void>(res => setTimeout(res, 200));
-  return;
-
   await axios.post<EditableContent>('post', newPostData);
 }
 

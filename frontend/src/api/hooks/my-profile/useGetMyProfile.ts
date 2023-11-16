@@ -1,12 +1,9 @@
 import axios from '@/api/axios';
-import { myFakeProfile } from '@/api/fake-data';
 import { MyProfileEntity } from '@/types/profiles';
 import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 
 async function getMyProfile() {
-  return new Promise<MyProfileEntity>(res => setTimeout(() => res(myFakeProfile), 100));
-
   const { data } = await axios.get<MyProfileEntity>('user/me');
 
   return data;

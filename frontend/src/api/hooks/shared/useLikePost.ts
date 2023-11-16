@@ -13,8 +13,6 @@ import {
 import { MY_PROFILE_POSTS_QUERY_KEY } from '../my-profile/useGetMyProfilePosts';
 
 async function likePost(id: number) {
-  return new Promise<void>(res => setTimeout(res, 1000));
-
   await axios.post(`post/${id}`);
 }
 
