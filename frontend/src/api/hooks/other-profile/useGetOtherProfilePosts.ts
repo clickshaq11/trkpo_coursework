@@ -17,11 +17,6 @@ async function getOtherProfilePosts({
   userId,
   pagination,
 }: UseGetOtherProfilePostsProps) {
-  // TODO: remove
-  return new Promise<PostEntity[]>(res =>
-    setTimeout(() => res(fakeNewsFeedPosts), 100),
-  );
-
   const params = createPaginationSearchParams(pagination);
 
   const { data } = await axios.get<PostEntity[]>(`post/user/${userId}`, {

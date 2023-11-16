@@ -14,10 +14,6 @@ interface GetPostCommentProps {
 }
 
 async function getPostComments({ postId, pagination }: GetPostCommentProps) {
-  return new Promise<Comment[]>(res =>
-    setTimeout(() => res(fakeComments), 1000),
-  );
-
   const params = createPaginationSearchParams(pagination);
 
   const { data } = await axios.get<Comment[]>(`post/${postId}/comment`, {

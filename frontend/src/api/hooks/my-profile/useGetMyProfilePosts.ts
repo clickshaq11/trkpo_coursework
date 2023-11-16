@@ -13,8 +13,6 @@ interface UseGetMyProfilePostsProps {
 }
 
 async function getMyProfilePosts({ pagination }: UseGetMyProfilePostsProps) {
-  return new Promise<PostEntity[]>(res => setTimeout(() => res(myFakePosts), 100));
-
   const params = createPaginationSearchParams(pagination);
 
   const { data } = await axios.get<PostEntity[]>('/post/filter/mine', {
