@@ -7,11 +7,6 @@ import { NavigateFunction } from 'react-router-dom';
 type RegisterRequestFields = Omit<RegisterFields, 'repeatPassword'>;
 
 async function signUp({ password, login, shortInfo }: RegisterRequestFields) {
-  // TODO: remove
-  return new Promise<AuthResponse>(res =>
-    setTimeout(() => res({ token: 'sadfsa ujftusangunmsag' })),
-  );
-
   const { data } = await axios.post<AuthResponse>('security/register', {
     password,
     login,

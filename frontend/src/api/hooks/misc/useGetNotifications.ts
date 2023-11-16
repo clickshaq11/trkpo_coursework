@@ -7,9 +7,6 @@ import { useQuery } from "react-query";
 const QUERY_KEY = 'notifications';
 
 async function getNotifications(signal: AbortSignal | undefined) {
-  // TODO: delete
-  return new Promise<Notification[]>(res => setTimeout(() => res(fakeNotifications), 500));
-
   const { data } = await axios.get<Notification[]>('notification', {
     signal
   })
