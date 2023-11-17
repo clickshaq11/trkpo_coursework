@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 
 @Slf4j
@@ -19,6 +20,7 @@ public class LikeService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
+    @Transactional
     public LikeDto like(String login, Integer postId) {
         if (!postRepository.existsById(postId)) {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Post with id " + postId + " could not be found");

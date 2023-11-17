@@ -28,6 +28,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -41,6 +42,7 @@ public class PostService {
     private final UserRepository userRepository;
     private final NotificationRepository notificationRepository;
 
+    @Transactional
     public void createPost(String login, CreatePostDto dto) {
         var post = postRepository.save(PostEntity.builder()
             .title(dto.getTitle())
@@ -131,6 +133,7 @@ public class PostService {
             .toList();
     }
 
+    @Transactional
     public void updateById(String login, UpdatePostDto dto, Integer id) {
         var user = userRepository.findByLoginOrThrow(login);
         var post = postRepository.findById(id)
@@ -150,6 +153,7 @@ public class PostService {
         postRepository.save(post);
     }
 
+    @Transactional
     public void deleteById(String login, Integer id) {
         var user = userRepository.findByLoginOrThrow(login);
         var post = postRepository.findById(id)

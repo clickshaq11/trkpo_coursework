@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -84,6 +85,7 @@ public class UserService {
             ).toList();
     }
 
+    @Transactional
     public void updateMe(String login, UpdateMeDto dto) {
         if (!StringUtils.hasText(dto.getPassword()) && !StringUtils.hasText(dto.getShortInfo())) {
             return;

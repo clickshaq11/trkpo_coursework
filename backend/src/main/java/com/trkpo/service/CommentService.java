@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 
 @Slf4j
@@ -40,6 +41,7 @@ public class CommentService {
             ).toList();
     }
 
+    @Transactional
     public void createComment(String login, CreateCommentDto dto, Integer postId) {
         log.info("Creating comment for user {} with body {} for postId {}", login, dto.getBody(), postId);
         if (!postRepository.existsById(postId)) {
