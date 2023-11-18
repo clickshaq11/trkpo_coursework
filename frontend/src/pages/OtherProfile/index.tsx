@@ -5,6 +5,7 @@ import { PaginationParams } from '@/types/pages';
 import { useGetOtherProfilePosts } from '@/api/hooks/other-profile/useGetOtherProfilePosts';
 import { useGetOtherProfile } from '@/api/hooks/other-profile/useGetOtherProfile';
 import { CircularProgress } from '@mui/material';
+import { useSubscribe } from '@/api/hooks/other-profile/useSubcribe';
 
 function ProfilePage() {
   const { id } = useParams();
@@ -14,15 +15,17 @@ function ProfilePage() {
     size: 10,
     page: 0,
     order: 'asc',
-    type: 'date',
+    type: 'likeCounter',
   });
 
   const { data: profile, isLoading } = useGetOtherProfile(userId);
 
   const { data: posts } = useGetOtherProfilePosts({
-    userId,
     pagination: paginationParams,
+    userId,
   });
+
+  const { mutate: subscribe } = useSubscribe(userId);
 
   if (isLoading) {
     return <CircularProgress />;
@@ -30,6 +33,7 @@ function ProfilePage() {
 
   return (
     <Profile
+      subscribe={subscribe}
       profileData={profile}
       isOwnProfile={false}
       posts={posts}

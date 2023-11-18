@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { getOtherProfilePostsQueryKey } from './useGetOtherProfilePosts';
 import { ProfileEntity } from '@/types/profiles';
 import axios from '@/api/axios';
+import { getOtherProfileQueryKey } from './useGetOtherProfile';
 
 async function subcribe(userId: number) {
   await axios.post<void>(`subscription/${userId}`);
@@ -10,31 +11,34 @@ async function subcribe(userId: number) {
 
 function useSubscribe(userId: number) {
   const queryClient = useQueryClient();
-  const composedQueryKey = getOtherProfilePostsQueryKey(userId);
+  const composedPostsQueryKey = getOtherProfilePostsQueryKey(userId);
+  const composedProfileQueryKey = getOtherProfileQueryKey(userId);
 
   return useMutation<void, AxiosError, boolean, ProfileEntity>({
     mutationFn: () => subcribe(userId),
     onMutate: async newSubscriptionState => {
-      await queryClient.cancelQueries(composedQueryKey);
+      await queryClient.cancelQueries(composedPostsQueryKey);
+      await queryClient.cancelQueries(composedProfileQueryKey);
 
-      const previousState =
-        queryClient.getQueryData<ProfileEntity>(composedQueryKey);
+      const previousStateProfile =
+        queryClient.getQueryData<ProfileEntity>(composedProfileQueryKey);
 
       queryClient.setQueryData<ProfileEntity | undefined>(
-        composedQueryKey,
+        composedProfileQueryKey,
         old => {
           if (!old) return old;
           return { ...old, subscribed: !newSubscriptionState };
         },
       );
 
-      return previousState;
+      return previousStateProfile;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(composedQueryKey);
+      queryClient.invalidateQueries(composedPostsQueryKey);
+      queryClient.invalidateQueries(composedProfileQueryKey);
     },
     onError: (_1, _2, context) => {
-      queryClient.setQueryData(composedQueryKey, context);
+      queryClient.setQueryData(composedProfileQueryKey, context);
     },
   });
 }

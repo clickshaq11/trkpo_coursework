@@ -1,5 +1,4 @@
 import axios from '@/api/axios';
-import { fakePost } from '@/api/fake-data';
 import { PostPageEntity } from '@/types/posts';
 import { useQuery } from 'react-query';
 
