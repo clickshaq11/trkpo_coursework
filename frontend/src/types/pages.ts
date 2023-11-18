@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 
 type Order = 'asc' | 'desc';
-type OrderType = 'popularity' | 'date';
+type OrderType = 'likeCounter' | 'createdAt';
 
 type PaginationParams = {
   page: number;

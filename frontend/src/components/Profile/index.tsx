@@ -27,11 +27,13 @@ type ProfileProps = {
       isOwnProfile: true;
       profileData?: MyProfileEntity;
       editProfileInfo?: (newProfileInfo: EditProfileEntity) => void;
+      subscribe?: never;
     }
   | {
       isOwnProfile: false;
       profileData?: ProfileEntity;
       editProfileInfo?: never;
+      subscribe?: (isSubscribed: boolean) => void;
     }
 );
 
@@ -41,6 +43,7 @@ function Profile({
   posts,
   pagination,
   editProfileInfo,
+  subscribe,
 }: ProfileProps) {
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] =
     useState<boolean>(false);
@@ -56,6 +59,7 @@ function Profile({
           <h2 className={styles.login}>{profileData.login}</h2>
           {!isOwnProfile ? (
             <StyledButton
+              onClick={() => subscribe?.(profileData.subscribed)}
               variant={profileData.subscribed ? 'tertiary' : 'primary'}
             >
               {profileData.subscribed ? 'Вы подписаны' : 'Подписаться'}
@@ -91,7 +95,7 @@ function Profile({
           <div className={styles.subblock}>
             <h3>Подписки</h3>
             <div className={styles.subscriptions}>
-              {profileData.subcriptions.map(sub => (
+              {profileData.subcriptions?.map(sub => (
                 <div className={styles.subscription} key={sub.id}>
                   <StyledLink
                     className={styles.subcription}
@@ -140,13 +144,14 @@ function Profile({
                 <SortButtons pagination={pagination} />
               </div>
               <div className={styles.posts}>
-                {posts?.map(post => (
-                  <Post
-                    key={post.id}
-                    {...post}
-                    userId={!isOwnProfile ? profileData.id : undefined}
-                  />
-                ))}
+                {posts &&
+                  posts?.map(post => (
+                    <Post
+                      {...post}
+                      userId={!isOwnProfile ? profileData.id : undefined}
+                      key={post.id}
+                    />
+                  ))}
               </div>
             </>
           ))}

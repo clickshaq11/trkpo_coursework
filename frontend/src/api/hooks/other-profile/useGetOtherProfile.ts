@@ -1,5 +1,4 @@
 import axios from '@/api/axios';
-import { fakeProfile } from '@/api/fake-data';
 import { ProfileEntity } from '@/types/profiles';
 import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';

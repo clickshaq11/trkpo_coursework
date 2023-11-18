@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './PostPage.module.scss';
 import dayjs from 'dayjs';
-import { TablePagination } from '@mui/material';
+import { CircularProgress, TablePagination } from '@mui/material';
 import { PaginationParams } from '@/types/pages';
 import { StyledLink } from '@/components/Link';
 import { dateFormat } from '@/const/dates';
@@ -19,7 +19,7 @@ function PostPage() {
     page: 0,
     size: 10,
     order: 'desc',
-    type: 'popularity',
+    type: 'likeCounter',
   });
 
   const { data: postData } = useGetPost(postId);
@@ -29,7 +29,7 @@ function PostPage() {
   });
 
   if (!postData) {
-    return <div>Загрузка...</div>;
+    return <CircularProgress />;
   }
 
   const {

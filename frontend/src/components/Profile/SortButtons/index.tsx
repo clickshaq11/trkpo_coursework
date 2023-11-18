@@ -21,7 +21,8 @@ function SortButtons({ pagination }: SortButtonsProps) {
         variant="secondary"
         onClick={e => setOrderTypeAnchorEl(e.currentTarget)}
       >
-        Тип сортировки
+        Тип сортировки 
+        (Выбрано: {pagination.paginationParams.type === 'likeCounter' ? 'По популярности' : 'По дате'})
       </StyledButton>
       <Dropdown
         anchorEl={orderTypeAnchorEl}
@@ -34,7 +35,7 @@ function SortButtons({ pagination }: SortButtonsProps) {
             setOrderTypeAnchorEl(null);
             pagination.setPaginationParams(prev => ({
               ...prev,
-              type: 'popularity',
+              type: 'likeCounter',
             }));
           }}
         >
@@ -47,7 +48,7 @@ function SortButtons({ pagination }: SortButtonsProps) {
             setOrderTypeAnchorEl(null);
             pagination.setPaginationParams(prev => ({
               ...prev,
-              type: 'date',
+              type: 'createdAt',
             }));
           }}
         >
@@ -59,7 +60,7 @@ function SortButtons({ pagination }: SortButtonsProps) {
         variant="secondary"
         onClick={e => setOrderAnchorEl(e.currentTarget)}
       >
-        Сортировка по
+        Сортировка по (Выбрано: {pagination.paginationParams.order === 'asc' ? 'По возрастанию' : 'По убыванию'})
       </StyledButton>
       <Dropdown anchorEl={orderAnchorEl} onClose={() => setOrderAnchorEl(null)}>
         <StyledButton

@@ -70,7 +70,7 @@ function useLikePost() {
       );
       if (userId) {
         queryClient.setQueryData<PostEntity[]>(
-          getOtherProfilePostsQueryKey(userId),
+          getOtherProfilePostsQueryKey({userId}),
           produce(draft => {
             if (draft) {
               draft.find(post => post.id === postId)!.hitLike =

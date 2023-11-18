@@ -14,8 +14,6 @@ async function getNewsFeedPosts({ signal }: GetNewsFeedPostsOptions) {
     signal,
   });
 
-  console.log(data)
-
   return data;
 }
 

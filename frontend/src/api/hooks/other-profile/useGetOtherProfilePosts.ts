@@ -1,5 +1,4 @@
 import axios from '@/api/axios';
-import { fakeNewsFeedPosts } from '@/api/fake-data';
 import { PaginationParams } from '@/types/pages';
 import { PostEntity } from '@/types/posts';
 import { createPaginationSearchParams } from '@/utils/createPaginationSearchParams';
@@ -17,7 +16,7 @@ async function getOtherProfilePosts({
   userId,
   pagination,
 }: UseGetOtherProfilePostsProps) {
-  const params = createPaginationSearchParams(pagination);
+  const params = createPaginationSearchParams(pagination, true);
 
   const { data } = await axios.get<PostEntity[]>(`post/user/${userId}`, {
     params,
@@ -26,14 +25,17 @@ async function getOtherProfilePosts({
   return data;
 }
 
-function getOtherProfilePostsQueryKey(userId: number) {
-  return [QUERY_KEY, userId];
+type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
+
+function getOtherProfilePostsQueryKey(props: PartialBy<UseGetOtherProfilePostsProps, 'pagination'>) {
+  const pagination = props.pagination ? props.pagination : {}
+  return [QUERY_KEY, props.userId, ...Object.values(pagination)];
 }
 
 function useGetOtherProfilePosts(props: UseGetOtherProfilePostsProps) {
   return useQuery<PostEntity[], AxiosError>({
     queryFn: () => getOtherProfilePosts(props),
-    queryKey: getOtherProfilePostsQueryKey(props.userId),
+    queryKey: getOtherProfilePostsQueryKey(props),
   });
 }
 

@@ -1,5 +1,4 @@
 import axios from "@/api/axios";
-import { fakeNotifications } from "@/api/fake-data";
 import { Notification } from "@/types/notifications";
 import { AxiosError } from "axios";
 import { useQuery } from "react-query";

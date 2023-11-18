@@ -1,5 +1,4 @@
 import axios from '@/api/axios';
-import { fakeComments } from '@/api/fake-data';
 import { Comment } from '@/types/comments';
 import { PaginationParams } from '@/types/pages';
 import { createPaginationSearchParams } from '@/utils/createPaginationSearchParams';
