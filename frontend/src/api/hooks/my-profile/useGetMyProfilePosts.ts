@@ -21,10 +21,14 @@ async function getMyProfilePosts({ pagination }: UseGetMyProfilePostsProps) {
   return data;
 }
 
+function getMyProfileQueryKey(pagination: PaginationParams) {
+  return [QUERY_KEY, pagination]
+}
+
 function useGetMyProfilePosts(props: UseGetMyProfilePostsProps) {
   return useQuery<PostEntity[], AxiosError>({
     queryFn: () => getMyProfilePosts(props),
-    queryKey: [QUERY_KEY, props.pagination],
+    queryKey: getMyProfileQueryKey(props.pagination),
   });
 }
 

@@ -14,6 +14,7 @@ function createSearchParamsFromObject(
   }
   if (!needSort) {
     searchParams.delete('sort');
+    searchParams.append('sort', 'id,desc');
   }
   return searchParams;
 }
