@@ -13,6 +13,7 @@ import java.time.Instant;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,17 +29,17 @@ public class CommentService {
     private final NotificationRepository notificationRepository;
     private final UserRepository userRepository;
 
-    public List<CommentDto> getByPostId(Integer id, Pageable pageable) {
+    public Page<CommentDto> getByPostId(Integer id, Pageable pageable) {
         if (!postRepository.existsById(id)) {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Could not find post with id " + id);
         }
-        return commentRepository.findByPostId(id, pageable).stream()
+        return commentRepository.findByPostId(id, pageable)
             .map(entity -> CommentDto.builder()
                 .id(entity.getId())
                 .authorLogin(entity.getUser().getLogin())
                 .body(entity.getBody())
                 .build()
-            ).toList();
+            );
     }
 
     @Transactional

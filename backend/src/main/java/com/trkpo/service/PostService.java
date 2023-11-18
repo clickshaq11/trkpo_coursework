@@ -22,6 +22,7 @@ import java.util.Objects;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -56,11 +57,11 @@ public class PostService {
         matcher.results().forEach(match -> attemptToCreateNotification(match.group(), post.getId()));
     }
 
-    public List<MyPostDto> getMine(String login, Pageable pageable) {
+    public Page<MyPostDto> getMine(String login, Pageable pageable) {
         var user = userRepository.findByLoginOrThrow(login);
         var projections = postRepository.findPostsByUserId(user.getId(), pageable);
         log.info("Getting my posts for login {}", login);
-        return projections.stream()
+        return projections
             .map(projection -> MyPostDto.builder()
                 .id(projection.getId())
                 .title(projection.getTitle())
@@ -72,17 +73,16 @@ public class PostService {
                 .hitLike(likeRepository.existsByUserIdAndPostId(user.getId(), projection.getId()))
                 .firstComments(getFirstComments(projection.getId()))
                 .build()
-            )
-            .toList();
+            );
     }
 
-    public List<OtherPostDto> getByUserId(Integer id, Pageable pageable) {
+    public Page<OtherPostDto> getByUserId(Integer id, Pageable pageable) {
         if (!userRepository.existsById(id)) {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Could not find user with id " + id);
         }
         var projections = postRepository.findPostsByUserId(id, pageable);
         log.info("Getting other posts for userId {}", id);
-        return projections.stream()
+        return projections
             .map(projection -> OtherPostDto.builder()
                 .id(projection.getId())
                 .title(projection.getTitle())
@@ -94,8 +94,7 @@ public class PostService {
                 .hitLike(likeRepository.existsByUserIdAndPostId(id, projection.getId()))
                 .firstComments(getFirstComments(projection.getId()))
                 .build()
-            )
-            .toList();
+            );
     }
 
     public PostDto getById(String login, Integer id) {
@@ -113,11 +112,11 @@ public class PostService {
             .build();
     }
 
-    public List<NewsFeedPostDto> getMyNewsFeed(String login, Pageable pageable) {
+    public Page<NewsFeedPostDto> getMyNewsFeed(String login, Pageable pageable) {
         var user = userRepository.findByLoginOrThrow(login);
         log.info("Getting news feed for user {} with pageable {}", login, pageable);
         var projections = postRepository.findNewsFeedByUserId(user.getId(), pageable);
-        return projections.stream()
+        return projections
             .map(projection -> NewsFeedPostDto.builder()
                 .id(projection.getId())
                 .title(projection.getTitle())
@@ -129,8 +128,7 @@ public class PostService {
                 .hitLike(likeRepository.existsByUserIdAndPostId(user.getId(), projection.getId()))
                 .firstComments(getFirstComments(projection.getId()))
                 .build()
-            )
-            .toList();
+            );
     }
 
     @Transactional
