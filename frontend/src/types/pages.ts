@@ -15,4 +15,10 @@ type PaginationParamsWithOneSetter = {
   setPaginationParams: Dispatch<SetStateAction<PaginationParams>>
 };
 
-export type { Order, PaginationParams, PaginationParamsWithOneSetter };
+type PaginationResponse<T> = {
+  totalElements: number;
+  totalPages: number;
+  content: T;
+}
+
+export type { Order, PaginationParams, PaginationParamsWithOneSetter, PaginationResponse };

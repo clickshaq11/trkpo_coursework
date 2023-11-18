@@ -19,11 +19,11 @@ function PostPage() {
     page: 0,
     size: 10,
     order: 'desc',
-    type: 'likeCounter',
+    type: 'likeCounter', 
   });
 
   const { data: postData } = useGetPost(postId);
-  const { data: comments } = useGetPostComments({
+  const { data: postComments } = useGetPostComments({
     postId: postId,
     pagination,
   });
@@ -75,7 +75,7 @@ function PostPage() {
             `${from}–${to} из ${count !== -1 ? count : `больше, чем ${to}`}`
           }
           labelRowsPerPage="Комментариев на странице:"
-          count={comments?.length || 0}
+          count={postComments?.totalElements || 0}
           page={pagination.page}
           onPageChange={(_, page) => setPagination(prev => ({ ...prev, page }))}
           rowsPerPageOptions={[10, 20, 30]}
@@ -87,7 +87,7 @@ function PostPage() {
             }))
           }
         />
-        {comments?.map(comment => (
+        {postComments?.content?.map(comment => (
           <div className={styles.comment} key={comment.id}>
             <span className={styles.comment_author}>
               {comment.authorLogin} пишет:{' '}

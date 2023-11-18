@@ -1,5 +1,5 @@
 import axios from '@/api/axios';
-import { PaginationParams } from '@/types/pages';
+import { PaginationParams, PaginationResponse } from '@/types/pages';
 import { PostEntity } from '@/types/posts';
 import { createPaginationSearchParams } from '@/utils/createPaginationSearchParams';
 import { AxiosError } from 'axios';
@@ -18,7 +18,7 @@ async function getOtherProfilePosts({
 }: UseGetOtherProfilePostsProps) {
   const params = createPaginationSearchParams(pagination, true);
 
-  const { data } = await axios.get<PostEntity[]>(`post/user/${userId}`, {
+  const { data } = await axios.get<PaginationResponse<PostEntity[]>>(`post/user/${userId}`, {
     params,
   });
 
@@ -33,7 +33,7 @@ function getOtherProfilePostsQueryKey(props: PartialBy<UseGetOtherProfilePostsPr
 }
 
 function useGetOtherProfilePosts(props: UseGetOtherProfilePostsProps) {
-  return useQuery<PostEntity[], AxiosError>({
+  return useQuery<PaginationResponse<PostEntity[]>, AxiosError>({
     queryFn: () => getOtherProfilePosts(props),
     queryKey: getOtherProfilePostsQueryKey(props),
   });

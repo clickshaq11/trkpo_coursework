@@ -1,6 +1,6 @@
 import axios from '@/api/axios';
 import { Comment } from '@/types/comments';
-import { PaginationParams } from '@/types/pages';
+import { PaginationParams, PaginationResponse } from '@/types/pages';
 import { createPaginationSearchParams } from '@/utils/createPaginationSearchParams';
 import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
@@ -15,7 +15,7 @@ interface GetPostCommentProps {
 async function getPostComments({ postId, pagination }: GetPostCommentProps) {
   const params = createPaginationSearchParams(pagination);
 
-  const { data } = await axios.get<Comment[]>(`post/${postId}/comment`, {
+  const { data } = await axios.get<PaginationResponse<Comment[]>>(`post/${postId}/comment`, {
     params,
   });
 
@@ -27,7 +27,7 @@ function getPostCommentsQueryKey(params: GetPostCommentProps) {
 }
 
 function useGetPostComments(params: GetPostCommentProps) {
-  return useQuery<Comment[], AxiosError>({
+  return useQuery<PaginationResponse<Comment[]>, AxiosError>({
     queryFn: () => getPostComments(params),
     queryKey: getPostCommentsQueryKey(params),
   });

@@ -18,25 +18,26 @@ function ProfilePage() {
     type: 'likeCounter',
   });
 
-  const { data: profile, isLoading } = useGetOtherProfile(userId);
+  const { data: profile, isSuccess: isProfileSucceed } = useGetOtherProfile(userId);
 
-  const { data: posts } = useGetOtherProfilePosts({
+  const { data: posts, isSuccess: arePostsSucceed } = useGetOtherProfilePosts({
     pagination: paginationParams,
     userId,
   });
 
   const { mutate: subscribe } = useSubscribe(userId);
 
-  if (isLoading) {
+  if (!isProfileSucceed || !arePostsSucceed) {
     return <CircularProgress />;
   }
 
   return (
     <Profile
+      totalRows={posts.totalElements}
       subscribe={subscribe}
       profileData={profile}
       isOwnProfile={false}
-      posts={posts}
+      posts={posts?.content}
       pagination={{ paginationParams, setPaginationParams }}
     />
   );

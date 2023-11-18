@@ -27,9 +27,10 @@ function MyProfile() {
 
   return (
     <Profile
+      totalRows={myPosts.totalElements}
       profileData={myProfile}
       isOwnProfile
-      posts={myPosts}
+      posts={myPosts.content}
       pagination={{ paginationParams, setPaginationParams }}
       editProfileInfo={onProfileEdit}
     />

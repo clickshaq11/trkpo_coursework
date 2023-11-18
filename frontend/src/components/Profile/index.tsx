@@ -22,6 +22,7 @@ import SortButtons from './SortButtons';
 type ProfileProps = {
   posts?: PostEntity[];
   pagination: PaginationParamsWithOneSetter;
+  totalRows: number;
 } & (
   | {
       isOwnProfile: true;
@@ -44,6 +45,7 @@ function Profile({
   pagination,
   editProfileInfo,
   subscribe,
+  totalRows,
 }: ProfileProps) {
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] =
     useState<boolean>(false);
@@ -127,7 +129,7 @@ function Profile({
                     }`
                   }
                   labelRowsPerPage="Постов на странице:"
-                  count={posts.length}
+                  count={totalRows}
                   page={pagination.paginationParams.page}
                   onPageChange={(_, page: number) =>
                     pagination.setPaginationParams(prev => ({ ...prev, page }))
