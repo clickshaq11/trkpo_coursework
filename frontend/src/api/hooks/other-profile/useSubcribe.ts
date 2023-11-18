@@ -11,7 +11,7 @@ async function subcribe(userId: number) {
 
 function useSubscribe(userId: number) {
   const queryClient = useQueryClient();
-  const composedPostsQueryKey = getOtherProfilePostsQueryKey(userId);
+  const composedPostsQueryKey = getOtherProfilePostsQueryKey({userId});
   const composedProfileQueryKey = getOtherProfileQueryKey(userId);
 
   return useMutation<void, AxiosError, boolean, ProfileEntity>({

@@ -44,7 +44,7 @@ function useCreateComment(props: GetPostCommentProps) {
         if (!old) {
           return [createdComment];
         }
-        return [createdComment, ...old];
+        return [...old, createdComment];
       });
 
       return previousComments;
