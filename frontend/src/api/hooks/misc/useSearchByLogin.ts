@@ -15,7 +15,7 @@ function useSearchByLogin(login: string) {
   return useQuery<ProfileEntity[], AxiosError>({
     queryFn: () => searchByLogin(login),
     queryKey: [QUERY_KEY, login],
-    enabled: Boolean(login),
+    enabled: false,
     keepPreviousData: true,
   });
 }
