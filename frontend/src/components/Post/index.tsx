@@ -4,6 +4,7 @@ import styles from './Post.module.scss';
 import { PostEntity } from '@/types/posts';
 import { dateFormat } from '@/const/dates';
 import { useLikePost } from '@/api/hooks/shared/useLikePost';
+import { useNavigate } from 'react-router-dom';
 
 interface PostProps extends PostEntity {
   userId?: number;
@@ -21,6 +22,7 @@ function Post({
   userId,
 }: PostProps) {
   const { mutate: likePost } = useLikePost();
+  const navigate = useNavigate();
 
   return (
     <article className={styles.post}>
@@ -30,7 +32,9 @@ function Post({
           {authorLogin} &bull; {dayjs(createdAt).format(dateFormat)}
         </span>
       </header>
-      <p className={styles.body}>{body}</p>
+      <p className={styles.body}
+        onClick={() => navigate(`/posts/${id}`)}
+      >{body}</p>
       <div
         className={styles.likes}
         onClick={() =>
@@ -40,6 +44,7 @@ function Post({
         <span className={styles.like_counter}>{likeCounter}</span>
         <FavoriteIcon
           sx={{
+            stroke: hitLike ? undefined : 'red',
             color: hitLike ? 'red' : 'white',
           }}
         />

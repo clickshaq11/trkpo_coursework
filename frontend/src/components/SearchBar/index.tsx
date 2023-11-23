@@ -1,42 +1,54 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, useRef } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { ClickAwayListener, Popper } from '@mui/material';
 import styles from './SearchBar.module.scss';
 import { StyledLink } from '../Link';
 import { useSearchByLogin } from '@/api/hooks/misc/useSearchByLogin';
 import { useDebounce } from '@/utils/useDebounce';
+import { StyledButton } from '../Button';
 
 function SearchBar() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const debouncedSearchQuery = useDebounce(searchQuery, 100);
   const [areResultsOpen, setAreResultsOpen] = useState<boolean>(false);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLInputElement | null>(null);
 
-  const search = (event: ChangeEvent<HTMLInputElement>) => {
-    const currentQuery = event.target.value;
-    setSearchQuery(currentQuery);
-    setAnchorEl(event.currentTarget);
-    setAreResultsOpen(Boolean(currentQuery));
+  const ref = useRef<HTMLInputElement | null>(null);
+  const {
+    data: profiles,
+    isLoading,
+    refetch,
+  } = useSearchByLogin(debouncedSearchQuery);
+
+  const search = () => {
+    setAnchorEl(ref.current);
+    setAreResultsOpen(true)
+    refetch();
   };
-
-  const handleInputClick = () => {
-    if (searchQuery) {
-      setAreResultsOpen(true);
-    }
-  };
-
-  const { data: profiles, isLoading } = useSearchByLogin(debouncedSearchQuery);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper}
+    >
       <input
+        ref={ref}
         className={styles.search}
         placeholder="Введите логин для поиска..."
         value={searchQuery}
-        onChange={search}
-        onClick={handleInputClick}
+        onKeyDown={e => {
+          if (e.key === 'Enter') {
+            search()
+          }
+        }}
+        onChange={e => setSearchQuery(e.target.value)}
       />
-      <SearchIcon fontSize="medium" className={styles.icon} />
+      <StyledButton
+        className={styles.icon}
+        disabled={!searchQuery}
+        variant="secondary"
+        onClick={search}
+      >
+        <SearchIcon fontSize="medium" />
+      </StyledButton>
       <Popper open={areResultsOpen} anchorEl={anchorEl}>
         <ClickAwayListener onClickAway={() => setAreResultsOpen(false)}>
           <div className={styles.results}>

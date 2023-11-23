@@ -27,10 +27,10 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   config => config,
   (error: AxiosError) => {
-    console.log(error.toJSON());
     if (error.code === '401') {
       router.navigate('login');
     }
+    throw error
   },
 );
 

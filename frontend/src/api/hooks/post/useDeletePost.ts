@@ -3,8 +3,6 @@ import axios from "@/api/axios";
 import { useMutation } from "react-query";
 
 async function deletePost(postId: number) {
-  return Promise.resolve()
-
   await axios.delete(`post/${postId}`)
 }
 

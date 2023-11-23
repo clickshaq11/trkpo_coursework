@@ -1,15 +1,11 @@
-import { EditableContent, PostEntity } from '@/types/posts';
-import { FEED_QUERY_KEY } from './useGetFeedPosts';
+import { EditableContent } from '@/types/posts';
 import axios from '../../axios';
 import { useMutation, useQueryClient } from 'react-query';
 import queryClient from '@/api/react-query';
 import { AxiosError } from 'axios';
+import { MY_PROFILE_POSTS_QUERY_KEY } from '../my-profile/useGetMyProfilePosts';
 
 async function createNewPost(newPostData: EditableContent) {
-  // TODO: change
-  await new Promise<void>(res => setTimeout(res, 200));
-  return;
-
   await axios.post<EditableContent>('post', newPostData);
 }
 
@@ -20,44 +16,14 @@ function useCreateNewPost() {
     void,
     AxiosError,
     EditableContent,
-    PostEntity[]
+    void
   >({
     mutationFn: (newPostData: EditableContent) => createNewPost(newPostData),
-    onMutate: async newPostData => {
-      await queryClient.cancelQueries(FEED_QUERY_KEY);
-
-      const previousFeedPosts = queryClient.getQueryData(
-        FEED_QUERY_KEY,
-      ) as PostEntity[];
-      
-      const createdPost: PostEntity = {
-        ...newPostData,
-        id: 0,
-        authorId: 0,
-        authorLogin: 'Я',
-        createdAt: Date.now(),
-        likeCounter: 0,
-        hitLike: false,
-        firstComments: [],
-      };
-
-      queryClient.setQueryData<PostEntity[] | undefined>(
-        FEED_QUERY_KEY,
-        old => {
-          if (!old) {
-            return [];
-          }
-          return [createdPost, ...old];
-        },
-      );
-
-      return previousFeedPosts;
+    onMutate: async () => {
+      await queryClient.cancelQueries(MY_PROFILE_POSTS_QUERY_KEY);
     },
     onSuccess: () => {
-      client.invalidateQueries(FEED_QUERY_KEY);
-    },
-    onError: (_1, _2, context) => {
-      queryClient.setQueryData(FEED_QUERY_KEY, context);
+      client.invalidateQueries(MY_PROFILE_POSTS_QUERY_KEY);
     },
   });
 }

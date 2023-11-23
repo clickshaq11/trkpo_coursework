@@ -37,13 +37,13 @@ function NewsFeed() {
         </DialogContent>
       </Modal>
       <div className={styles.feed}>
-        {posts?.length === 0 ? (
+        {posts?.content?.length === 0 ? (
           <span>
             Вы не подписаны ни на одного пользователя. Подпишитесь, чтобы видеть
             его посты на этой странице
           </span>
         ) : (
-          posts?.map(post => <Post key={post.id} {...post} />)
+          posts?.content?.map(post => <Post key={post.id} {...post} />)
         )}
       </div>
     </div>

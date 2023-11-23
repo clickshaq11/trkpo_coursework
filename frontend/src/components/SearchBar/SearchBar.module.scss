@@ -24,6 +24,10 @@
 .icon {
     position: absolute;
     margin-right: 10px;
+
+    &:disabled {
+        background-color: transparent;
+    }
 }
 
 .link_wrapper {

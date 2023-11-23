@@ -13,7 +13,7 @@ type Subscription = {
 type MyProfileEntity = {
   login: string;
   shortInfo: string;
-  subcriptions: Subscription[];
+  subscriptions: Subscription[];
 };
 
 type EditProfileEntity = {

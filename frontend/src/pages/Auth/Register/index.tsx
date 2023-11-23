@@ -23,7 +23,7 @@ function Register() {
 
   const navigate = useNavigate();
 
-  const { mutate: onSignUp, isLoading } = useSignup(navigate);
+  const { mutate: onSignUp, isLoading, isError, error } = useSignup(navigate);
 
   const onSubmit: SubmitHandler<RegisterFields> = data => onSignUp(data);
 
@@ -34,6 +34,7 @@ function Register() {
         <label htmlFor="login">Логин</label>
         <input
           className={styles.input}
+          autoComplete="username"
           id="login"
           defaultValue=""
           {...register('login', {
@@ -54,6 +55,7 @@ function Register() {
       <div className={styles.field}>
         <label htmlFor="password">Пароль</label>
         <input
+          autoComplete="new-password"
           type="password"
           className={styles.input}
           id="password"
@@ -77,6 +79,7 @@ function Register() {
         <label htmlFor="repeat-password">Повторите пароль</label>
         <input
           type="password"
+          autoComplete="new-password"
           className={styles.input}
           id="repeat-password"
           defaultValue=""
@@ -112,6 +115,9 @@ function Register() {
           <span className={`${styles.error} ${styles.multiline_error}`}>
             Поле краткой информации должно содержать от 1 до 250 символов
           </span>
+        )}
+        {isError && (
+          <span className={styles.error}>{error.response?.data.message}</span>
         )}
       </div>
 

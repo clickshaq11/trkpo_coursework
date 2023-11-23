@@ -6,6 +6,7 @@ import {
   getPostCommentsQueryKey,
 } from './useGetPostComments';
 import { Comment } from '@/types/comments';
+import { getPostQueryKey } from './useGetPost';
 
 interface CreateCommentProps {
   postId: number;
@@ -13,10 +14,6 @@ interface CreateCommentProps {
 }
 
 async function createComment({ postId, body }: CreateCommentProps) {
-  // TODO: remove
-  await new Promise<void>(res => setTimeout(res, 200));
-  return;
-
   await axios.post<void>(`post/${postId}/comment`, {
     body,
   });
@@ -24,15 +21,17 @@ async function createComment({ postId, body }: CreateCommentProps) {
 
 function useCreateComment(props: GetPostCommentProps) {
   const queryClient = useQueryClient();
-  const composedQueryKey = getPostCommentsQueryKey(props);
+  const composedQueryKeyPost = getPostQueryKey(props.postId)
+  const composedQueryKeyComments = getPostCommentsQueryKey(props);
 
   return useMutation<void, AxiosError, CreateCommentProps, Comment[]>({
     mutationFn: createComment,
     onMutate: async newCommentData => {
-      await queryClient.cancelQueries(composedQueryKey);
+      await queryClient.cancelQueries(composedQueryKeyPost);
+      await queryClient.cancelQueries(composedQueryKeyComments);
 
       const previousComments = queryClient.getQueryData(
-        composedQueryKey,
+        composedQueryKeyComments,
       ) as Comment[];
 
       const createdComment: Comment = {
@@ -41,7 +40,7 @@ function useCreateComment(props: GetPostCommentProps) {
         authorLogin: 'Я',
       };
 
-      queryClient.setQueryData<Comment[] | undefined>(composedQueryKey, old => {
+      queryClient.setQueryData<Comment[] | undefined>(composedQueryKeyComments, old => {
         if (!old) {
           return [createdComment];
         }
@@ -51,10 +50,11 @@ function useCreateComment(props: GetPostCommentProps) {
       return previousComments;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(composedQueryKey);
+      queryClient.invalidateQueries(composedQueryKeyPost);
+      queryClient.invalidateQueries(composedQueryKeyComments);
     },
     onError: (_1, _2, context) => {
-      queryClient.setQueryData(composedQueryKey, context);
+      queryClient.setQueryData(composedQueryKeyComments, context);
     },
   });
 }

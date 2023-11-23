@@ -3,8 +3,7 @@ import styles from './DefaultLayout.module.scss';
 import { Header } from '../Header';
 
 function DefaultLayout() {
-  //TODO: change the redirect condition localStorage.getItem('token')
-  if (false) {
+  if (!localStorage.getItem('token')) {
     return <Navigate to="/login" replace />;
   }
 

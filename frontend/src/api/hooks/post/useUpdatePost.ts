@@ -11,9 +11,6 @@ interface UpdatePostProps {
 }
 
 async function updatePost({ postId, body, title }: UpdatePostProps) {
-  // TODO: delete
-  return new Promise<void>(res => setTimeout(res, 1000));
-
   await axios.put<void>(`post/${postId}`, {
     body,
     title,

@@ -10,7 +10,7 @@ COPY frontend/ .
 
 RUN npm run build
 
-FROM nginx:latest AS nginx
+FROM nginx:1.24.0-alpine AS nginx
 
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /usr/app/frontend/dist /usr/share/nginx/html
