@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './PostPage.module.scss';
 import dayjs from 'dayjs';
-import { CircularProgress, TablePagination } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import { PaginationParams } from '@/types/pages';
 import { StyledLink } from '@/components/Link';
 import { dateFormat } from '@/const/dates';
@@ -10,6 +10,7 @@ import { useGetPost } from '@/api/hooks/post/useGetPost';
 import { useGetPostComments } from '@/api/hooks/post/useGetPostComments';
 import { CreateNewComment } from './CreateNewComment';
 import { ControlButtons } from './ControlButtons';
+import { Pagination } from '@/components/Pagination';
 
 function PostPage() {
   const { id } = useParams();
@@ -22,13 +23,13 @@ function PostPage() {
     type: 'likeCounter', 
   });
 
-  const { data: postData } = useGetPost(postId);
-  const { data: postComments } = useGetPostComments({
+  const { data: postData, isSuccess: isGetPostSucceed } = useGetPost(postId);
+  const { data: postComments, isSuccess: isGetPostCommentsSucceed } = useGetPostComments({
     postId: postId,
     pagination,
   });
 
-  if (!postData) {
+  if (!isGetPostSucceed || !isGetPostCommentsSucceed) {
     return <CircularProgress />;
   }
 
@@ -44,7 +45,7 @@ function PostPage() {
   } = postData;
 
   return (
-    <>
+    <div className={styles.content}>
       <article className={styles.post}>
         <header className={styles.block}>
           <h2 className={styles.title}>{title}</h2>
@@ -70,22 +71,12 @@ function PostPage() {
       <CreateNewComment postId={postId} pagination={pagination} />
       <div className={styles.comments}>
         <h3>Комментарии</h3>
-        <TablePagination
-          labelDisplayedRows={({ from, to, count }) =>
-            `${from}–${to} из ${count !== -1 ? count : `больше, чем ${to}`}`
-          }
-          labelRowsPerPage="Комментариев на странице:"
-          count={postComments?.totalElements || 0}
-          page={pagination.page}
-          onPageChange={(_, page) => setPagination(prev => ({ ...prev, page }))}
-          rowsPerPageOptions={[10, 20, 30]}
-          rowsPerPage={pagination.size}
-          onRowsPerPageChange={e =>
-            setPagination(prev => ({
-              ...prev,
-              size: parseInt(e.target.value, 10),
-            }))
-          }
+        <Pagination 
+          pagination={{
+            paginationParams: pagination,
+            setPaginationParams: setPagination
+          }}
+          totalPages={postComments.totalPages}
         />
         {postComments?.content?.map(comment => (
           <div className={styles.comment} key={comment.id}>
@@ -96,7 +87,7 @@ function PostPage() {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }
 

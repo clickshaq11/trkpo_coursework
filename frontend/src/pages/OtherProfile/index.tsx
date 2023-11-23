@@ -33,11 +33,12 @@ function ProfilePage() {
 
   return (
     <Profile
+      totalPages={posts.totalPages}
       totalRows={posts.totalElements}
       subscribe={subscribe}
       profileData={profile}
       isOwnProfile={false}
-      posts={posts?.content}
+      posts={posts.content}
       pagination={{ paginationParams, setPaginationParams }}
     />
   );

@@ -1,4 +1,5 @@
 import axios from '@/api/axios';
+import { PartialBy } from '@/types/misc';
 import { PaginationParams, PaginationResponse } from '@/types/pages';
 import { PostEntity } from '@/types/posts';
 import { createPaginationSearchParams } from '@/utils/createPaginationSearchParams';
@@ -25,7 +26,7 @@ async function getOtherProfilePosts({
   return data;
 }
 
-type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
+
 
 function getOtherProfilePostsQueryKey(props: PartialBy<UseGetOtherProfilePostsProps, 'pagination'>) {
   const pagination = props.pagination ? props.pagination : {}

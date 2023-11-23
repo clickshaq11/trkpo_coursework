@@ -27,6 +27,7 @@ function MyProfile() {
 
   return (
     <Profile
+      totalPages={myPosts.totalPages}
       totalRows={myPosts.totalElements}
       profileData={myProfile}
       isOwnProfile

@@ -40,6 +40,7 @@ function Post({
         <span className={styles.like_counter}>{likeCounter}</span>
         <FavoriteIcon
           sx={{
+            stroke: hitLike ? undefined : 'red',
             color: hitLike ? 'red' : 'white',
           }}
         />

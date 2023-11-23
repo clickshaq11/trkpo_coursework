@@ -10,7 +10,6 @@ import { PostEntity } from '@/types/posts';
 import { Post } from '../Post';
 import {
   Modal,
-  TablePagination,
   DialogContent,
   CircularProgress,
 } from '@mui/material';
@@ -18,11 +17,13 @@ import { PaginationParamsWithOneSetter } from '@/types/pages';
 import { useState } from 'react';
 import { EditProfileModal } from './EditProfileModal';
 import SortButtons from './SortButtons';
+import { Pagination } from '../Pagination';
 
 type ProfileProps = {
   posts?: PostEntity[];
   pagination: PaginationParamsWithOneSetter;
   totalRows: number;
+  totalPages: number;
 } & (
   | {
       isOwnProfile: true;
@@ -45,7 +46,7 @@ function Profile({
   pagination,
   editProfileInfo,
   subscribe,
-  totalRows,
+  totalPages,
 }: ProfileProps) {
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] =
     useState<boolean>(false);
@@ -97,7 +98,7 @@ function Profile({
           <div className={styles.subblock}>
             <h3>Подписки</h3>
             <div className={styles.subscriptions}>
-              {profileData.subcriptions?.map(sub => (
+              {profileData.subscriptions.map(sub => (
                 <div className={styles.subscription} key={sub.id}>
                   <StyledLink
                     className={styles.subcription}
@@ -120,28 +121,9 @@ function Profile({
           ) : (
             <>
               <div className={styles.pagination}>
-                <TablePagination
-                  sx={{ width: 600 }}
-                  component="div"
-                  labelDisplayedRows={({ from, to, count }) =>
-                    `${from}–${to} из ${
-                      count !== -1 ? count : `больше, чем ${to}`
-                    }`
-                  }
-                  labelRowsPerPage="Постов на странице:"
-                  count={totalRows}
-                  page={pagination.paginationParams.page}
-                  onPageChange={(_, page: number) =>
-                    pagination.setPaginationParams(prev => ({ ...prev, page }))
-                  }
-                  rowsPerPageOptions={[10, 20, 30]}
-                  rowsPerPage={pagination.paginationParams.size}
-                  onRowsPerPageChange={e =>
-                    pagination.setPaginationParams(prev => ({
-                      ...prev,
-                      size: parseInt(e.target.value, 10),
-                    }))
-                  }
+                <Pagination 
+                  pagination={pagination}
+                  totalPages={totalPages}
                 />
                 <SortButtons pagination={pagination} />
               </div>
@@ -163,3 +145,4 @@ function Profile({
 }
 
 export { Profile };
+export type { ProfileProps };
