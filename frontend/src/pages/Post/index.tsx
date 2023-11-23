@@ -23,11 +23,17 @@ function PostPage() {
     type: 'likeCounter', 
   });
 
-  const { data: postData, isSuccess: isGetPostSucceed } = useGetPost(postId);
+  const { data: postData, isSuccess: isGetPostSucceed, isError, error } = useGetPost(postId);
   const { data: postComments, isSuccess: isGetPostCommentsSucceed } = useGetPostComments({
     postId: postId,
     pagination,
   });
+
+  if (isError && error.response?.status === 404) {
+    return <div>
+      Такого поста не существует
+    </div>
+  }
 
   if (!isGetPostSucceed || !isGetPostCommentsSucceed) {
     return <CircularProgress />;

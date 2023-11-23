@@ -1,5 +1,6 @@
 import axios from '@/api/axios';
 import { PostPageEntity } from '@/types/posts';
+import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 
 const QUERY_KEY = 'post';
@@ -22,7 +23,7 @@ async function getPostData({ id, signal }: GetPostDataProps) {
 }
 
 function useGetPost(id: number) {
-  return useQuery<PostPageEntity, Error>({
+  return useQuery<PostPageEntity, AxiosError>({
     queryKey: getPostQueryKey(id),
     queryFn: ({ signal }) => getPostData({ signal, id }),
     staleTime: 60000,
