@@ -2,6 +2,7 @@ package com.trkpo.repository;
 
 import com.trkpo.model.dto.projection.PostProjection;
 import com.trkpo.model.entity.PostEntity;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,5 +25,5 @@ public interface PostRepository extends JpaRepository<PostEntity, Integer> {
         + "LEFT JOIN likeEntity l ON p.id = l.post.id "
         + "WHERE s.subscriber.id = ?1 "
         + "GROUP BY p.id, s.creator.id, s.creator.login")
-    Page<PostProjection> findNewsFeedByUserId(Integer id, Pageable pageable);
+    List<PostProjection> findNewsFeedByUserId(Integer id);
 }

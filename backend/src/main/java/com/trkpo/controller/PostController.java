@@ -39,13 +39,13 @@ public class PostController {
     }
 
     @GetMapping("/filter/feed")
-    public Page<NewsFeedPostDto> getMyNewsFeed(Principal principal, Pageable pageable) {
-        return service.getMyNewsFeed(principal.getName(), pageable);
+    public List<NewsFeedPostDto> getMyNewsFeed(Principal principal) {
+        return service.getMyNewsFeed(principal.getName());
     }
 
     @GetMapping("/user/{id}")
-    public Page<OtherPostDto> getByUserId(@PathVariable Integer id, Pageable pageable) {
-        return service.getByUserId(id, pageable);
+    public Page<OtherPostDto> getByUserId(Principal principal, @PathVariable Integer id, Pageable pageable) {
+        return service.getByUserId(principal.getName(), id, pageable);
     }
 
     @GetMapping("/{id}")

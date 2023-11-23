@@ -7,7 +7,7 @@ services:
       dockerfile: "docker/frontend.dockerfile"
     restart: "always"
     ports:
-      - "80:80"
+      - "12345:80"
     depends_on:
       - "back"
 

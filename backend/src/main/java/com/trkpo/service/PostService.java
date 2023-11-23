@@ -76,10 +76,11 @@ public class PostService {
             );
     }
 
-    public Page<OtherPostDto> getByUserId(Integer id, Pageable pageable) {
+    public Page<OtherPostDto> getByUserId(String login, Integer id, Pageable pageable) {
         if (!userRepository.existsById(id)) {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Could not find user with id " + id);
         }
+        var requestingUser = userRepository.findByLoginOrThrow(login);
         var projections = postRepository.findPostsByUserId(id, pageable);
         log.info("Getting other posts for userId {}", id);
         return projections
@@ -91,7 +92,7 @@ public class PostService {
                 .authorLogin(projection.getAuthorLogin())
                 .likeCounter(projection.getLikeCounter())
                 .createdAt(projection.getCreatedAt())
-                .hitLike(likeRepository.existsByUserIdAndPostId(id, projection.getId()))
+                .hitLike(likeRepository.existsByUserIdAndPostId(requestingUser.getId(), projection.getId()))
                 .firstComments(getFirstComments(projection.getId()))
                 .build()
             );
@@ -107,16 +108,17 @@ public class PostService {
             .createdAt(post.getCreatedAt())
             .authorId(post.getUser().getId())
             .authorLogin(post.getUser().getLogin())
+            .isAuthor(login.equals(post.getUser().getLogin()))
             .likeCounter(likeRepository.countByPostId(post.getId()))
             .hitLike(likeRepository.existsByUserIdAndPostId(user.getId(), post.getId()))
             .build();
     }
 
-    public Page<NewsFeedPostDto> getMyNewsFeed(String login, Pageable pageable) {
+    public List<NewsFeedPostDto> getMyNewsFeed(String login) {
         var user = userRepository.findByLoginOrThrow(login);
-        log.info("Getting news feed for user {} with pageable {}", login, pageable);
-        var projections = postRepository.findNewsFeedByUserId(user.getId(), pageable);
-        return projections
+        log.info("Getting news feed for user {}", login);
+        var projections = postRepository.findNewsFeedByUserId(user.getId());
+        return projections.stream()
             .map(projection -> NewsFeedPostDto.builder()
                 .id(projection.getId())
                 .title(projection.getTitle())
@@ -128,7 +130,7 @@ public class PostService {
                 .hitLike(likeRepository.existsByUserIdAndPostId(user.getId(), projection.getId()))
                 .firstComments(getFirstComments(projection.getId()))
                 .build()
-            );
+            ).toList();
     }
 
     @Transactional
