@@ -2,7 +2,6 @@ import { useQuery } from 'react-query';
 import axios from '../../axios';
 import { PostEntity } from '@/types/posts';
 import { AxiosError } from 'axios';
-import { PaginationResponse } from '@/types/pages';
 
 const QUERY_KEY = 'feed';
 
@@ -11,7 +10,7 @@ interface GetNewsFeedPostsOptions {
 }
 
 async function getNewsFeedPosts({ signal }: GetNewsFeedPostsOptions) {
-  const { data } = await axios.get<PaginationResponse<PostEntity[]>>('post/filter/feed', {
+  const { data } = await axios.get<PostEntity[]>('post/filter/feed', {
     signal,
   });
 
@@ -19,7 +18,7 @@ async function getNewsFeedPosts({ signal }: GetNewsFeedPostsOptions) {
 }
 
 function useGetFeedPosts() {
-  return useQuery<PaginationResponse<PostEntity[]>, AxiosError>({
+  return useQuery<PostEntity[], AxiosError>({
     queryKey: QUERY_KEY,
     queryFn: ({ signal }) => getNewsFeedPosts({ signal }),
     staleTime: 60000,
