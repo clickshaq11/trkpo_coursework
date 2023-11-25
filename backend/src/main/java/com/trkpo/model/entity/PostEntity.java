@@ -1,13 +1,13 @@
 package com.trkpo.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.util.Set;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,10 +21,11 @@ import lombok.NoArgsConstructor;
 @Entity(name = "post")
 public class PostEntity {
     @Id
-    @GeneratedValue
-    @Column(columnDefinition = "serial")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Integer id;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "authorId", nullable = false)
     private UserEntity user;
@@ -39,13 +40,4 @@ public class PostEntity {
 
     @Column(nullable = false)
     private Long createdAt;
-
-    @OneToMany(mappedBy = "post")
-    private Set<CommentEntity> comments;
-
-    @OneToMany(mappedBy = "post")
-    private Set<NotificationEntity> notifications;
-
-    @OneToMany(mappedBy = "post")
-    private Set<LikeEntity> likes;
 }

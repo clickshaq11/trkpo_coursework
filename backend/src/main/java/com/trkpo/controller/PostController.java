@@ -11,6 +11,7 @@ import java.security.Principal;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,18 +34,18 @@ public class PostController {
     }
 
     @GetMapping("/filter/mine")
-    public List<MyPostDto> getMine(Principal principal, Pageable pageable){
+    public Page<MyPostDto> getMine(Principal principal, Pageable pageable){
         return service.getMine(principal.getName(), pageable);
     }
 
     @GetMapping("/filter/feed")
-    public List<NewsFeedPostDto> getMyNewsFeed(Principal principal, Pageable pageable) {
-        return service.getMyNewsFeed(principal.getName(), pageable);
+    public List<NewsFeedPostDto> getMyNewsFeed(Principal principal) {
+        return service.getMyNewsFeed(principal.getName());
     }
 
     @GetMapping("/user/{id}")
-    public List<OtherPostDto> getByUserId(@PathVariable Integer id, Pageable pageable) {
-        return service.getByUserId(id, pageable);
+    public Page<OtherPostDto> getByUserId(Principal principal, @PathVariable Integer id, Pageable pageable) {
+        return service.getByUserId(principal.getName(), id, pageable);
     }
 
     @GetMapping("/{id}")

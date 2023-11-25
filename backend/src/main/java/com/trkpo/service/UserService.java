@@ -33,7 +33,7 @@ public class UserService {
         var userEntity = userRepository.findByLoginOrThrow(login);
         var subscriptions = subscriptionRepository.findBySubscriberId(userEntity.getId()).stream()
             .map(subscribtionEntity -> SubscriptionDto.builder()
-                .id(subscribtionEntity.getId())
+                .id(subscribtionEntity.getCreator().getId())
                 .login(subscribtionEntity.getCreator().getLogin())
                 .build()
             )

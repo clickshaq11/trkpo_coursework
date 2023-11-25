@@ -10,9 +10,11 @@ import com.trkpo.repository.NotificationRepository;
 import com.trkpo.repository.PostRepository;
 import com.trkpo.repository.UserRepository;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,17 +30,17 @@ public class CommentService {
     private final NotificationRepository notificationRepository;
     private final UserRepository userRepository;
 
-    public List<CommentDto> getByPostId(Integer id, Pageable pageable) {
+    public Page<CommentDto> getByPostId(Integer id, Pageable pageable) {
         if (!postRepository.existsById(id)) {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Could not find post with id " + id);
         }
-        return commentRepository.findByPostId(id, pageable).stream()
+        return commentRepository.findByPostId(id, pageable)
             .map(entity -> CommentDto.builder()
                 .id(entity.getId())
                 .authorLogin(entity.getUser().getLogin())
                 .body(entity.getBody())
                 .build()
-            ).toList();
+            );
     }
 
     @Transactional
@@ -49,7 +51,14 @@ public class CommentService {
         }
         var matcher = TagProperties.TAG_PATTERN.matcher(dto.getBody());
         log.info("For comment {} found {} tag matches", dto.getBody(), matcher.groupCount());
-        matcher.results().forEach(match -> attemptToCreateNotification(match.group(), postId));
+        var tags = new ArrayList<String>();
+        while (matcher.find()) {
+            var tag = matcher.group();
+            if (!tags.contains(tag)) {
+                tags.add(tag);
+            }
+        }
+        tags.forEach(tag -> attemptToCreateNotification(tag, postId));
         commentRepository.save(CommentEntity.builder()
             .body(dto.getBody())
             .user(userRepository.findByLoginOrThrow(login))
@@ -59,6 +68,7 @@ public class CommentService {
     }
 
     private void attemptToCreateNotification(String tag, Integer postId) {
+        log.info("Attempting creating a tag {} for postId {} ", tag, postId);
         var userOptional = userRepository.findByLogin(tag);
         if (userOptional.isEmpty()) {
             log.info("Possible tag {} for postId {}, could not find user with that login", tag, postId);

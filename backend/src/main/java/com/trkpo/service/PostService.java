@@ -1,5 +1,6 @@
 package com.trkpo.service;
 
+import com.trkpo.config.DbConfigProperties;
 import com.trkpo.config.TagProperties;
 import com.trkpo.model.dto.request.CreatePostDto;
 import com.trkpo.model.dto.request.UpdatePostDto;
@@ -16,12 +17,14 @@ import com.trkpo.repository.NotificationRepository;
 import com.trkpo.repository.PostRepository;
 import com.trkpo.repository.UserRepository;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -41,6 +44,7 @@ public class PostService {
     private final LikeRepository likeRepository;
     private final UserRepository userRepository;
     private final NotificationRepository notificationRepository;
+    private final DbConfigProperties dbConfigProperties;
 
     @Transactional
     public void createPost(String login, CreatePostDto dto) {
@@ -52,15 +56,21 @@ public class PostService {
             .build()
         );
         var matcher = TagProperties.TAG_PATTERN.matcher(dto.getBody());
-        log.info("For post {} found {} tag matches", dto.getBody(), matcher.groupCount());
-        matcher.results().forEach(match -> attemptToCreateNotification(match.group(), post.getId()));
+        var tags = new ArrayList<String>();
+        while (matcher.find()) {
+            var tag = matcher.group();
+            if (!tags.contains(tag)) {
+                tags.add(tag);
+            }
+        }
+        tags.forEach(tag -> attemptToCreateNotification(tag, post.getId()));
     }
 
-    public List<MyPostDto> getMine(String login, Pageable pageable) {
+    public Page<MyPostDto> getMine(String login, Pageable pageable) {
         var user = userRepository.findByLoginOrThrow(login);
         var projections = postRepository.findPostsByUserId(user.getId(), pageable);
         log.info("Getting my posts for login {}", login);
-        return projections.stream()
+        return projections
             .map(projection -> MyPostDto.builder()
                 .id(projection.getId())
                 .title(projection.getTitle())
@@ -72,17 +82,17 @@ public class PostService {
                 .hitLike(likeRepository.existsByUserIdAndPostId(user.getId(), projection.getId()))
                 .firstComments(getFirstComments(projection.getId()))
                 .build()
-            )
-            .toList();
+            );
     }
 
-    public List<OtherPostDto> getByUserId(Integer id, Pageable pageable) {
+    public Page<OtherPostDto> getByUserId(String login, Integer id, Pageable pageable) {
         if (!userRepository.existsById(id)) {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Could not find user with id " + id);
         }
+        var requestingUser = userRepository.findByLoginOrThrow(login);
         var projections = postRepository.findPostsByUserId(id, pageable);
         log.info("Getting other posts for userId {}", id);
-        return projections.stream()
+        return projections
             .map(projection -> OtherPostDto.builder()
                 .id(projection.getId())
                 .title(projection.getTitle())
@@ -91,11 +101,10 @@ public class PostService {
                 .authorLogin(projection.getAuthorLogin())
                 .likeCounter(projection.getLikeCounter())
                 .createdAt(projection.getCreatedAt())
-                .hitLike(likeRepository.existsByUserIdAndPostId(id, projection.getId()))
+                .hitLike(likeRepository.existsByUserIdAndPostId(requestingUser.getId(), projection.getId()))
                 .firstComments(getFirstComments(projection.getId()))
                 .build()
-            )
-            .toList();
+            );
     }
 
     public PostDto getById(String login, Integer id) {
@@ -108,15 +117,16 @@ public class PostService {
             .createdAt(post.getCreatedAt())
             .authorId(post.getUser().getId())
             .authorLogin(post.getUser().getLogin())
+            .isAuthor(login.equals(post.getUser().getLogin()))
             .likeCounter(likeRepository.countByPostId(post.getId()))
             .hitLike(likeRepository.existsByUserIdAndPostId(user.getId(), post.getId()))
             .build();
     }
 
-    public List<NewsFeedPostDto> getMyNewsFeed(String login, Pageable pageable) {
+    public List<NewsFeedPostDto> getMyNewsFeed(String login) {
         var user = userRepository.findByLoginOrThrow(login);
-        log.info("Getting news feed for user {} with pageable {}", login, pageable);
-        var projections = postRepository.findNewsFeedByUserId(user.getId(), pageable);
+        log.info("Getting news feed for user {}", login);
+        var projections = postRepository.findNewsFeedByUserId(user.getId());
         return projections.stream()
             .map(projection -> NewsFeedPostDto.builder()
                 .id(projection.getId())
@@ -129,8 +139,7 @@ public class PostService {
                 .hitLike(likeRepository.existsByUserIdAndPostId(user.getId(), projection.getId()))
                 .firstComments(getFirstComments(projection.getId()))
                 .build()
-            )
-            .toList();
+            ).toList();
     }
 
     @Transactional
@@ -148,7 +157,22 @@ public class PostService {
             post.setTitle(dto.getTitle());
         }
         if (StringUtils.hasText(dto.getBody())) {
-            post.setTitle(dto.getBody());
+            var oldBody = post.getBody();
+            var oldTagsMatcher = TagProperties.TAG_PATTERN.matcher(oldBody);
+            List<String> oldTags = new ArrayList<>();
+            while (oldTagsMatcher.find()) {
+                oldTags.add(oldTagsMatcher.group());
+            }
+            post.setBody(dto.getBody());
+            var matcher = TagProperties.TAG_PATTERN.matcher(dto.getBody());
+            var tags = new ArrayList<String>();
+            while (matcher.find()) {
+                var tag = matcher.group();
+                if (!tags.contains(tag) && !oldTags.contains(tag)) {
+                    tags.add(tag);
+                }
+            }
+            tags.forEach(tag -> attemptToCreateNotification(tag, post.getId()));
         }
         postRepository.save(post);
     }
@@ -177,7 +201,7 @@ public class PostService {
             )
             .toList();
         log.info("{} real comments for post {}", realComments.size(), postId);
-        if (realComments.size() < 3) {
+        if (realComments.size() < 3 && dbConfigProperties.getGeneration()) {
             var phantomComment = FirstCommentDto.builder()
                 .id(-1)
                 .authorLogin("phantomUser")
@@ -190,6 +214,7 @@ public class PostService {
     }
 
     private void attemptToCreateNotification(String tag, Integer postId) {
+        log.info("Attempting creating a tag {} for postId {} ", tag, postId);
         var userOptional = userRepository.findByLogin(tag);
         if (userOptional.isEmpty()) {
             log.info("Possible tag {} for postId {}, could not find user with that login", tag, postId);

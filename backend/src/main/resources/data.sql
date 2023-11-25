@@ -15,19 +15,19 @@ VALUES ('blackberry', '$2a$10$MO/dA/SSgyjhoO0wFhcw9enmzWpNmM0iMIp3BRQ0A.Mstebe0V
     ON CONFLICT DO NOTHING;
 
 INSERT INTO post("author_id", "title", "body", "created_at")
-    VALUES (1, 'West branch', 'Why do i do whole backend alone without any help', 1699646474000)
+    VALUES (1, 'West branch', 'Why do i do whole backend alone without any help @login456', 1699646474000)
     ON CONFLICT DO NOTHING;
 INSERT INTO post("author_id", "title", "body", "created_at")
     VALUES (1, 'East branch', 'Why do i spend so much energy on the countless uni tasks', 1668099664000)
     ON CONFLICT DO NOTHING;
 INSERT INTO post("author_id", "title", "body", "created_at")
-VALUES (2, 'Еще пост', 'Помогите', 1668099534000)
+VALUES (2, 'Еще пост', 'Помогите @login789 помогите', 1668099534000)
     ON CONFLICT DO NOTHING;
 INSERT INTO post("author_id", "title", "body", "created_at")
 VALUES (3, 'Зачем', 'Просто зачтите, нормальный сайтик, по спеке норм совпадает, хлд красиво аскидоком отрендерена', 1668099534000)
     ON CONFLICT DO NOTHING;
 INSERT INTO post("author_id", "title", "body", "created_at")
-VALUES (4, 'Почему', 'Не надо читать тексты постов, которые нужны только для инита', 1668099534000)
+VALUES (4, 'Почему', 'Не надо читать тексты постов, которые нужны только для инита @login123', 1668099534000)
     ON CONFLICT DO NOTHING;
 
 INSERT INTO like_entity("user_id", "post_id") VALUES (1, 1) ON CONFLICT DO NOTHING;
@@ -62,6 +62,6 @@ INSERT INTO subscription("creator_id", "subscriber_id") VALUES (2, 3) ON CONFLIC
 INSERT INTO subscription("creator_id", "subscriber_id") VALUES (2, 1) ON CONFLICT DO NOTHING;
 INSERT INTO subscription("creator_id", "subscriber_id") VALUES (3, 1) ON CONFLICT DO NOTHING;
 
-INSERT INTO notification("user_id", "post_id", "created_at") VALUES (1, 1, 1700222508000) ON CONFLICT DO NOTHING;
-INSERT INTO notification("user_id", "post_id", "created_at") VALUES (5, 1, 1700222504000) ON CONFLICT DO NOTHING;
-INSERT INTO notification("user_id", "post_id", "created_at") VALUES (2, 1, 1700222502000) ON CONFLICT DO NOTHING;
+INSERT INTO notification("user_id", "post_id", "created_at") VALUES (2, 1, 1700222508000) ON CONFLICT DO NOTHING;
+INSERT INTO notification("user_id", "post_id", "created_at") VALUES (1, 5, 1700222504000) ON CONFLICT DO NOTHING;
+INSERT INTO notification("user_id", "post_id", "created_at") VALUES (3, 3, 1700222502000) ON CONFLICT DO NOTHING;
