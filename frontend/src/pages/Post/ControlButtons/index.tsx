@@ -42,13 +42,11 @@ function ControlButtons({
   };
 
   return (
-    <div
-      className={styles.buttons}
-      onClick={() => onClickLike({ currentLikeState: hitLike, postId })}
-    >
+    <div className={styles.buttons}>
       <div className={styles.likes}>
         <span className={styles.like_counter}>{likeCounter}</span>
         <FavoriteIcon
+          onClick={() => onClickLike({ currentLikeState: hitLike, postId })}
           sx={{
             stroke: hitLike ? undefined : 'red',
             color: hitLike ? 'red' : 'white',

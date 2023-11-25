@@ -1,3 +1,5 @@
+@import '@/styles/colors.scss';
+
 .content {
   height: 100%;
   width: 100%;
@@ -23,3 +25,33 @@
   gap: 1rem;
   overflow-y: visible;
 }
+
+.subblock {
+  width: 600px;
+  padding: 1.2rem;
+  border-radius: 10px;
+  background-color: rgba($color: $main-color, $alpha: 0.2);
+
+  & > h3 {
+    color: $main-color;
+  }
+}
+
+.subscriptions {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  column-gap: 1rem;
+  max-height: 5rem;
+  padding-inline: 0.5rem;
+  width: fit-content;
+  overflow-y: auto;
+}
+
+.subscription {
+  position: relative;
+  & > * {
+    color: $main-color;
+    border-color: $main-color;
+  }
+}
+

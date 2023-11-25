@@ -37,7 +37,7 @@ const EditPostModalContent = forwardRef<
     content.title.length === 0 ||
     content.title.length > 120 ||
     content.body.length === 0 ||
-    content.title.length > 600;
+    content.body.length > 600;
 
   return (
     <div className={styles.content} ref={ref}>

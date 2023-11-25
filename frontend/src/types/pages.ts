@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 
 type Order = 'asc' | 'desc';
-type OrderType = 'popularity' | 'date';
+type OrderType = 'likeCounter' | 'createdAt';
 
 type PaginationParams = {
   page: number;
@@ -15,4 +15,10 @@ type PaginationParamsWithOneSetter = {
   setPaginationParams: Dispatch<SetStateAction<PaginationParams>>
 };
 
-export type { Order, PaginationParams, PaginationParamsWithOneSetter };
+type PaginationResponse<T> = {
+  totalElements: number;
+  totalPages: number;
+  content: T;
+}
+
+export type { Order, PaginationParams, PaginationParamsWithOneSetter, PaginationResponse };

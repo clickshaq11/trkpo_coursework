@@ -17,7 +17,12 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const { mutate: onLoginClick, isLoading } = useSignIn(navigate);
+  const {
+    mutate: onLoginClick,
+    isLoading,
+    error,
+    isError,
+  } = useSignIn(navigate);
 
   const onSubmit: SubmitHandler<LoginFields> = data => onLoginClick(data);
 
@@ -28,6 +33,7 @@ function Login() {
         <label htmlFor="login">Логин</label>
         <input
           className={styles.input}
+          autoComplete="username"
           id="login"
           defaultValue=""
           {...register('login', {
@@ -49,6 +55,7 @@ function Login() {
         <label htmlFor="password">Пароль</label>
         <input
           type="password"
+          autoComplete="current-password"
           className={styles.input}
           id="password"
           defaultValue=""
@@ -64,6 +71,9 @@ function Login() {
             Поле пароля должно содержать от 8 до 50 символов и состоять из цифр
             и букв латинского алфавита
           </span>
+        )}
+        {isError && (
+          <span className={styles.error}>{error.response?.data.message}</span>
         )}
       </div>
 

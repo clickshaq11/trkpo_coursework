@@ -5,6 +5,7 @@ import { PaginationParams } from '@/types/pages';
 import { useGetOtherProfilePosts } from '@/api/hooks/other-profile/useGetOtherProfilePosts';
 import { useGetOtherProfile } from '@/api/hooks/other-profile/useGetOtherProfile';
 import { CircularProgress } from '@mui/material';
+import { useSubscribe } from '@/api/hooks/other-profile/useSubcribe';
 
 function ProfilePage() {
   const { id } = useParams();
@@ -14,25 +15,30 @@ function ProfilePage() {
     size: 10,
     page: 0,
     order: 'asc',
-    type: 'date',
+    type: 'likeCounter',
   });
 
-  const { data: profile, isLoading } = useGetOtherProfile(userId);
+  const { data: profile, isSuccess: isProfileSucceed } = useGetOtherProfile(userId);
 
-  const { data: posts } = useGetOtherProfilePosts({
-    userId,
+  const { data: posts, isSuccess: arePostsSucceed } = useGetOtherProfilePosts({
     pagination: paginationParams,
+    userId,
   });
 
-  if (isLoading) {
+  const { mutate: subscribe } = useSubscribe(userId);
+
+  if (!isProfileSucceed || !arePostsSucceed) {
     return <CircularProgress />;
   }
 
   return (
     <Profile
+      totalPages={posts.totalPages}
+      totalRows={posts.totalElements}
+      subscribe={subscribe}
       profileData={profile}
       isOwnProfile={false}
-      posts={posts}
+      posts={posts.content}
       pagination={{ paginationParams, setPaginationParams }}
     />
   );
