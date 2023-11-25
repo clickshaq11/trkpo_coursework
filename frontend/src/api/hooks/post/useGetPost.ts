@@ -1,6 +1,6 @@
 import axios from '@/api/axios';
-import { fakePost } from '@/api/fake-data';
 import { PostPageEntity } from '@/types/posts';
+import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 
 const QUERY_KEY = 'post';
@@ -15,11 +15,6 @@ function getPostQueryKey(postId: number) {
 }
 
 async function getPostData({ id, signal }: GetPostDataProps) {
-  //TODO: change
-  return new Promise<PostPageEntity>(res =>
-    setTimeout(() => res(fakePost), 100),
-  );
-
   const { data } = await axios.get(`/post/${id}`, {
     signal,
   });
@@ -28,10 +23,9 @@ async function getPostData({ id, signal }: GetPostDataProps) {
 }
 
 function useGetPost(id: number) {
-  return useQuery<PostPageEntity, Error>({
+  return useQuery<PostPageEntity, AxiosError>({
     queryKey: getPostQueryKey(id),
     queryFn: ({ signal }) => getPostData({ signal, id }),
-    staleTime: 60000,
     keepPreviousData: true,
   });
 }

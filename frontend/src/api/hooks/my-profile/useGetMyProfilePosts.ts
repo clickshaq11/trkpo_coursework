@@ -1,6 +1,5 @@
 import axios from '@/api/axios';
-import { myFakePosts } from '@/api/fake-data';
-import { PaginationParams } from '@/types/pages';
+import { PaginationParams, PaginationResponse } from '@/types/pages';
 import { PostEntity } from '@/types/posts';
 import { createPaginationSearchParams } from '@/utils/createPaginationSearchParams';
 import { AxiosError } from 'axios';
@@ -13,21 +12,23 @@ interface UseGetMyProfilePostsProps {
 }
 
 async function getMyProfilePosts({ pagination }: UseGetMyProfilePostsProps) {
-  return new Promise<PostEntity[]>(res => setTimeout(() => res(myFakePosts), 100));
+  const params = createPaginationSearchParams(pagination, true);
 
-  const params = createPaginationSearchParams(pagination);
-
-  const { data } = await axios.get<PostEntity[]>('/post/filter/mine', {
+  const { data } = await axios.get<PaginationResponse<PostEntity[]>>('/post/filter/mine', {
     params,
   });
 
   return data;
 }
 
+function getMyProfileQueryKey(pagination: PaginationParams) {
+  return [QUERY_KEY, pagination]
+}
+
 function useGetMyProfilePosts(props: UseGetMyProfilePostsProps) {
-  return useQuery<PostEntity[], AxiosError>({
+  return useQuery<PaginationResponse<PostEntity[]>, AxiosError>({
     queryFn: () => getMyProfilePosts(props),
-    queryKey: QUERY_KEY,
+    queryKey: getMyProfileQueryKey(props.pagination),
   });
 }
 

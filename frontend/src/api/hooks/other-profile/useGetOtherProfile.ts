@@ -1,13 +1,9 @@
 import axios from '@/api/axios';
-import { fakeProfile } from '@/api/fake-data';
 import { ProfileEntity } from '@/types/profiles';
 import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 
 async function getOtherProfile(userId: number) {
-  // TODO: remove
-  return new Promise<ProfileEntity>(res => setTimeout(() => res(fakeProfile), 100));
-
   const { data } = await axios.get<ProfileEntity>(`user/id/${userId}`);
 
   return data;

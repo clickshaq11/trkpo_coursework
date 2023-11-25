@@ -10,7 +10,6 @@ import { PostEntity } from '@/types/posts';
 import { Post } from '../Post';
 import {
   Modal,
-  TablePagination,
   DialogContent,
   CircularProgress,
 } from '@mui/material';
@@ -18,20 +17,25 @@ import { PaginationParamsWithOneSetter } from '@/types/pages';
 import { useState } from 'react';
 import { EditProfileModal } from './EditProfileModal';
 import SortButtons from './SortButtons';
+import { Pagination } from '../Pagination';
 
 type ProfileProps = {
   posts?: PostEntity[];
   pagination: PaginationParamsWithOneSetter;
+  totalRows: number;
+  totalPages: number;
 } & (
   | {
       isOwnProfile: true;
       profileData?: MyProfileEntity;
       editProfileInfo?: (newProfileInfo: EditProfileEntity) => void;
+      subscribe?: never;
     }
   | {
       isOwnProfile: false;
       profileData?: ProfileEntity;
       editProfileInfo?: never;
+      subscribe?: (isSubscribed: boolean) => void;
     }
 );
 
@@ -41,6 +45,8 @@ function Profile({
   posts,
   pagination,
   editProfileInfo,
+  subscribe,
+  totalPages,
 }: ProfileProps) {
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] =
     useState<boolean>(false);
@@ -56,6 +62,7 @@ function Profile({
           <h2 className={styles.login}>{profileData.login}</h2>
           {!isOwnProfile ? (
             <StyledButton
+              onClick={() => subscribe?.(profileData.subscribed)}
               variant={profileData.subscribed ? 'tertiary' : 'primary'}
             >
               {profileData.subscribed ? 'Вы подписаны' : 'Подписаться'}
@@ -91,7 +98,7 @@ function Profile({
           <div className={styles.subblock}>
             <h3>Подписки</h3>
             <div className={styles.subscriptions}>
-              {profileData.subcriptions.map(sub => (
+              {profileData.subscriptions.map(sub => (
                 <div className={styles.subscription} key={sub.id}>
                   <StyledLink
                     className={styles.subcription}
@@ -114,39 +121,21 @@ function Profile({
           ) : (
             <>
               <div className={styles.pagination}>
-                <TablePagination
-                  sx={{ width: 600 }}
-                  component="div"
-                  labelDisplayedRows={({ from, to, count }) =>
-                    `${from}–${to} из ${
-                      count !== -1 ? count : `больше, чем ${to}`
-                    }`
-                  }
-                  labelRowsPerPage="Постов на странице:"
-                  count={posts.length}
-                  page={pagination.paginationParams.page}
-                  onPageChange={(_, page: number) =>
-                    pagination.setPaginationParams(prev => ({ ...prev, page }))
-                  }
-                  rowsPerPageOptions={[10, 20, 30]}
-                  rowsPerPage={pagination.paginationParams.size}
-                  onRowsPerPageChange={e =>
-                    pagination.setPaginationParams(prev => ({
-                      ...prev,
-                      size: parseInt(e.target.value, 10),
-                    }))
-                  }
+                <Pagination 
+                  pagination={pagination}
+                  totalPages={totalPages}
                 />
                 <SortButtons pagination={pagination} />
               </div>
               <div className={styles.posts}>
-                {posts?.map(post => (
-                  <Post
-                    key={post.id}
-                    {...post}
-                    userId={!isOwnProfile ? profileData.id : undefined}
-                  />
-                ))}
+                {posts &&
+                  posts?.map(post => (
+                    <Post
+                      {...post}
+                      userId={!isOwnProfile ? profileData.id : undefined}
+                      key={post.id}
+                    />
+                  ))}
               </div>
             </>
           ))}
@@ -156,3 +145,4 @@ function Profile({
 }
 
 export { Profile };
+export type { ProfileProps };

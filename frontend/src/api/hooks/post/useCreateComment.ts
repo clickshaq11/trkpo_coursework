@@ -6,6 +6,7 @@ import {
   getPostCommentsQueryKey,
 } from './useGetPostComments';
 import { Comment } from '@/types/comments';
+import { getPostQueryKey } from './useGetPost';
 
 interface CreateCommentProps {
   postId: number;
@@ -13,10 +14,6 @@ interface CreateCommentProps {
 }
 
 async function createComment({ postId, body }: CreateCommentProps) {
-  // TODO: remove
-  await new Promise<void>(res => setTimeout(res, 200));
-  return;
-
   await axios.post<void>(`post/${postId}/comment`, {
     body,
   });
@@ -24,37 +21,14 @@ async function createComment({ postId, body }: CreateCommentProps) {
 
 function useCreateComment(props: GetPostCommentProps) {
   const queryClient = useQueryClient();
-  const composedQueryKey = getPostCommentsQueryKey(props);
+  const composedQueryKeyPost = getPostQueryKey(props.postId)
+  const composedQueryKeyComments = getPostCommentsQueryKey(props);
 
   return useMutation<void, AxiosError, CreateCommentProps, Comment[]>({
     mutationFn: createComment,
-    onMutate: async newCommentData => {
-      await queryClient.cancelQueries(composedQueryKey);
-
-      const previousComments = queryClient.getQueryData(
-        composedQueryKey,
-      ) as Comment[];
-
-      const createdComment: Comment = {
-        ...newCommentData,
-        id: 0,
-        authorLogin: 'Я',
-      };
-
-      queryClient.setQueryData<Comment[] | undefined>(composedQueryKey, old => {
-        if (!old) {
-          return [createdComment];
-        }
-        return [createdComment, ...old];
-      });
-
-      return previousComments;
-    },
     onSuccess: () => {
-      queryClient.invalidateQueries(composedQueryKey);
-    },
-    onError: (_1, _2, context) => {
-      queryClient.setQueryData(composedQueryKey, context);
+      queryClient.invalidateQueries(composedQueryKeyPost);
+      queryClient.invalidateQueries(composedQueryKeyComments);
     },
   });
 }
