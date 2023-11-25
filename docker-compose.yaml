@@ -1,0 +1,34 @@
+version: "3.7"
+
+services:
+  nginx:
+    container_name: "nginx"
+    build:
+      dockerfile: "docker/frontend.dockerfile"
+    restart: "always"
+    ports:
+      - "12345:80"
+    depends_on:
+      - "back"
+
+  postgres:
+    container_name: "postgres"
+    image: "postgres:latest"
+    restart: "always"
+    environment:
+      POSTGRES_DB: "main"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    ports:
+      - "5432:5432"
+
+  back:
+    container_name: "back"
+    build:
+      dockerfile: "docker/backend.dockerfile"
+    environment:
+      DB_URL: "jdbc:postgresql://postgres:5432/main"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "postgres"

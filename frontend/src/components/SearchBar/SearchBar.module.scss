@@ -1,0 +1,56 @@
+@import '@/styles/colors.scss';
+@import '@/styles/shadows.scss';
+
+.wrapper {
+    width: 50ch;
+    height: 4rem;
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    text-align: center;
+}
+
+.search {
+    height: 80%;
+    width: 100%;
+    font-size: 20px;
+    background-color: white;
+    border-width: 0;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.icon {
+    position: absolute;
+    margin-right: 10px;
+
+    &:disabled {
+        background-color: transparent;
+    }
+}
+
+.link_wrapper {
+    position: relative;
+}
+
+.results {
+    padding: 0px 5px; 
+    width: 50ch;
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid black;
+    box-shadow: $main-shadow;
+    background-color: white;
+    border-radius: 6px;
+    gap: .2rem;
+}
+
+.result {
+    display: flex;
+    margin: 5px;
+    flex-direction: row;
+    gap: 1rem;
+    padding-bottom: 3px;
+    border-bottom: 1px solid black;
+}

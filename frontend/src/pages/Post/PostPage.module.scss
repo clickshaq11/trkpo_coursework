@@ -1,0 +1,73 @@
+@import '@/styles/colors.scss';
+
+.content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  gap: .5rem;
+}
+
+.post {
+  padding: 1.2rem;
+  border-radius: 10px;
+  width: 600px;
+  background-color: rgba($color: $main-color, $alpha: 0.2);
+  color: $main-color;
+
+  & > hr {
+    border: 1px solid $main-color;
+  }
+}
+
+.block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.title {
+  margin: 0;
+  padding: 0;
+}
+
+.author {
+  font-size: 14px;
+  text-align: end;
+
+  & > a {
+    color: $main-color;
+    border-color: $main-color;
+  }
+}
+
+.body {
+  margin-top: 10px;
+  text-wrap: wrap;
+  overflow-wrap: break-word;
+  margin-bottom: 10px;
+}
+
+.comment_author {
+  font-weight: 500;
+}
+
+.comments {
+  margin-top: 1rem;
+  width: 600px;
+}
+
+.comment {
+  border: 1px solid $main-color;
+  padding: 0.2rem;
+}
+
+.controls {
+  justify-self: flex-end;
+}
+
+.dropdown {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,88 @@
+import { forwardRef, useState } from 'react';
+import { EditProfileEntity } from '@/types/profiles';
+import styles from './EditProfileModal.module.scss';
+import { StyledButton } from '@/components/Button';
+
+interface EditProfileModalProps {
+  defaultValues: EditProfileEntity;
+  onClose: () => void;
+  save?: (content: EditProfileEntity) => void;
+}
+
+type FieldsType = EditProfileEntity & {
+  repeatPassword: EditProfileEntity['password'];
+};
+
+const EditProfileModal = forwardRef<HTMLDivElement, EditProfileModalProps>(
+  function EditProfileModal(
+    { defaultValues, onClose, save }: EditProfileModalProps,
+    ref,
+  ) {
+    const [content, setContent] = useState<FieldsType>({
+      ...defaultValues,
+      repeatPassword: defaultValues.password,
+    });
+
+    const onChangeField = (
+      field: keyof FieldsType,
+      value: FieldsType[typeof field],
+    ) => {
+      setContent(prev => ({
+        ...prev,
+        [field]: value,
+      }));
+    };
+
+    const onClickSave = () => {
+      onClose();
+      save?.(content);
+    };
+
+    const isSaveButtonDisabled =
+      content.shortInfo.length === 0 ||
+      content.shortInfo.length > 250 ||
+      content.password.length < 8 ||
+      content.password.length > 50 ||
+      content.password !== content.repeatPassword;
+
+    return (
+      <div className={styles.content} ref={ref}>
+        <h2>Обновление информации профиля</h2>
+        <label htmlFor="short-info">Краткая информация</label>
+        <textarea
+          placeholder="Введите краткую информацию"
+          id="short-info"
+          className={`${styles.input} ${styles.short_info}`}
+          value={content.shortInfo}
+          onChange={e => onChangeField('shortInfo', e.target.value)}
+        />
+        <label htmlFor="password">Пароль</label>
+        <input
+          type="password"
+          placeholder="Введите пароль..."
+          id="password"
+          className={`${styles.input} ${styles.password}`}
+          value={content.password}
+          onChange={e => onChangeField('password', e.target.value)}
+        />
+        <label htmlFor="repeat-password">Повторите пароль</label>
+        <input
+          type="password"
+          placeholder="Введите пароль..."
+          id="repeat-password"
+          className={`${styles.input} ${styles.password}`}
+          value={content.repeatPassword}
+          onChange={e => onChangeField('repeatPassword', e.target.value)}
+        />
+        <div className={styles.buttons}>
+          <StyledButton onClick={onClickSave} disabled={isSaveButtonDisabled}>
+            Сохранить
+          </StyledButton>
+          <StyledButton onClick={onClose}>Закрыть</StyledButton>
+        </div>
+      </div>
+    );
+  },
+);
+
+export { EditProfileModal };

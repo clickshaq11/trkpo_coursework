@@ -1,0 +1,49 @@
+@import '@/styles/colors.scss';
+@import '@/styles/shadows.scss';
+
+%stack {
+  background-color: rgba($color: $main-color, $alpha: 0.3);
+  max-width: 600px;
+  height: max(50%, fit-content);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 5rem;
+  font-size: 20px;
+  border-radius: 10px;
+  -webkit-box-shadow: $main-shadow;
+  -moz-box-shadow: $main-shadow;
+  box-shadow: $main-shadow;
+}
+
+.button {
+  width: 100%;
+  font-size: 20px;
+  min-width: 200px;
+}
+
+%input {
+  font-size: 20px;
+  padding: 0.2rem;
+}
+
+%field {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  align-items: center;
+  gap: 1rem;
+  min-width: 100%;
+}
+
+%error {
+  color: $main-color;
+  grid-column: span 2;
+  font-size: 14px;
+  max-width: 35ch;
+}
+
+.link_wrapper {
+  position: relative;
+}

@@ -1,0 +1,26 @@
+server:
+  port: 8080
+  servlet:
+    contextPath: /api/v1
+
+logging:
+  level:
+    root: INFO
+
+spring:
+  sql:
+    init:
+      mode: always
+  datasource:
+    username: postgres
+    password: postgres
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/main}
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    defer-datasource-initialization: true
+
+db:
+  generation: ${DB_GENERATION:false}
