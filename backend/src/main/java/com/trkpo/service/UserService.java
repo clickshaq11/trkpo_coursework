@@ -32,10 +32,11 @@ public class UserService {
     public MyProfileDto getMe(String login) {
         var userEntity = userRepository.findByLoginOrThrow(login);
         var subscriptions = subscriptionRepository.findBySubscriberId(userEntity.getId()).stream()
-            .map(subscribtionEntity -> SubscriptionDto.builder()
-                .id(subscribtionEntity.getCreator().getId())
-                .login(subscribtionEntity.getCreator().getLogin())
-                .build()
+            .map(
+                subscribtionEntity -> SubscriptionDto.builder()
+                    .id(subscribtionEntity.getCreator().getId())
+                    .login(subscribtionEntity.getCreator().getLogin())
+                    .build()
             )
             .toList();
         return MyProfileDto.builder()
@@ -51,12 +52,15 @@ public class UserService {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "User" + login + " requested his profile as other profile");
         }
         var requestedUser = userRepository.findById(id)
-            .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND, "Could not find user with id " + id));
+            .orElseThrow(
+                () -> new HttpClientErrorException(HttpStatus.NOT_FOUND, "Could not find user with id " + id)
+            );
         return OtherProfileDto.builder()
             .id(requestedUser.getId())
             .login(requestedUser.getLogin())
             .shortInfo(requestedUser.getShortInfo())
-            .subscribed(subscriptionRepository.findByCreatorIdAndSubscriberId(
+            .subscribed(
+                subscriptionRepository.findByCreatorIdAndSubscriberId(
                     requestedUser.getId(),
                     requestingUser.getId()
                 ).isPresent()
@@ -71,17 +75,21 @@ public class UserService {
             log.info("Requested login {} is invalid, returning empty result of search by login", requestedLogin);
         }
         return userRepository.findByLoginContaining(requestedLogin).stream()
-            .filter(entity -> !entity.getLogin().equals(requestingLogin))
-            .map(entity -> OtherProfileDto.builder()
-                .id(entity.getId())
-                .login(entity.getLogin())
-                .shortInfo(entity.getShortInfo())
-                .subscribed(subscriptionRepository.findByCreatorIdAndSubscriberId(
-                        entity.getId(),
-                        requestingUser.getId()
-                    ).isPresent()
-                )
-                .build()
+            .filter(
+                entity -> !entity.getLogin().equals(requestingLogin)
+            )
+            .map(
+                entity -> OtherProfileDto.builder()
+                    .id(entity.getId())
+                    .login(entity.getLogin())
+                    .shortInfo(entity.getShortInfo())
+                    .subscribed(
+                        subscriptionRepository.findByCreatorIdAndSubscriberId(
+                            entity.getId(),
+                            requestingUser.getId()
+                        ).isPresent()
+                    )
+                    .build()
             ).toList();
     }
 

@@ -25,8 +25,7 @@ public class JwtFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        var token = authHeader.substring("Bearer ".length());
-        var username = jwtService.verifyJwtAndGetSubject(token);
+        var username = jwtService.verifyJwtAndGetSubject(authHeader.substring("Bearer ".length()));
         var authenticationToken = new UsernamePasswordAuthenticationToken(username, null, null);
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         filterChain.doFilter(request, response);

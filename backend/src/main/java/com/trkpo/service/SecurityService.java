@@ -17,6 +17,7 @@ import org.springframework.web.client.HttpClientErrorException;
 @Service
 @RequiredArgsConstructor
 public class SecurityService {
+
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final JwtService jwtService;
@@ -24,11 +25,15 @@ public class SecurityService {
     public LoginResponseDto login(LoginRequestDto dto) {
         var login = dto.getLogin();
         var user = userRepository.findByLogin(login)
-            .orElseThrow(() -> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "User with that login does not exist"));
+            .orElseThrow(
+                () -> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "User with that login does not exist")
+            );
         if (!passwordEncoder.matches(dto.getPassword(), user.getHashedPassword())) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Passwords don't match");
         }
-        return new LoginResponseDto(jwtService.createJwt(login));
+        return LoginResponseDto.builder()
+            .token(jwtService.createJwt(login))
+            .build();
     }
 
     public RegistrationResponseDto register(RegistrationRequestDto dto) {
@@ -42,6 +47,8 @@ public class SecurityService {
         } catch (DataIntegrityViolationException e) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Login is already taken");
         }
-        return new RegistrationResponseDto(jwtService.createJwt(dto.getLogin()));
+        return RegistrationResponseDto.builder()
+            .token(jwtService.createJwt(dto.getLogin()))
+            .build();
     }
 }

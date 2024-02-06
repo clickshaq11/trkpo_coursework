@@ -16,6 +16,7 @@ import org.springframework.web.client.HttpClientErrorException;
 @Service
 @RequiredArgsConstructor
 public class LikeService {
+
     private final LikeRepository likeRepository;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
@@ -31,10 +32,11 @@ public class LikeService {
             likeRepository.deleteById(likeOptional.get().getId());
             return new LikeDto(false);
         }
-        likeRepository.save(LikeEntity.builder()
-            .user(user)
-            .post(postRepository.getReferenceById(postId))
-            .build()
+        likeRepository.save(
+            LikeEntity.builder()
+                .user(user)
+                .post(postRepository.getReferenceById(postId))
+                .build()
         );
         return new LikeDto(true);
     }

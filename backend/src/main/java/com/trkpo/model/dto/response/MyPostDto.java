@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class MyPostDto {
     @NotNull
@@ -40,6 +39,6 @@ public class MyPostDto {
     private Boolean hitLike;
 
     @NotEmpty
-    @Size(min = 3, max = 3)
+    @Size(max = 3)
     private List<FirstCommentDto> firstComments;
 }

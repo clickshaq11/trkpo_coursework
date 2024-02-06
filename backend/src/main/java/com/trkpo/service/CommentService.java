@@ -25,6 +25,7 @@ import org.springframework.web.client.HttpClientErrorException;
 @Service
 @RequiredArgsConstructor
 public class CommentService {
+
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final NotificationRepository notificationRepository;
@@ -35,11 +36,12 @@ public class CommentService {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Could not find post with id " + id);
         }
         return commentRepository.findByPostId(id, pageable)
-            .map(entity -> CommentDto.builder()
-                .id(entity.getId())
-                .authorLogin(entity.getUser().getLogin())
-                .body(entity.getBody())
-                .build()
+            .map(
+                entity -> CommentDto.builder()
+                    .id(entity.getId())
+                    .authorLogin(entity.getUser().getLogin())
+                    .body(entity.getBody())
+                    .build()
             );
     }
 
@@ -59,11 +61,12 @@ public class CommentService {
             }
         }
         tags.forEach(tag -> attemptToCreateNotification(tag, postId));
-        commentRepository.save(CommentEntity.builder()
-            .body(dto.getBody())
-            .user(userRepository.findByLoginOrThrow(login))
-            .post(postRepository.getReferenceById(postId))
-            .build()
+        commentRepository.save(
+            CommentEntity.builder()
+                .body(dto.getBody())
+                .user(userRepository.findByLoginOrThrow(login))
+                .post(postRepository.getReferenceById(postId))
+                .build()
         );
     }
 
@@ -75,11 +78,12 @@ public class CommentService {
             return;
         }
         log.info("Creating tag {} for postId {}", tag, postId);
-        notificationRepository.save(NotificationEntity.builder()
-            .user(userOptional.get())
-            .post(postRepository.getReferenceById(postId))
-            .createdAt(Instant.now().toEpochMilli())
-            .build()
+        notificationRepository.save(
+            NotificationEntity.builder()
+                .user(userOptional.get())
+                .post(postRepository.getReferenceById(postId))
+                .createdAt(Instant.now().toEpochMilli())
+                .build()
         );
     }
 }
