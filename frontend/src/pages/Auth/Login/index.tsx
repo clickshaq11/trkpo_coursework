@@ -12,8 +12,11 @@ function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
-  } = useForm<LoginFields>();
+    formState: { errors, isValid }
+  } = useForm<LoginFields>({
+    reValidateMode: 'onChange',
+    mode: 'onChange'
+  });
 
   const navigate = useNavigate();
 
@@ -21,7 +24,7 @@ function Login() {
     mutate: onLoginClick,
     isLoading,
     error,
-    isError,
+    isError
   } = useSignIn(navigate);
 
   const onSubmit: SubmitHandler<LoginFields> = data => onLoginClick(data);
@@ -30,21 +33,21 @@ function Login() {
     <form onSubmit={handleSubmit(onSubmit)} className={styles.stack}>
       <h1>Авторизация</h1>
       <div className={styles.field}>
-        <label htmlFor="login">Логин</label>
+        <label htmlFor='login'>Логин</label>
         <input
           className={styles.input}
-          autoComplete="username"
-          id="login"
-          defaultValue=""
+          autoComplete='username'
+          id='login'
+          defaultValue=''
           {...register('login', {
             required: true,
             maxLength: FIELD_MAX_LENGTH,
             minLength: FIELD_MIN_LENGTH,
-            pattern: FIELD_REGEX,
+            pattern: FIELD_REGEX
           })}
         />
         {errors.login && (
-          <span className={styles.error}>
+          <span className={styles.error} role='alert'>
             Поле логина должно содержать от 8 до 50 символов и состоять из цифр
             и букв латинского алфавита
           </span>
@@ -52,22 +55,23 @@ function Login() {
       </div>
 
       <div className={styles.field}>
-        <label htmlFor="password">Пароль</label>
+        <label htmlFor='password'>Пароль</label>
         <input
-          type="password"
-          autoComplete="current-password"
+          type='password'
+          autoComplete='current-password'
           className={styles.input}
-          id="password"
-          defaultValue=""
+          id='password'
+          defaultValue=''
           {...register('password', {
             required: true,
             maxLength: FIELD_MAX_LENGTH,
             minLength: FIELD_MIN_LENGTH,
-            pattern: FIELD_REGEX,
+            pattern: FIELD_REGEX
           })}
         />
         {errors.password && (
-          <span className={styles.error}>
+          <span className={styles.error} role='alert'
+          >
             Поле пароля должно содержать от 8 до 50 символов и состоять из цифр
             и букв латинского алфавита
           </span>
@@ -78,14 +82,14 @@ function Login() {
       </div>
 
       <StyledButton
-        type="submit"
+        type='submit'
         disabled={!isValid || isLoading}
         className={styles.button}
       >
-        {isLoading ? <CircularProgress color="inherit" size="1rem" /> : 'Войти'}
+        {isLoading ? <CircularProgress color='inherit' size='1rem' /> : 'Войти'}
       </StyledButton>
       <div className={styles.link_wrapper}>
-        <StyledLink to="/register">Страница регистрации</StyledLink>
+        <StyledLink to='/register'>Страница регистрации</StyledLink>
       </div>
     </form>
   );

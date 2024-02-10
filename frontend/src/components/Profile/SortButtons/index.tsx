@@ -17,6 +17,7 @@ function SortButtons({ pagination }: SortButtonsProps) {
   return (
     <>
       <StyledButton
+        aria-label='Choose sort type'
         className={styles.btn}
         variant="secondary"
         onClick={e => setOrderTypeAnchorEl(e.currentTarget)}
@@ -56,6 +57,7 @@ function SortButtons({ pagination }: SortButtonsProps) {
         </StyledButton>
       </Dropdown>
       <StyledButton
+        aria-label='Choose sort order'
         className={styles.btn}
         variant="secondary"
         onClick={e => setOrderAnchorEl(e.currentTarget)}

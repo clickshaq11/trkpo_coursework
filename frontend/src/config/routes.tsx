@@ -8,7 +8,7 @@ import { ProfilePage } from '@/pages/OtherProfile';
 import { MyProfile } from '@/pages/MyProfile';
 import { NotFound } from '@/pages/NotFound';
 
-const router = createBrowserRouter([
+const routes = [
   {
     path: '/',
     element: <AuthLayout />,
@@ -49,6 +49,8 @@ const router = createBrowserRouter([
     path: '*',
     element: <NotFound />,
   },
-]);
+]
 
-export { router };
+const router = createBrowserRouter(routes);
+
+export { router, routes };
