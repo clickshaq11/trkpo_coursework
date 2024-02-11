@@ -18,7 +18,8 @@ function ProfilePage() {
     type: 'likeCounter',
   });
 
-  const { data: profile, isSuccess: isProfileSucceed } = useGetOtherProfile(userId);
+  const { data: profile, isSuccess: isProfileSucceed } =
+    useGetOtherProfile(userId);
 
   const { data: posts, isSuccess: arePostsSucceed } = useGetOtherProfilePosts({
     pagination: paginationParams,

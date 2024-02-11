@@ -46,7 +46,7 @@ function ControlButtons({
       <div className={styles.likes}>
         <span className={styles.like_counter}>{likeCounter}</span>
         <FavoriteIcon
-          aria-label='like'
+          aria-label="like"
           onClick={() => onClickLike({ currentLikeState: hitLike, postId })}
           sx={{
             stroke: hitLike ? undefined : 'red',
@@ -57,7 +57,7 @@ function ControlButtons({
       {isAuthor && (
         <div className={styles.controls}>
           <StyledButton
-            aria-label='Manage post'
+            aria-label="Manage post"
             variant="secondary"
             onClick={e => setAnchorEl(anchorEl ? null : e.currentTarget)}
           >
@@ -65,7 +65,7 @@ function ControlButtons({
           </StyledButton>
           <Dropdown anchorEl={anchorEl} onClose={() => setAnchorEl(null)}>
             <StyledButton
-              aria-label='Edit post'
+              aria-label="Edit post"
               variant="secondary"
               onClick={() => {
                 setAnchorEl(null);
@@ -75,7 +75,7 @@ function ControlButtons({
               Редактировать пост
             </StyledButton>
             <StyledButton
-              aria-label='Delete post'
+              aria-label="Delete post"
               variant="secondary"
               onClick={() => {
                 setAnchorEl(null);

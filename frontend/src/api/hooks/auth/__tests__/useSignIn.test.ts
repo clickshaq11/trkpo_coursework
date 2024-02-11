@@ -1,42 +1,46 @@
-import {it, describe, vi, expect} from 'vitest';
+import { it, describe, vi, expect } from 'vitest';
 import { renderHook, waitFor, act } from '@testing-library/react';
 import { useSignIn } from '@/api/hooks/auth/useSignIn';
 import { createWrapper } from '@/test/QueryProviderTestWrapper';
 
-const mockNavigate = vi.fn()
+const mockNavigate = vi.fn();
 
-describe("useSignIn", () => {
-  it("navigate should be called on successful login", async () => {
+describe('useSignIn', () => {
+  it('navigate should be called on successful login', async () => {
     const { result } = renderHook(() => useSignIn(mockNavigate), {
-      wrapper: createWrapper()
-    })
+      wrapper: createWrapper(),
+    });
 
     act(() => {
       result.current.mutate({
-        login: "dsadsad",
-        password: "dsajknduisad"
-      })
-    })
+        login: 'dsadsad',
+        password: 'dsajknduisad',
+      });
+    });
 
-    await waitFor(() => expect(result.current.isSuccess, "fetching failed").toBe(true))
+    await waitFor(() =>
+      expect(result.current.isSuccess, 'fetching failed').toBe(true),
+    );
 
-    expect(mockNavigate, "Navigate wasnt called").toBeCalled()
-  })
+    expect(mockNavigate, 'Navigate wasnt called').toBeCalled();
+  });
 
-  it("localStorage should have token on successful login", async () => {
+  it('localStorage should have token on successful login', async () => {
     const { result } = renderHook(() => useSignIn(mockNavigate), {
-      wrapper: createWrapper()
-    })
+      wrapper: createWrapper(),
+    });
 
     act(() => {
       result.current.mutate({
-        login: "dsadsad",
-        password: "dsajknduisad",
-      })
-    })
+        login: 'dsadsad',
+        password: 'dsajknduisad',
+      });
+    });
 
-    await waitFor(() => expect(result.current.isSuccess, "fetching failed").toBe(true))
+    await waitFor(() =>
+      expect(result.current.isSuccess, 'fetching failed').toBe(true),
+    );
 
-    expect(localStorage.getItem("token")).toBe("123")
-  })
-})
+    expect(localStorage.getItem('token')).toBe('123');
+  });
+});

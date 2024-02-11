@@ -7,11 +7,13 @@ import { notifications } from '@/test/mocks';
 describe('useGetNotifications', () => {
   it('should get notifications', async () => {
     const { result } = renderHook(() => useGetNotifications(), {
-      wrapper: createWrapper()
-    })
+      wrapper: createWrapper(),
+    });
 
-    await waitFor(() => expect(result.current.isSuccess, "fetching failed").toBe(true))
+    await waitFor(() =>
+      expect(result.current.isSuccess, 'fetching failed').toBe(true),
+    );
 
-    expect(result.current.data).toStrictEqual(notifications)
+    expect(result.current.data).toStrictEqual(notifications);
   });
 });

@@ -6,8 +6,8 @@ const BASE_URL = 'http://localhost:8080/api/v1';
 const axios = axiosDefaultInstance.create({
   baseURL: BASE_URL,
   headers: {
-    'Content-type': 'application/json'
-  }
+    'Content-type': 'application/json',
+  },
 });
 
 axios.interceptors.request.use(
@@ -23,7 +23,7 @@ axios.interceptors.request.use(
   },
   error => {
     Promise.reject(error);
-  }
+  },
 );
 
 axios.interceptors.response.use(
@@ -33,7 +33,7 @@ axios.interceptors.response.use(
       router.navigate('login');
     }
     throw error;
-  }
+  },
 );
 
 export default axios;

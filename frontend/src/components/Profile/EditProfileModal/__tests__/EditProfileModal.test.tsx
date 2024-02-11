@@ -1,7 +1,10 @@
 import { describe, expect, it, vi } from 'vitest';
 import { fireEvent } from '@testing-library/react';
 import { renderWithRouter } from '@/test/renderWithRouter';
-import { EditProfileModal, EditProfileModalProps } from '@/components/Profile/EditProfileModal';
+import {
+  EditProfileModal,
+  EditProfileModalProps,
+} from '@/components/Profile/EditProfileModal';
 import { editProfileEntity } from '@/test/mocks';
 
 const setup = ({ save, onClose, defaultValues }: EditProfileModalProps) => {
@@ -11,7 +14,8 @@ const setup = ({ save, onClose, defaultValues }: EditProfileModalProps) => {
       save={save}
       defaultValues={defaultValues}
     />,
-    []);
+    [],
+  );
 
   const shortInfoInput = rendered.getByLabelText('short-info');
   const passwordInput = rendered.getByLabelText('password');
@@ -25,149 +29,144 @@ const setup = ({ save, onClose, defaultValues }: EditProfileModalProps) => {
     passwordInput,
     repeatPasswordInput,
     saveButton,
-    closeButton
+    closeButton,
   };
 };
 
-const VALID_PASSWORD = 'x'.repeat(10)
-const VALID_SHORT_INFO = 'x'.repeat(10)
+const VALID_PASSWORD = 'x'.repeat(10);
+const VALID_SHORT_INFO = 'x'.repeat(10);
 
 describe('EditProfileModal', () => {
   it('save button should be disabled when fields are empty', async () => {
-    const { shortInfoInput, passwordInput, repeatPasswordInput, saveButton } = setup({
-      save: () => {
-      },
-      onClose: () => {
-      },
-      defaultValues: editProfileEntity
-    });
+    const { shortInfoInput, passwordInput, repeatPasswordInput, saveButton } =
+      setup({
+        save: () => {},
+        onClose: () => {},
+        defaultValues: editProfileEntity,
+      });
 
     fireEvent.change(shortInfoInput, {
       target: {
-        value: ''
-      }
+        value: '',
+      },
     });
     fireEvent.change(passwordInput, {
       target: {
-        value: ''
-      }
+        value: '',
+      },
     });
     fireEvent.change(repeatPasswordInput, {
       target: {
-        value: ''
-      }
+        value: '',
+      },
     });
 
     expect(saveButton).toBeDisabled();
   });
 
   it('save button should be enabled when fields are correct', async () => {
-    const { shortInfoInput, passwordInput, repeatPasswordInput, saveButton } = setup({
-      save: () => {
-      },
-      onClose: () => {
-      },
-      defaultValues: editProfileEntity
-    });
+    const { shortInfoInput, passwordInput, repeatPasswordInput, saveButton } =
+      setup({
+        save: () => {},
+        onClose: () => {},
+        defaultValues: editProfileEntity,
+      });
 
     fireEvent.change(shortInfoInput, {
       target: {
-        value: VALID_SHORT_INFO
-      }
+        value: VALID_SHORT_INFO,
+      },
     });
     fireEvent.change(passwordInput, {
       target: {
-        value: VALID_PASSWORD
-      }
+        value: VALID_PASSWORD,
+      },
     });
     fireEvent.change(repeatPasswordInput, {
       target: {
-        value: VALID_PASSWORD
-      }
+        value: VALID_PASSWORD,
+      },
     });
 
     expect(saveButton).not.toBeDisabled();
   });
 
   it('save button should be disabled when short info is too large', async () => {
-    const { shortInfoInput, passwordInput, repeatPasswordInput, saveButton } = setup({
-      save: () => {
-      },
-      onClose: () => {
-      },
-      defaultValues: editProfileEntity
-    });
+    const { shortInfoInput, passwordInput, repeatPasswordInput, saveButton } =
+      setup({
+        save: () => {},
+        onClose: () => {},
+        defaultValues: editProfileEntity,
+      });
 
     fireEvent.change(shortInfoInput, {
       target: {
-        value: 'x'.repeat(251)
-      }
+        value: 'x'.repeat(251),
+      },
     });
     fireEvent.change(passwordInput, {
       target: {
-        value: VALID_PASSWORD
-      }
+        value: VALID_PASSWORD,
+      },
     });
     fireEvent.change(repeatPasswordInput, {
       target: {
-        value: VALID_PASSWORD
-      }
+        value: VALID_PASSWORD,
+      },
     });
 
     expect(saveButton).toBeDisabled();
   });
 
   it('save button should be disabled when passwords are too long', async () => {
-    const { shortInfoInput, passwordInput, repeatPasswordInput, saveButton } = setup({
-      save: () => {
-      },
-      onClose: () => {
-      },
-      defaultValues: editProfileEntity
-    });
+    const { shortInfoInput, passwordInput, repeatPasswordInput, saveButton } =
+      setup({
+        save: () => {},
+        onClose: () => {},
+        defaultValues: editProfileEntity,
+      });
 
     fireEvent.change(shortInfoInput, {
       target: {
-        value: VALID_SHORT_INFO
-      }
+        value: VALID_SHORT_INFO,
+      },
     });
     fireEvent.change(passwordInput, {
       target: {
-        value: 'x'.repeat(51)
-      }
+        value: 'x'.repeat(51),
+      },
     });
     fireEvent.change(repeatPasswordInput, {
       target: {
-        value: 'x'.repeat(51)
-      }
+        value: 'x'.repeat(51),
+      },
     });
 
     expect(saveButton).toBeDisabled();
   });
 
   it('save button should be disabled when passwords differ', async () => {
-    const { shortInfoInput, passwordInput, repeatPasswordInput, saveButton } = setup({
-      save: () => {
-      },
-      onClose: () => {
-      },
-      defaultValues: editProfileEntity
-    });
+    const { shortInfoInput, passwordInput, repeatPasswordInput, saveButton } =
+      setup({
+        save: () => {},
+        onClose: () => {},
+        defaultValues: editProfileEntity,
+      });
 
     fireEvent.change(shortInfoInput, {
       target: {
-        value: VALID_SHORT_INFO
-      }
+        value: VALID_SHORT_INFO,
+      },
     });
     fireEvent.change(passwordInput, {
       target: {
-        value: 'x'.repeat(10)
-      }
+        value: 'x'.repeat(10),
+      },
     });
     fireEvent.change(repeatPasswordInput, {
       target: {
-        value: 'x'.repeat(11)
-      }
+        value: 'x'.repeat(11),
+      },
     });
 
     expect(saveButton).toBeDisabled();
@@ -182,27 +181,27 @@ describe('EditProfileModal', () => {
 
     const mock = vi.fn();
 
-    const { shortInfoInput, passwordInput, repeatPasswordInput, saveButton } = setup({
-      save: mock,
-      onClose: () => {
-      },
-      defaultValues: editProfileEntity
-    });
+    const { shortInfoInput, passwordInput, repeatPasswordInput, saveButton } =
+      setup({
+        save: mock,
+        onClose: () => {},
+        defaultValues: editProfileEntity,
+      });
 
     fireEvent.change(shortInfoInput, {
       target: {
-        value: data.shortInfo
-      }
+        value: data.shortInfo,
+      },
     });
     fireEvent.change(passwordInput, {
       target: {
-        value: data.password
-      }
+        value: data.password,
+      },
     });
     fireEvent.change(repeatPasswordInput, {
       target: {
-        value: data.repeatPassword
-      }
+        value: data.repeatPassword,
+      },
     });
 
     fireEvent.click(saveButton);
@@ -214,10 +213,9 @@ describe('EditProfileModal', () => {
     const mock = vi.fn();
 
     const { closeButton } = setup({
-      save: () => {
-      },
+      save: () => {},
       onClose: mock,
-      defaultValues: editProfileEntity
+      defaultValues: editProfileEntity,
     });
 
     fireEvent.click(closeButton);

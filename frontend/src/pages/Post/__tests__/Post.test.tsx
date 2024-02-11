@@ -7,23 +7,25 @@ import { renderWithRouter } from '@/test/renderWithRouter';
 import dayjs from 'dayjs';
 import { dateFormat } from '@/const/dates';
 
-const useGetPostSpy = vi.spyOn(useGetPostModule, 'useGetPost')
-const useGetPostCommentsSpy = vi.spyOn(useGetPostCommentsModule, 'useGetPostComments')
+const useGetPostSpy = vi.spyOn(useGetPostModule, 'useGetPost');
+const useGetPostCommentsSpy = vi.spyOn(
+  useGetPostCommentsModule,
+  'useGetPostComments',
+);
 
 const setup = () => {
-  const rendered = renderWithRouter(<PostPage />, [])
+  const rendered = renderWithRouter(<PostPage />, []);
 
   return {
-    rendered
-  }
-}
-
+    rendered,
+  };
+};
 
 describe('Post page', () => {
   afterAll(() => {
-    vi.clearAllMocks()
-    vi.resetAllMocks()
-  })
+    vi.clearAllMocks();
+    vi.resetAllMocks();
+  });
 
   it('should render message when there is no post with id', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -33,16 +35,18 @@ describe('Post page', () => {
         isError: true,
         error: {
           response: {
-            status: 404
-          }
-        }
-      }
-    })
+            status: 404,
+          },
+        },
+      };
+    });
 
-    const { rendered } = setup()
+    const { rendered } = setup();
 
-    expect(rendered.getByText(/Такого поста не существует/i)).toBeInTheDocument()
-  })
+    expect(
+      rendered.getByText(/Такого поста не существует/i),
+    ).toBeInTheDocument();
+  });
 
   it('should render circular progress icon when loading', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -50,21 +54,21 @@ describe('Post page', () => {
     useGetPostSpy.mockImplementation(() => {
       return {
         isSuccess: false,
-      }
-    })
+      };
+    });
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     useGetPostCommentsSpy.mockImplementation(() => {
       return {
         isSuccess: false,
-      }
-    })
+      };
+    });
 
-    const { rendered } = setup()
+    const { rendered } = setup();
 
-    expect(rendered.getByRole('progressbar')).toBeInTheDocument()
-  })
+    expect(rendered.getByRole('progressbar')).toBeInTheDocument();
+  });
 
   it('should render correctly if data is loaded', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -72,31 +76,33 @@ describe('Post page', () => {
     useGetPostSpy.mockImplementation(() => {
       return {
         isSuccess: true,
-        data: postPage
-      }
-    })
+        data: postPage,
+      };
+    });
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     useGetPostCommentsSpy.mockImplementation(() => {
       return {
         isSuccess: true,
-        data: []
-      }
-    })
+        data: [],
+      };
+    });
 
-    const { rendered } = setup()
+    const { rendered } = setup();
 
-    expect(rendered.queryByRole('progressbar')).not.toBeInTheDocument()
+    expect(rendered.queryByRole('progressbar')).not.toBeInTheDocument();
 
-    const title = rendered.getByText(postPage.title)
-    const body = rendered.getByText(postPage.body)
-    const authorLogin = rendered.getByText(postPage.authorLogin)
-    const date = rendered.getByText(RegExp(dayjs(postPage.createdAt).format(dateFormat)))
+    const title = rendered.getByText(postPage.title);
+    const body = rendered.getByText(postPage.body);
+    const authorLogin = rendered.getByText(postPage.authorLogin);
+    const date = rendered.getByText(
+      RegExp(dayjs(postPage.createdAt).format(dateFormat)),
+    );
 
-    expect(title).toBeInTheDocument()
-    expect(body).toBeInTheDocument()
-    expect(authorLogin).toBeInTheDocument()
-    expect(date).toBeInTheDocument()
-  })
-})
+    expect(title).toBeInTheDocument();
+    expect(body).toBeInTheDocument();
+    expect(authorLogin).toBeInTheDocument();
+    expect(date).toBeInTheDocument();
+  });
+});

@@ -11,15 +11,15 @@ describe('DefaultLayout', () => {
     const { wrapper, router } = createWrapper();
     render(wrapper);
 
-    expect(router.state.location.pathname).toBe('/login')
+    expect(router.state.location.pathname).toBe('/login');
   });
 
   it('should not navigate to /login when there is token', () => {
-    localStorage.setItem('token', "123")
+    localStorage.setItem('token', '123');
 
     const { wrapper, router } = createWrapper();
     render(wrapper);
 
-    expect(router.state.location.pathname).toBe('/me')
-  })
+    expect(router.state.location.pathname).toBe('/me');
+  });
 });

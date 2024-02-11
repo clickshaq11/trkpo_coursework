@@ -11,41 +11,46 @@ const POST_ID = 1;
 describe('useUpdatePost', () => {
   it('should send update post request', async () => {
     const { result } = renderHook(() => useUpdatePost(POST_ID), {
-      wrapper: createWrapper()
+      wrapper: createWrapper(),
     });
 
     act(() => result.current.mutate(editPost));
 
-    await waitFor(() => expect(result.current.isSuccess, 'fetching failed').toBe(true));
+    await waitFor(() =>
+      expect(result.current.isSuccess, 'fetching failed').toBe(true),
+    );
   });
 
   it('should optimistically update post profile', async () => {
     const wrapper = createWrapper();
     const { result: queryClient } = renderHook(() => useQueryClient(), {
-      wrapper
+      wrapper,
     });
 
     const { result: getPostQuery } = renderHook(() => useGetPost(POST_ID), {
-      wrapper
+      wrapper,
     });
-
 
     await waitFor(() => expect(getPostQuery.current.isSuccess).toBe(true));
 
     console.log(queryClient.current.getQueryCache().getAll());
 
-    expect(queryClient.current.getQueryData(getPostQueryKey(POST_ID)))
-      .toEqual(expect.objectContaining(post));
+    expect(queryClient.current.getQueryData(getPostQueryKey(POST_ID))).toEqual(
+      expect.objectContaining(post),
+    );
 
     const { result } = renderHook(() => useUpdatePost(POST_ID), {
-      wrapper
+      wrapper,
     });
 
-    const prevQueryData = queryClient.current.getQueryData(getPostQueryKey(POST_ID));
+    const prevQueryData = queryClient.current.getQueryData(
+      getPostQueryKey(POST_ID),
+    );
 
     await waitFor(() => result.current.mutate(editPost));
 
-    expect(prevQueryData).not
-      .toEqual(queryClient.current.getQueryData(getPostQueryKey(POST_ID)));
+    expect(prevQueryData).not.toEqual(
+      queryClient.current.getQueryData(getPostQueryKey(POST_ID)),
+    );
   });
 });

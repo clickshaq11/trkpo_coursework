@@ -6,11 +6,13 @@ import { useSubscribe } from '@/api/hooks/other-profile/useSubcribe';
 describe('useSubscribe', () => {
   it('should send subscribe request', async () => {
     const { result } = renderHook(() => useSubscribe(1), {
-      wrapper: createWrapper()
-    })
+      wrapper: createWrapper(),
+    });
 
-    act(() => result.current.mutate(true))
+    act(() => result.current.mutate(true));
 
-    await waitFor(() => expect(result.current.isSuccess, "fetching failed").toBe(true))
+    await waitFor(() =>
+      expect(result.current.isSuccess, 'fetching failed').toBe(true),
+    );
   });
 });

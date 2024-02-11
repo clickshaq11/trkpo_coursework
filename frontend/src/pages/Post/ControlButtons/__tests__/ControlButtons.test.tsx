@@ -7,25 +7,23 @@ import * as useDeletePostModule from '@/api/hooks/post/useDeletePost';
 
 const POST_ID = 1;
 
-const useDeletePostSpy = vi.spyOn(
-  useDeletePostModule,
-  'useDeletePost'
-);
+const useDeletePostSpy = vi.spyOn(useDeletePostModule, 'useDeletePost');
 
 const setup = ({ isAuthor = true }: { isAuthor: boolean }) => {
   const rendered = renderWithRouter(
     <ControlButtons
-      title=''
-      body=''
+      title=""
+      body=""
       likeCounter={0}
       hitLike={true}
       isAuthor={isAuthor}
-      postId={POST_ID} />,
-    []
+      postId={POST_ID}
+    />,
+    [],
   );
 
   return {
-    rendered
+    rendered,
   };
 };
 
@@ -62,7 +60,7 @@ describe('ControlButtons', () => {
     // @ts-ignore
     useDeletePostSpy.mockImplementation(() => {
       return {
-        mutate: mock
+        mutate: mock,
       };
     });
 

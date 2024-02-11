@@ -16,20 +16,20 @@ type FieldsType = EditProfileEntity & {
 const EditProfileModal = forwardRef<HTMLDivElement, EditProfileModalProps>(
   function EditProfileModal(
     { defaultValues, onClose, save }: EditProfileModalProps,
-    ref
+    ref,
   ) {
     const [content, setContent] = useState<FieldsType>({
       ...defaultValues,
-      repeatPassword: defaultValues.password
+      repeatPassword: defaultValues.password,
     });
 
     const onChangeField = (
       field: keyof FieldsType,
-      value: FieldsType[typeof field]
+      value: FieldsType[typeof field],
     ) => {
       setContent(prev => ({
         ...prev,
-        [field]: value
+        [field]: value,
       }));
     };
 
@@ -48,31 +48,31 @@ const EditProfileModal = forwardRef<HTMLDivElement, EditProfileModalProps>(
     return (
       <div className={styles.content} ref={ref}>
         <h2>Обновление информации профиля</h2>
-        <label htmlFor='short-info'>Краткая информация</label>
+        <label htmlFor="short-info">Краткая информация</label>
         <textarea
-          aria-label='short-info'
-          placeholder='Введите краткую информацию'
-          id='short-info'
+          aria-label="short-info"
+          placeholder="Введите краткую информацию"
+          id="short-info"
           className={`${styles.input} ${styles.short_info}`}
           value={content.shortInfo}
           onChange={e => onChangeField('shortInfo', e.target.value)}
         />
-        <label htmlFor='password'>Пароль</label>
+        <label htmlFor="password">Пароль</label>
         <input
-          aria-label='password'
-          type='password'
-          placeholder='Введите пароль...'
-          id='password'
+          aria-label="password"
+          type="password"
+          placeholder="Введите пароль..."
+          id="password"
           className={`${styles.input} ${styles.password}`}
           value={content.password}
           onChange={e => onChangeField('password', e.target.value)}
         />
-        <label htmlFor='repeat-password'>Повторите пароль</label>
+        <label htmlFor="repeat-password">Повторите пароль</label>
         <input
-          aria-label='repeat-password'
-          type='password'
-          placeholder='Введите пароль...'
-          id='repeat-password'
+          aria-label="repeat-password"
+          type="password"
+          placeholder="Введите пароль..."
+          id="repeat-password"
           className={`${styles.input} ${styles.password}`}
           value={content.repeatPassword}
           onChange={e => onChangeField('repeatPassword', e.target.value)}
@@ -85,7 +85,7 @@ const EditProfileModal = forwardRef<HTMLDivElement, EditProfileModalProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 
 export { EditProfileModal };

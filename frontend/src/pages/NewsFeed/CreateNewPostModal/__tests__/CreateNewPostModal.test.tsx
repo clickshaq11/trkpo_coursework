@@ -1,10 +1,16 @@
 import { describe, expect, it, vi } from 'vitest';
 import { fireEvent } from '@testing-library/react';
 import { renderWithRouter } from '@/test/renderWithRouter';
-import { CreateNewPostModal, CreateNewPostModalProps } from '@/pages/NewsFeed/CreateNewPostModal';
+import {
+  CreateNewPostModal,
+  CreateNewPostModalProps,
+} from '@/pages/NewsFeed/CreateNewPostModal';
 
 const setup = ({ save, onClose }: CreateNewPostModalProps) => {
-  const rendered = renderWithRouter(<CreateNewPostModal onClose={onClose} save={save} />, []);
+  const rendered = renderWithRouter(
+    <CreateNewPostModal onClose={onClose} save={save} />,
+    [],
+  );
 
   const titleInput = rendered.getByLabelText('title');
   const bodyInput = rendered.getByLabelText('body');
@@ -16,28 +22,26 @@ const setup = ({ save, onClose }: CreateNewPostModalProps) => {
     titleInput,
     bodyInput,
     publishButton,
-    closeButton
+    closeButton,
   };
 };
 
 describe('CreateNewPostModal', () => {
   it('submit button should be disabled when fields are empty', async () => {
     const { titleInput, bodyInput, publishButton } = setup({
-      save: () => {
-      },
-      onClose: () => {
-      }
+      save: () => {},
+      onClose: () => {},
     });
 
     fireEvent.change(titleInput, {
       target: {
-        value: ''
-      }
+        value: '',
+      },
     });
     fireEvent.change(bodyInput, {
       target: {
-        value: ''
-      }
+        value: '',
+      },
     });
 
     expect(publishButton).toBeDisabled();
@@ -45,21 +49,19 @@ describe('CreateNewPostModal', () => {
 
   it('submit button should be enabled when fields are correct', async () => {
     const { titleInput, bodyInput, publishButton } = setup({
-      save: () => {
-      },
-      onClose: () => {
-      }
+      save: () => {},
+      onClose: () => {},
     });
 
     fireEvent.change(titleInput, {
       target: {
-        value: 'x'.repeat(10)
-      }
+        value: 'x'.repeat(10),
+      },
     });
     fireEvent.change(bodyInput, {
       target: {
-        value: 'x'.repeat(10)
-      }
+        value: 'x'.repeat(10),
+      },
     });
 
     expect(publishButton).not.toBeDisabled();
@@ -67,21 +69,19 @@ describe('CreateNewPostModal', () => {
 
   it('submit button should be disabled when title is correct size and body has 601 char', async () => {
     const { titleInput, bodyInput, publishButton } = setup({
-      save: () => {
-      },
-      onClose: () => {
-      }
+      save: () => {},
+      onClose: () => {},
     });
 
     fireEvent.change(titleInput, {
       target: {
-        value: 'x'.repeat(10)
-      }
+        value: 'x'.repeat(10),
+      },
     });
     fireEvent.change(bodyInput, {
       target: {
-        value: 'x'.repeat(601)
-      }
+        value: 'x'.repeat(601),
+      },
     });
 
     expect(publishButton).toBeDisabled();
@@ -89,21 +89,19 @@ describe('CreateNewPostModal', () => {
 
   it('submit button should be disabled when body is correct size and title has 121 char', async () => {
     const { titleInput, bodyInput, publishButton } = setup({
-      save: () => {
-      },
-      onClose: () => {
-      }
+      save: () => {},
+      onClose: () => {},
     });
 
     fireEvent.change(titleInput, {
       target: {
-        value: 'x'.repeat(121)
-      }
+        value: 'x'.repeat(121),
+      },
     });
     fireEvent.change(bodyInput, {
       target: {
-        value: 'x'.repeat(10)
-      }
+        value: 'x'.repeat(10),
+      },
     });
 
     expect(publishButton).toBeDisabled();
@@ -112,26 +110,25 @@ describe('CreateNewPostModal', () => {
   it('should call save() with correct post data', async () => {
     const data = {
       title: 'x'.repeat(10),
-      body: 'x'.repeat(10)
+      body: 'x'.repeat(10),
     };
 
     const mock = vi.fn();
 
     const { titleInput, bodyInput, publishButton } = setup({
       save: mock,
-      onClose: () => {
-      }
+      onClose: () => {},
     });
 
     fireEvent.change(titleInput, {
       target: {
-        value: data.title
-      }
+        value: data.title,
+      },
     });
     fireEvent.change(bodyInput, {
       target: {
-        value: data.body
-      }
+        value: data.body,
+      },
     });
 
     fireEvent.click(publishButton);

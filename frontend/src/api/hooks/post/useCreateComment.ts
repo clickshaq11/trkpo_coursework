@@ -21,7 +21,7 @@ async function createComment({ postId, body }: CreateCommentProps) {
 
 function useCreateComment(props: GetPostCommentProps) {
   const queryClient = useQueryClient();
-  const composedQueryKeyPost = getPostQueryKey(props.postId)
+  const composedQueryKeyPost = getPostQueryKey(props.postId);
   const composedQueryKeyComments = getPostCommentsQueryKey(props);
 
   return useMutation<void, AxiosError, CreateCommentProps, Comment[]>({

@@ -6,18 +6,26 @@ import { pagination } from '@/test/mocks';
 
 describe('useCreateComment', () => {
   it('should create new comment', async () => {
-    const { result } = renderHook(() => useCreateComment({
-      pagination,
-      postId: 1
-    }), {
-      wrapper: createWrapper()
-    })
+    const { result } = renderHook(
+      () =>
+        useCreateComment({
+          pagination,
+          postId: 1,
+        }),
+      {
+        wrapper: createWrapper(),
+      },
+    );
 
-    act(() => result.current.mutate({
-      postId: 1,
-      body: "123",
-    }))
+    act(() =>
+      result.current.mutate({
+        postId: 1,
+        body: '123',
+      }),
+    );
 
-    await waitFor(() => expect(result.current.isSuccess, "fetching failed").toBe(true))
+    await waitFor(() =>
+      expect(result.current.isSuccess, 'fetching failed').toBe(true),
+    );
   });
 });

@@ -6,14 +6,18 @@ import { useCreateNewPost } from '@/api/hooks/feed/useCreateNewPost';
 describe('useCreateNewPost', () => {
   it('should create new post', async () => {
     const { result } = renderHook(() => useCreateNewPost(), {
-      wrapper: createWrapper()
-    })
+      wrapper: createWrapper(),
+    });
 
-    act(() => result.current.mutate({
-      title: "123",
-      body: "123",
-    }))
+    act(() =>
+      result.current.mutate({
+        title: '123',
+        body: '123',
+      }),
+    );
 
-    await waitFor(() => expect(result.current.isSuccess, "fetching failed").toBe(true))
+    await waitFor(() =>
+      expect(result.current.isSuccess, 'fetching failed').toBe(true),
+    );
   });
 });

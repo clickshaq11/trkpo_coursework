@@ -7,11 +7,13 @@ import { useGetMyProfilePosts } from '@/api/hooks/my-profile/useGetMyProfilePost
 describe('useGetMyProfilePosts', () => {
   it('should get own profile posts', async () => {
     const { result } = renderHook(() => useGetMyProfilePosts({ pagination }), {
-      wrapper: createWrapper()
-    })
+      wrapper: createWrapper(),
+    });
 
-    await waitFor(() => expect(result.current.isSuccess, "fetching failed").toBe(true))
+    await waitFor(() =>
+      expect(result.current.isSuccess, 'fetching failed').toBe(true),
+    );
 
-    expect(result.current.data).toStrictEqual(posts)
+    expect(result.current.data).toStrictEqual(posts);
   });
 });

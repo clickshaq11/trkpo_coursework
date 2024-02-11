@@ -12,12 +12,7 @@ async function createNewPost(newPostData: EditableContent) {
 function useCreateNewPost() {
   const client = useQueryClient();
 
-  return useMutation<
-    void,
-    AxiosError,
-    EditableContent,
-    void
-  >({
+  return useMutation<void, AxiosError, EditableContent, void>({
     mutationFn: (newPostData: EditableContent) => createNewPost(newPostData),
     onMutate: async () => {
       await queryClient.cancelQueries(MY_PROFILE_POSTS_QUERY_KEY);

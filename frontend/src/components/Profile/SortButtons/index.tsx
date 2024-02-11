@@ -17,13 +17,16 @@ function SortButtons({ pagination }: SortButtonsProps) {
   return (
     <>
       <StyledButton
-        aria-label='Choose sort type'
+        aria-label="Choose sort type"
         className={styles.btn}
         variant="secondary"
         onClick={e => setOrderTypeAnchorEl(e.currentTarget)}
       >
-        Тип сортировки 
-        (Выбрано: {pagination.paginationParams.type === 'likeCounter' ? 'По популярности' : 'По дате'})
+        Тип сортировки (Выбрано:{' '}
+        {pagination.paginationParams.type === 'likeCounter'
+          ? 'По популярности'
+          : 'По дате'}
+        )
       </StyledButton>
       <Dropdown
         anchorEl={orderTypeAnchorEl}
@@ -57,12 +60,16 @@ function SortButtons({ pagination }: SortButtonsProps) {
         </StyledButton>
       </Dropdown>
       <StyledButton
-        aria-label='Choose sort order'
+        aria-label="Choose sort order"
         className={styles.btn}
         variant="secondary"
         onClick={e => setOrderAnchorEl(e.currentTarget)}
       >
-        Сортировка по (Выбрано: {pagination.paginationParams.order === 'asc' ? 'По возрастанию' : 'По убыванию'})
+        Сортировка по (Выбрано:{' '}
+        {pagination.paginationParams.order === 'asc'
+          ? 'По возрастанию'
+          : 'По убыванию'}
+        )
       </StyledButton>
       <Dropdown anchorEl={orderAnchorEl} onClose={() => setOrderAnchorEl(null)}>
         <StyledButton

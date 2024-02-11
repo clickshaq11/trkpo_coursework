@@ -10,7 +10,7 @@ interface GetPostDataProps {
 }
 
 function getPostQueryKey(postId: number) {
-  return [QUERY_KEY, postId]
+  return [QUERY_KEY, postId];
 }
 
 async function getPostData({ id }: GetPostDataProps) {

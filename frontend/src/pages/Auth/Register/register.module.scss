@@ -1,25 +1,25 @@
-@import "../styles.scss";
+@import '../styles.scss';
 
 .stack {
-    @extend %stack;
+  @extend %stack;
 }
 
 .input {
-    @extend %input;
+  @extend %input;
 }
 
 .field {
-    @extend %field;
+  @extend %field;
 }
 
 .multiline {
-    grid-template-columns: 1fr;
+  grid-template-columns: 1fr;
 }
 
 .multiline_error {
-    grid-column: initial;
+  grid-column: initial;
 }
 
 .error {
-    @extend %error;
+  @extend %error;
 }

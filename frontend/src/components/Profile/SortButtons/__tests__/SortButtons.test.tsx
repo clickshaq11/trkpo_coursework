@@ -4,20 +4,20 @@ import SortButtons from '@/components/Profile/SortButtons';
 import { pagination } from '@/test/mocks';
 import userEvent from '@testing-library/user-event';
 
-
 // order: asc
 // type: createdAt
 const setup = () => {
   const paginationValue = pagination;
-  const paginationSetter = () => {
-  };
+  const paginationSetter = () => {};
 
   const rendered = render(
-    <SortButtons pagination={{
-      paginationParams: paginationValue,
-      setPaginationParams: paginationSetter
-    }}
-    />);
+    <SortButtons
+      pagination={{
+        paginationParams: paginationValue,
+        setPaginationParams: paginationSetter,
+      }}
+    />,
+  );
 
   const typeButton = rendered.getByText(/Тип сортировки/i);
   const orderButton = rendered.getByText(/Сортировка по/i);
@@ -25,7 +25,7 @@ const setup = () => {
   return {
     rendered,
     typeButton,
-    orderButton
+    orderButton,
   };
 };
 
@@ -44,13 +44,13 @@ describe('SortButtons', () => {
 
     await user.click(typeButton);
 
-    expect(rendered.getByText(/По популярности/i)).toBeInTheDocument()
+    expect(rendered.getByText(/По популярности/i)).toBeInTheDocument();
 
     const buttons = rendered.getAllByText(/По дате/i);
 
-    expect(buttons).length(2)
+    expect(buttons).length(2);
     buttons.forEach(button => {
-      expect(button).toBeInTheDocument()
-    })
+      expect(button).toBeInTheDocument();
+    });
   });
 });

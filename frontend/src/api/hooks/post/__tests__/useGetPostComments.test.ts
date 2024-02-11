@@ -6,12 +6,17 @@ import { useGetPostComments } from '@/api/hooks/post/useGetPostComments';
 
 describe('useGetPostComments', () => {
   it('should get post comments', async () => {
-    const { result } = renderHook(() => useGetPostComments({ pagination, postId: 1 }), {
-      wrapper: createWrapper()
-    })
+    const { result } = renderHook(
+      () => useGetPostComments({ pagination, postId: 1 }),
+      {
+        wrapper: createWrapper(),
+      },
+    );
 
-    await waitFor(() => expect(result.current.isSuccess, "fetching failed").toBe(true))
+    await waitFor(() =>
+      expect(result.current.isSuccess, 'fetching failed').toBe(true),
+    );
 
-    expect(result.current.data).toStrictEqual(comments)
+    expect(result.current.data).toStrictEqual(comments);
   });
 });

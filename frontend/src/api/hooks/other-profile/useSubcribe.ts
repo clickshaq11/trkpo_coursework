@@ -11,7 +11,7 @@ async function subscribe(userId: number) {
 
 function useSubscribe(userId: number) {
   const queryClient = useQueryClient();
-  const composedPostsQueryKey = getOtherProfilePostsQueryKey({userId});
+  const composedPostsQueryKey = getOtherProfilePostsQueryKey({ userId });
   const composedProfileQueryKey = getOtherProfileQueryKey(userId);
 
   return useMutation<void, AxiosError, boolean, ProfileEntity>({
@@ -20,8 +20,9 @@ function useSubscribe(userId: number) {
       await queryClient.cancelQueries(composedPostsQueryKey);
       await queryClient.cancelQueries(composedProfileQueryKey);
 
-      const previousStateProfile =
-        queryClient.getQueryData<ProfileEntity>(composedProfileQueryKey);
+      const previousStateProfile = queryClient.getQueryData<ProfileEntity>(
+        composedProfileQueryKey,
+      );
 
       queryClient.setQueryData<ProfileEntity | undefined>(
         composedProfileQueryKey,

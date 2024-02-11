@@ -6,12 +6,17 @@ import { useGetOtherProfilePosts } from '@/api/hooks/other-profile/useGetOtherPr
 
 describe('useGetOtherProfilePosts', () => {
   it('should get other profile posts', async () => {
-    const { result } = renderHook(() => useGetOtherProfilePosts({ pagination, userId: 1 }), {
-      wrapper: createWrapper()
-    })
+    const { result } = renderHook(
+      () => useGetOtherProfilePosts({ pagination, userId: 1 }),
+      {
+        wrapper: createWrapper(),
+      },
+    );
 
-    await waitFor(() => expect(result.current.isSuccess, "fetching failed").toBe(true))
+    await waitFor(() =>
+      expect(result.current.isSuccess, 'fetching failed').toBe(true),
+    );
 
-    expect(result.current.data).toStrictEqual(posts)
+    expect(result.current.data).toStrictEqual(posts);
   });
 });

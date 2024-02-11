@@ -2,7 +2,15 @@ import { afterAll, afterEach, beforeAll, beforeEach } from 'vitest';
 import { setupServer } from 'msw/node';
 import { HttpResponse, http, delay } from 'msw';
 import { BASE_URL } from '@/api/axios';
-import { comments, myProfile, notifications, otherProfile, post, posts, profiles } from '@/test/mocks';
+import {
+  comments,
+  myProfile,
+  notifications,
+  otherProfile,
+  post,
+  posts,
+  profiles,
+} from '@/test/mocks';
 import { queryClient } from '@/test/QueryProviderTestWrapper';
 
 export const b = (path: string) => {
@@ -13,7 +21,7 @@ export const restHandlers = [
   http.post(b('security/*'), () => {
     return HttpResponse.json({
       token: '123',
-      status: 200
+      status: 200,
     });
   }),
   http.get(b('post/filter/feed'), () => {
@@ -61,7 +69,7 @@ export const restHandlers = [
   }),
   http.put(b('post/*'), () => {
     return HttpResponse.json();
-  })
+  }),
 ];
 
 const server = setupServer(...restHandlers);

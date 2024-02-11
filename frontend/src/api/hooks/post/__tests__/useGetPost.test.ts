@@ -7,11 +7,13 @@ import { useGetPost } from '@/api/hooks/post/useGetPost';
 describe('useGetPost', () => {
   it('should get post', async () => {
     const { result } = renderHook(() => useGetPost(1), {
-      wrapper: createWrapper()
-    })
+      wrapper: createWrapper(),
+    });
 
-    await waitFor(() => expect(result.current.isSuccess, "fetching failed").toBe(true))
+    await waitFor(() =>
+      expect(result.current.isSuccess, 'fetching failed').toBe(true),
+    );
 
-    expect(result.current.data).toStrictEqual(post)
+    expect(result.current.data).toStrictEqual(post);
   });
 });

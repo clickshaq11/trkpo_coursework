@@ -11,20 +11,20 @@ export interface CreateNewPostModalProps {
 const CreateNewPostModal = forwardRef<HTMLDivElement, CreateNewPostModalProps>(
   function CreateNewPostModal(
     { onClose, save }: CreateNewPostModalProps,
-    ref?
+    ref?,
   ) {
     const [content, setContent] = useState<EditableContent>({
       title: '',
-      body: ''
+      body: '',
     });
 
     const onChangeField = (
       field: keyof EditableContent,
-      value: EditableContent[typeof field]
+      value: EditableContent[typeof field],
     ) => {
       setContent(prev => ({
         ...prev,
-        [field]: value
+        [field]: value,
       }));
     };
 
@@ -42,38 +42,40 @@ const CreateNewPostModal = forwardRef<HTMLDivElement, CreateNewPostModalProps>(
     return (
       <div className={styles.content} ref={ref}>
         <h2>Создание нового поста</h2>
-        <label htmlFor='title'>Заголовок</label>
+        <label htmlFor="title">Заголовок</label>
         <textarea
-          aria-label='title'
-          placeholder='Введите заголовок...'
-          id='title'
+          aria-label="title"
+          placeholder="Введите заголовок..."
+          id="title"
           className={`${styles.input} ${styles.title_input}`}
           value={content.title}
           onChange={e => onChangeField('title', e.target.value)}
         />
-        <label htmlFor='body'>Тело</label>
+        <label htmlFor="body">Тело</label>
         <textarea
-          aria-label='body'
-          placeholder='Введите тело поста...'
-          id='body'
+          aria-label="body"
+          placeholder="Введите тело поста..."
+          id="body"
           className={`${styles.input} ${styles.body_input}`}
           value={content.body}
           onChange={e => onChangeField('body', e.target.value)}
         />
         <div className={styles.buttons}>
           <StyledButton
-            aria-label='publish'
+            aria-label="publish"
             onClick={onClickSave}
             disabled={isPublishButtonDisabled}
-            role='button'
+            role="button"
           >
             Опубликовать
           </StyledButton>
-          <StyledButton onClick={onClose} aria-label='close'>Закрыть</StyledButton>
+          <StyledButton onClick={onClose} aria-label="close">
+            Закрыть
+          </StyledButton>
         </div>
       </div>
     );
-  }
+  },
 );
 
 export { CreateNewPostModal };

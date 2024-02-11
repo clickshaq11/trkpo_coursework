@@ -1,6 +1,10 @@
 import { EditableContent, PostEntity, PostPageEntity } from '@/types/posts';
 import { Notification } from '@/types/notifications';
-import { EditProfileEntity, MyProfileEntity, ProfileEntity } from '@/types/profiles';
+import {
+  EditProfileEntity,
+  MyProfileEntity,
+  ProfileEntity,
+} from '@/types/profiles';
 import { PaginationParams } from '@/types/pages';
 import { Comment } from '@/types/comments';
 
@@ -14,15 +18,15 @@ const posts: PostEntity[] = [
     createdAt: 12312312321,
     likeCounter: 0,
     hitLike: true,
-    firstComments: []
-  }
+    firstComments: [],
+  },
 ];
 
 const notifications: Notification[] = [
   {
     id: 1,
-    postId: 1
-  }
+    postId: 1,
+  },
 ];
 
 const profiles: ProfileEntity[] = [
@@ -30,38 +34,38 @@ const profiles: ProfileEntity[] = [
     id: 1,
     shortInfo: '',
     subscribed: false,
-    login: 'login'
-  }
+    login: 'login',
+  },
 ];
 
 const myProfile: MyProfileEntity = {
   login: '123',
   shortInfo: '123',
-  subscriptions: []
+  subscriptions: [],
 };
 
 const pagination: PaginationParams = {
   order: 'asc',
   page: 0,
   size: 0,
-  type: 'createdAt'
+  type: 'createdAt',
 };
 
 const editProfileEntity: EditProfileEntity = {
   password: '',
-  shortInfo: 'new'
+  shortInfo: 'new',
 };
 
 const editPost: EditableContent = {
   body: 'body',
-  title: 'title'
+  title: 'title',
 };
 
 const otherProfile: ProfileEntity = {
   id: 0,
   login: '123',
   shortInfo: '123',
-  subscribed: false
+  subscribed: false,
 };
 
 const post: PostEntity = {
@@ -73,15 +77,15 @@ const post: PostEntity = {
   hitLike: false,
   id: 0,
   likeCounter: 0,
-  title: '123'
+  title: '123',
 };
 
 const comments: Comment[] = [
   {
     id: 1,
     authorLogin: '123',
-    body: 'body'
-  }
+    body: 'body',
+  },
 ];
 
 const postPage: PostPageEntity = {
@@ -92,8 +96,8 @@ const postPage: PostPageEntity = {
   hitLike: true,
   isAuthor: true,
   likeCounter: 3,
-  title: 'title'
-}
+  title: 'title',
+};
 
 export {
   posts,
@@ -106,5 +110,5 @@ export {
   post,
   comments,
   editPost,
-  postPage
+  postPage,
 };

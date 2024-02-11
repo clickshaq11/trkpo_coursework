@@ -4,41 +4,48 @@ import { createWrapper } from '@/test/QueryProviderTestWrapper';
 import { useUpdateMyProfile } from '@/api/hooks/my-profile/useUpdateMyProfile';
 import { editProfileEntity, myProfile } from '@/test/mocks';
 import { useQueryClient } from 'react-query';
-import { MY_PROFILE_QUERY_KEY, useGetMyProfile } from '@/api/hooks/my-profile/useGetMyProfile';
+import {
+  MY_PROFILE_QUERY_KEY,
+  useGetMyProfile,
+} from '@/api/hooks/my-profile/useGetMyProfile';
 
 describe('useUpdateMyProfile', () => {
   it('should send update profile request', async () => {
     const { result } = renderHook(() => useUpdateMyProfile(), {
-      wrapper: createWrapper()
-    })
+      wrapper: createWrapper(),
+    });
 
-    act(() => result.current.mutate(editProfileEntity))
+    act(() => result.current.mutate(editProfileEntity));
 
-    await waitFor(() => expect(result.current.isSuccess, "fetching failed").toBe(true))
+    await waitFor(() =>
+      expect(result.current.isSuccess, 'fetching failed').toBe(true),
+    );
   });
 
   it('should optimistically update my profile', async () => {
-    const wrapper = createWrapper()
+    const wrapper = createWrapper();
     const { result: queryClient } = renderHook(() => useQueryClient(), {
-      wrapper
-    })
+      wrapper,
+    });
 
     const { result: getMyProfileQuery } = renderHook(() => useGetMyProfile(), {
-      wrapper
-    })
+      wrapper,
+    });
 
-    await waitFor(() => expect(getMyProfileQuery.current.isSuccess).toBe(true))
+    await waitFor(() => expect(getMyProfileQuery.current.isSuccess).toBe(true));
 
-    expect(queryClient.current.getQueryData(MY_PROFILE_QUERY_KEY))
-      .toEqual(expect.objectContaining({ shortInfo: myProfile.shortInfo}))
+    expect(queryClient.current.getQueryData(MY_PROFILE_QUERY_KEY)).toEqual(
+      expect.objectContaining({ shortInfo: myProfile.shortInfo }),
+    );
 
     const { result } = renderHook(() => useUpdateMyProfile(), {
-      wrapper
-    })
+      wrapper,
+    });
 
-    await waitFor(() => result.current.mutate(editProfileEntity))
+    await waitFor(() => result.current.mutate(editProfileEntity));
 
-    expect(queryClient.current.getQueryData(MY_PROFILE_QUERY_KEY))
-      .toEqual(expect.objectContaining({ shortInfo: editProfileEntity.shortInfo}))
-  })
+    expect(queryClient.current.getQueryData(MY_PROFILE_QUERY_KEY)).toEqual(
+      expect.objectContaining({ shortInfo: editProfileEntity.shortInfo }),
+    );
+  });
 });

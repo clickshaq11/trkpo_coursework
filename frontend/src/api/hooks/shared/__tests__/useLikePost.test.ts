@@ -6,14 +6,18 @@ import { useLikePost } from '@/api/hooks/shared/useLikePost';
 describe('useSubscribe', () => {
   it('should send subscribe request', async () => {
     const { result } = renderHook(() => useLikePost(), {
-      wrapper: createWrapper()
-    })
+      wrapper: createWrapper(),
+    });
 
-    act(() => result.current.mutate({
-      currentLikeState: false,
-      postId: 1
-    }))
+    act(() =>
+      result.current.mutate({
+        currentLikeState: false,
+        postId: 1,
+      }),
+    );
 
-    await waitFor(() => expect(result.current.isSuccess, "fetching failed").toBe(true))
+    await waitFor(() =>
+      expect(result.current.isSuccess, 'fetching failed').toBe(true),
+    );
   });
 });

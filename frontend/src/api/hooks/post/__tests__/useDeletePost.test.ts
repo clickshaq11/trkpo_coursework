@@ -6,11 +6,13 @@ import { useDeletePost } from '@/api/hooks/post/useDeletePost';
 describe('useDeletePost', () => {
   it('should delete new post', async () => {
     const { result } = renderHook(() => useDeletePost(1), {
-      wrapper: createWrapper()
-    })
+      wrapper: createWrapper(),
+    });
 
-    act(() => result.current.mutate(1))
+    act(() => result.current.mutate(1));
 
-    await waitFor(() => expect(result.current.isSuccess, "fetching failed").toBe(true))
+    await waitFor(() =>
+      expect(result.current.isSuccess, 'fetching failed').toBe(true),
+    );
   });
 });

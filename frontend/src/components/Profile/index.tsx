@@ -8,11 +8,7 @@ import { StyledButton } from '../Button';
 import { StyledLink } from '../Link';
 import { PostEntity } from '@/types/posts';
 import { Post } from '../Post';
-import {
-  Modal,
-  DialogContent,
-  CircularProgress,
-} from '@mui/material';
+import { Modal, DialogContent, CircularProgress } from '@mui/material';
 import { PaginationParamsWithOneSetter } from '@/types/pages';
 import { useState } from 'react';
 import { EditProfileModal } from './EditProfileModal';
@@ -121,10 +117,7 @@ function Profile({
           ) : (
             <>
               <div className={styles.pagination}>
-                <Pagination 
-                  pagination={pagination}
-                  totalPages={totalPages}
-                />
+                <Pagination pagination={pagination} totalPages={totalPages} />
                 <SortButtons pagination={pagination} />
               </div>
               <div className={styles.posts}>

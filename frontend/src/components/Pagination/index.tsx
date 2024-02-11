@@ -26,10 +26,7 @@ function getIsDisabled(
   return false;
 }
 
-function getIsSelected(
-  item: PaginationRenderItemParams,
-  currentPage: number,
-) {
+function getIsSelected(item: PaginationRenderItemParams, currentPage: number) {
   if (item.type === 'page') {
     return item.page === currentPage + 1;
   }
@@ -73,10 +70,7 @@ function CustomPagination({ pagination, totalPages }: CustomPaginationProps) {
         renderItem={item => (
           <PaginationItem
             {...item}
-            selected={getIsSelected(
-              item,
-              pagination.paginationParams.page,
-            )}
+            selected={getIsSelected(item, pagination.paginationParams.page)}
             disabled={getIsDisabled(
               item,
               totalPages,

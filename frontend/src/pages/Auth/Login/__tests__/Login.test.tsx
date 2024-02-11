@@ -13,16 +13,19 @@ const getFields = () => {
   const user = userEvent.setup();
   const rendered = renderWithRouter(<Login />, []);
 
-  const loginInput: HTMLInputElement = rendered.container.querySelector('#login')!;
-  const passwordInput: HTMLInputElement = rendered.container.querySelector('#password')!;
-  const loginButton: HTMLButtonElement = rendered.container.querySelector('button')!;
+  const loginInput: HTMLInputElement =
+    rendered.container.querySelector('#login')!;
+  const passwordInput: HTMLInputElement =
+    rendered.container.querySelector('#password')!;
+  const loginButton: HTMLButtonElement =
+    rendered.container.querySelector('button')!;
 
   return {
     user,
     rendered,
     loginInput,
     passwordInput,
-    loginButton
+    loginButton,
   };
 };
 
@@ -39,8 +42,8 @@ describe('Login page', () => {
     const rendered = renderWithRouter(<Login />, [
       {
         path: '/register',
-        element: <Register />
-      }
+        element: <Register />,
+      },
     ]);
 
     await user.click(rendered.container.querySelector('a')!);
@@ -87,16 +90,24 @@ describe('Login page', () => {
 
     await user.type(loginInput, 'x'.repeat(7));
 
-    expect(loginButton, 'login input is not validated for min length').toBeDisabled();
+    expect(
+      loginButton,
+      'login input is not validated for min length',
+    ).toBeDisabled();
 
     await user.type(loginInput, 'x'.repeat(51));
 
-    expect(loginButton, 'login input is not validated for max length').toBeDisabled();
+    expect(
+      loginButton,
+      'login input is not validated for max length',
+    ).toBeDisabled();
 
     await user.type(loginInput, 'Неправильные символы');
 
-    expect(loginButton, 'login input is not validated for characters').toBeDisabled();
-
+    expect(
+      loginButton,
+      'login input is not validated for characters',
+    ).toBeDisabled();
   });
 
   it('should check for password input edge cases', async () => {
@@ -108,16 +119,24 @@ describe('Login page', () => {
 
     await user.type(passwordInput, 'x'.repeat(7));
 
-    expect(loginButton, 'password input is not validated for min length').toBeDisabled();
+    expect(
+      loginButton,
+      'password input is not validated for min length',
+    ).toBeDisabled();
 
     await user.type(passwordInput, 'x'.repeat(51));
 
-    expect(loginButton, 'password input is not validated for max length').toBeDisabled();
+    expect(
+      loginButton,
+      'password input is not validated for max length',
+    ).toBeDisabled();
 
     await user.type(passwordInput, 'Неправильные символы');
 
-    expect(loginButton, 'password input is not validated for characters').toBeDisabled();
-
+    expect(
+      loginButton,
+      'password input is not validated for characters',
+    ).toBeDisabled();
   });
 
   it('field errors are shown', async () => {

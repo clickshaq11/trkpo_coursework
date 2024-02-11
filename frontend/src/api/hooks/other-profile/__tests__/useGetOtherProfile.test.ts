@@ -7,11 +7,13 @@ import { useGetOtherProfile } from '@/api/hooks/other-profile/useGetOtherProfile
 describe('useGetOtherProfile', () => {
   it('should get other user profile', async () => {
     const { result } = renderHook(() => useGetOtherProfile(1), {
-      wrapper: createWrapper()
-    })
+      wrapper: createWrapper(),
+    });
 
-    await waitFor(() => expect(result.current.isSuccess, "fetching failed").toBe(true))
+    await waitFor(() =>
+      expect(result.current.isSuccess, 'fetching failed').toBe(true),
+    );
 
-    expect(result.current.data).toStrictEqual(otherProfile)
+    expect(result.current.data).toStrictEqual(otherProfile);
   });
 });

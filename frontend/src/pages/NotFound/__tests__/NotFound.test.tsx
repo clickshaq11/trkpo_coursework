@@ -18,7 +18,9 @@ describe('NotFound', () => {
 
     await waitFor(() => router.navigate('/invalid-route'));
 
-    expect(rendered.getByText('Извините, такой страницы нет.')).toBeInTheDocument();
+    expect(
+      rendered.getByText('Извините, такой страницы нет.'),
+    ).toBeInTheDocument();
   });
 
   it('should have link to main page', async () => {

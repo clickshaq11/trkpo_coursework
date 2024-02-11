@@ -6,9 +6,11 @@ import { useGetFeedPosts } from '@/api/hooks/feed/useGetFeedPosts';
 describe('useGetFeedPosts', () => {
   it('should get user feed posts', async () => {
     const { result } = renderHook(() => useGetFeedPosts(), {
-      wrapper: createWrapper()
-    })
+      wrapper: createWrapper(),
+    });
 
-    await waitFor(() => expect(result.current.isSuccess, "fetching failed").toBe(true))
+    await waitFor(() =>
+      expect(result.current.isSuccess, 'fetching failed').toBe(true),
+    );
   });
 });

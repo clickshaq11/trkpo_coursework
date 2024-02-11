@@ -7,19 +7,19 @@ import { createWrapper } from '@/test/QueryProviderTestWrapper';
 
 import * as module from '@/api/hooks/post/useCreateComment';
 
-const useCreateCommentSpy = vi.spyOn(
-  module,
-  'useCreateComment'
-);
+const useCreateCommentSpy = vi.spyOn(module, 'useCreateComment');
 
 describe('CreateNewComment', () => {
   it('the comment button should be disabled on empty field', async () => {
     const user = userEvent.setup();
     const wrapper = createWrapper();
 
-    const rendered = render(<CreateNewComment postId={1} pagination={pagination} />, {
-      wrapper
-    });
+    const rendered = render(
+      <CreateNewComment postId={1} pagination={pagination} />,
+      {
+        wrapper,
+      },
+    );
 
     const button = rendered.container.querySelector('button')!;
     const input = rendered.container.querySelector('textarea')!;
@@ -33,9 +33,12 @@ describe('CreateNewComment', () => {
     const user = userEvent.setup();
     const wrapper = createWrapper();
 
-    const rendered = render(<CreateNewComment postId={1} pagination={pagination} />, {
-      wrapper
-    });
+    const rendered = render(
+      <CreateNewComment postId={1} pagination={pagination} />,
+      {
+        wrapper,
+      },
+    );
 
     const button = rendered.container.querySelector('button')!;
     const input = rendered.container.querySelector('textarea')!;
@@ -48,9 +51,12 @@ describe('CreateNewComment', () => {
   it('the comment button should be enabled on field with 600 symbols', async () => {
     const wrapper = createWrapper();
 
-    const rendered = render(<CreateNewComment postId={1} pagination={pagination} />, {
-      wrapper
-    });
+    const rendered = render(
+      <CreateNewComment postId={1} pagination={pagination} />,
+      {
+        wrapper,
+      },
+    );
 
     const button = rendered.container.querySelector('button')!;
     const input = rendered.container.querySelector('textarea')!;
@@ -59,8 +65,8 @@ describe('CreateNewComment', () => {
 
     fireEvent.change(input, {
       target: {
-        value: string
-      }
+        value: string,
+      },
     });
 
     expect(button).not.toBeDisabled();
@@ -69,9 +75,12 @@ describe('CreateNewComment', () => {
   it('the comment button should be disabled on field with 601 symbol', async () => {
     const wrapper = createWrapper();
 
-    const rendered = render(<CreateNewComment postId={1} pagination={pagination} />, {
-      wrapper
-    });
+    const rendered = render(
+      <CreateNewComment postId={1} pagination={pagination} />,
+      {
+        wrapper,
+      },
+    );
 
     const button = rendered.container.querySelector('button')!;
     const input = rendered.container.querySelector('textarea')!;
@@ -80,8 +89,8 @@ describe('CreateNewComment', () => {
 
     fireEvent.change(input, {
       target: {
-        value: string
-      }
+        value: string,
+      },
     });
 
     expect(button).toBeDisabled();
@@ -93,20 +102,22 @@ describe('CreateNewComment', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     useCreateCommentSpy.mockImplementation(() => {
-        return ({
-          mutate: mock
-        });
-      }
-    );
+      return {
+        mutate: mock,
+      };
+    });
     const MESSAGE = 'test message';
     const POST_ID = 1;
 
     const user = userEvent.setup();
     const wrapper = createWrapper();
 
-    const rendered = render(<CreateNewComment postId={POST_ID} pagination={pagination} />, {
-      wrapper
-    });
+    const rendered = render(
+      <CreateNewComment postId={POST_ID} pagination={pagination} />,
+      {
+        wrapper,
+      },
+    );
 
     const button = rendered.container.querySelector('button')!;
     const input = rendered.container.querySelector('textarea')!;
@@ -116,7 +127,7 @@ describe('CreateNewComment', () => {
 
     expect(mock).toBeCalledWith({
       body: MESSAGE,
-      postId: POST_ID
+      postId: POST_ID,
     });
   });
 });
