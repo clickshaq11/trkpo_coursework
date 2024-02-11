@@ -16,8 +16,6 @@ function getPostQueryKey(postId: number) {
 async function getPostData({ id }: GetPostDataProps) {
   const { data } = await axios.get(`/post/${id}`);
 
-  console.log(data);
-
   return data;
 }
 

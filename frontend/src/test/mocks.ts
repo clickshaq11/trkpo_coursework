@@ -1,4 +1,4 @@
-import { EditableContent, PostEntity } from '@/types/posts';
+import { EditableContent, PostEntity, PostPageEntity } from '@/types/posts';
 import { Notification } from '@/types/notifications';
 import { EditProfileEntity, MyProfileEntity, ProfileEntity } from '@/types/profiles';
 import { PaginationParams } from '@/types/pages';
@@ -84,6 +84,17 @@ const comments: Comment[] = [
   }
 ];
 
+const postPage: PostPageEntity = {
+  authorId: 1,
+  authorLogin: 'default',
+  body: 'body',
+  createdAt: 1333,
+  hitLike: true,
+  isAuthor: true,
+  likeCounter: 3,
+  title: 'title'
+}
+
 export {
   posts,
   notifications,
@@ -94,5 +105,6 @@ export {
   otherProfile,
   post,
   comments,
-  editPost
+  editPost,
+  postPage
 };

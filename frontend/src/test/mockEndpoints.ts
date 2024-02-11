@@ -54,8 +54,6 @@ export const restHandlers = [
     return HttpResponse.json(comments);
   }),
   http.get(b('post/*'), async () => {
-    console.log('dasdsad');
-    //await delay(1);
     return HttpResponse.json(post);
   }),
   http.delete(b('post/*'), () => {

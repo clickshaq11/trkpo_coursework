@@ -46,6 +46,7 @@ function CustomPagination({ pagination, totalPages }: CustomPaginationProps) {
       <Dropdown anchorEl={anchorEl} onClose={() => setAnchorEl(null)}>
         {[10, 20, 30].map(number => (
           <StyledButton
+            key={number}
             className={styles.button}
             variant="secondary"
             onClick={() => {

@@ -1,16 +1,17 @@
 import { afterAll, describe, expect, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
 import { PostPage } from '@/pages/Post';
-import { createWrapper } from '@/test/QueryProviderTestWrapper';
 import * as useGetPostModule from '@/api/hooks/post/useGetPost';
+import * as useGetPostCommentsModule from '@/api/hooks/post/useGetPostComments';
+import { postPage } from '@/test/mocks';
+import { renderWithRouter } from '@/test/renderWithRouter';
+import dayjs from 'dayjs';
+import { dateFormat } from '@/const/dates';
 
 const useGetPostSpy = vi.spyOn(useGetPostModule, 'useGetPost')
+const useGetPostCommentsSpy = vi.spyOn(useGetPostCommentsModule, 'useGetPostComments')
 
 const setup = () => {
-  const wrapper = createWrapper()
-  const rendered = render(<PostPage />, {
-    wrapper
-  })
+  const rendered = renderWithRouter(<PostPage />, [])
 
   return {
     rendered
@@ -40,8 +41,62 @@ describe('Post page', () => {
 
     const { rendered } = setup()
 
-    screen.debug()
-
     expect(rendered.getByText(/Такого поста не существует/i)).toBeInTheDocument()
+  })
+
+  it('should render circular progress icon when loading', () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    useGetPostSpy.mockImplementation(() => {
+      return {
+        isSuccess: false,
+      }
+    })
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    useGetPostCommentsSpy.mockImplementation(() => {
+      return {
+        isSuccess: false,
+      }
+    })
+
+    const { rendered } = setup()
+
+    expect(rendered.getByRole('progressbar')).toBeInTheDocument()
+  })
+
+  it('should render correctly if data is loaded', () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    useGetPostSpy.mockImplementation(() => {
+      return {
+        isSuccess: true,
+        data: postPage
+      }
+    })
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    useGetPostCommentsSpy.mockImplementation(() => {
+      return {
+        isSuccess: true,
+        data: []
+      }
+    })
+
+    const { rendered } = setup()
+
+    expect(rendered.queryByRole('progressbar')).not.toBeInTheDocument()
+
+    const title = rendered.getByText(postPage.title)
+    const body = rendered.getByText(postPage.body)
+    const authorLogin = rendered.getByText(postPage.authorLogin)
+    const date = rendered.getByText(RegExp(dayjs(postPage.createdAt).format(dateFormat)))
+
+    expect(title).toBeInTheDocument()
+    expect(body).toBeInTheDocument()
+    expect(authorLogin).toBeInTheDocument()
+    expect(date).toBeInTheDocument()
   })
 })
