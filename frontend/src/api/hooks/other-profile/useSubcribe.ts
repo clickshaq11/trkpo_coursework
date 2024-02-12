@@ -5,23 +5,24 @@ import { ProfileEntity } from '@/types/profiles';
 import axios from '@/api/axios';
 import { getOtherProfileQueryKey } from './useGetOtherProfile';
 
-async function subcribe(userId: number) {
+async function subscribe(userId: number) {
   await axios.post<void>(`subscription/${userId}`);
 }
 
 function useSubscribe(userId: number) {
   const queryClient = useQueryClient();
-  const composedPostsQueryKey = getOtherProfilePostsQueryKey({userId});
+  const composedPostsQueryKey = getOtherProfilePostsQueryKey({ userId });
   const composedProfileQueryKey = getOtherProfileQueryKey(userId);
 
   return useMutation<void, AxiosError, boolean, ProfileEntity>({
-    mutationFn: () => subcribe(userId),
+    mutationFn: () => subscribe(userId),
     onMutate: async newSubscriptionState => {
       await queryClient.cancelQueries(composedPostsQueryKey);
       await queryClient.cancelQueries(composedProfileQueryKey);
 
-      const previousStateProfile =
-        queryClient.getQueryData<ProfileEntity>(composedProfileQueryKey);
+      const previousStateProfile = queryClient.getQueryData<ProfileEntity>(
+        composedProfileQueryKey,
+      );
 
       queryClient.setQueryData<ProfileEntity | undefined>(
         composedProfileQueryKey,

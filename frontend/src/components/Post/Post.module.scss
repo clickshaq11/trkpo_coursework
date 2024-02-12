@@ -1,56 +1,56 @@
 @import '@/styles/colors.scss';
 
 .post {
-    padding: 1.2rem;
-    border-radius: 10px;
-    width: 600px;
-    background-color: rgba($color: $main-color, $alpha: 0.2);
-    color: $main-color;
+  padding: 1.2rem;
+  border-radius: 10px;
+  width: 600px;
+  background-color: rgba($color: $main-color, $alpha: 0.2);
+  color: $main-color;
 
-    & > hr {
-        border: 1px solid $main-color;
-    }
+  & > hr {
+    border: 1px solid $main-color;
+  }
 }
 
 .block {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .title {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .author {
-    font-size: 14px;
-    text-align: end;
+  font-size: 14px;
+  text-align: end;
 }
 
 .body {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    text-wrap: wrap;
-    overflow-wrap: break-word;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-wrap: wrap;
+  overflow-wrap: break-word;
 
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .likes {
-    display: flex;
-    width: fit-content;
-    cursor: pointer;
+  display: flex;
+  width: fit-content;
+  cursor: pointer;
 }
 
 .comment_author {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 .comments {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 .comment {
-    border: 1px solid $main-color;
-    padding: 0.2rem;
+  border: 1px solid $main-color;
+  padding: 0.2rem;
 }

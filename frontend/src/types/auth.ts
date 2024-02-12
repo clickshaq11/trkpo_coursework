@@ -10,7 +10,6 @@ type LoginFields = {
 type RegisterFields = LoginFields & {
   repeatPassword: string;
   shortInfo: string;
-}
-
+};
 
 export type { AuthResponse, LoginFields, RegisterFields };

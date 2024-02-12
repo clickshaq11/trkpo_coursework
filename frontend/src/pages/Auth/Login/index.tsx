@@ -13,7 +13,10 @@ function Login() {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<LoginFields>();
+  } = useForm<LoginFields>({
+    reValidateMode: 'onChange',
+    mode: 'onChange',
+  });
 
   const navigate = useNavigate();
 
@@ -44,7 +47,7 @@ function Login() {
           })}
         />
         {errors.login && (
-          <span className={styles.error}>
+          <span className={styles.error} role="alert">
             Поле логина должно содержать от 8 до 50 символов и состоять из цифр
             и букв латинского алфавита
           </span>
@@ -67,7 +70,7 @@ function Login() {
           })}
         />
         {errors.password && (
-          <span className={styles.error}>
+          <span className={styles.error} role="alert">
             Поле пароля должно содержать от 8 до 50 символов и состоять из цифр
             и букв латинского алфавита
           </span>

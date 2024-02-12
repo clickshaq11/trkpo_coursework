@@ -14,15 +14,18 @@ interface UseGetMyProfilePostsProps {
 async function getMyProfilePosts({ pagination }: UseGetMyProfilePostsProps) {
   const params = createPaginationSearchParams(pagination, true);
 
-  const { data } = await axios.get<PaginationResponse<PostEntity[]>>('/post/filter/mine', {
-    params,
-  });
+  const { data } = await axios.get<PaginationResponse<PostEntity[]>>(
+    '/post/filter/mine',
+    {
+      params,
+    },
+  );
 
   return data;
 }
 
 function getMyProfileQueryKey(pagination: PaginationParams) {
-  return [QUERY_KEY, pagination]
+  return [QUERY_KEY, pagination];
 }
 
 function useGetMyProfilePosts(props: UseGetMyProfilePostsProps) {

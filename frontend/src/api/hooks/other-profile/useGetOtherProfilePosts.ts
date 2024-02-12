@@ -19,17 +19,20 @@ async function getOtherProfilePosts({
 }: UseGetOtherProfilePostsProps) {
   const params = createPaginationSearchParams(pagination, true);
 
-  const { data } = await axios.get<PaginationResponse<PostEntity[]>>(`post/user/${userId}`, {
-    params,
-  });
+  const { data } = await axios.get<PaginationResponse<PostEntity[]>>(
+    `post/user/${userId}`,
+    {
+      params,
+    },
+  );
 
   return data;
 }
 
-
-
-function getOtherProfilePostsQueryKey(props: PartialBy<UseGetOtherProfilePostsProps, 'pagination'>) {
-  const pagination = props.pagination ? props.pagination : {}
+function getOtherProfilePostsQueryKey(
+  props: PartialBy<UseGetOtherProfilePostsProps, 'pagination'>,
+) {
+  const pagination = props.pagination ? props.pagination : {};
   return [QUERY_KEY, props.userId, ...Object.values(pagination)];
 }
 

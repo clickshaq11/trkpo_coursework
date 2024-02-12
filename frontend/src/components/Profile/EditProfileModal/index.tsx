@@ -3,7 +3,7 @@ import { EditProfileEntity } from '@/types/profiles';
 import styles from './EditProfileModal.module.scss';
 import { StyledButton } from '@/components/Button';
 
-interface EditProfileModalProps {
+export interface EditProfileModalProps {
   defaultValues: EditProfileEntity;
   onClose: () => void;
   save?: (content: EditProfileEntity) => void;
@@ -50,6 +50,7 @@ const EditProfileModal = forwardRef<HTMLDivElement, EditProfileModalProps>(
         <h2>Обновление информации профиля</h2>
         <label htmlFor="short-info">Краткая информация</label>
         <textarea
+          aria-label="short-info"
           placeholder="Введите краткую информацию"
           id="short-info"
           className={`${styles.input} ${styles.short_info}`}
@@ -58,6 +59,7 @@ const EditProfileModal = forwardRef<HTMLDivElement, EditProfileModalProps>(
         />
         <label htmlFor="password">Пароль</label>
         <input
+          aria-label="password"
           type="password"
           placeholder="Введите пароль..."
           id="password"
@@ -67,6 +69,7 @@ const EditProfileModal = forwardRef<HTMLDivElement, EditProfileModalProps>(
         />
         <label htmlFor="repeat-password">Повторите пароль</label>
         <input
+          aria-label="repeat-password"
           type="password"
           placeholder="Введите пароль..."
           id="repeat-password"

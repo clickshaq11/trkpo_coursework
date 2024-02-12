@@ -1,3 +1,3 @@
-import { Login, Register } from "./Auth";
+import { Login, Register } from './Auth';
 
 export { Login, Register };

@@ -2,34 +2,34 @@
 @import '@/styles/colors.scss';
 
 .notification_btn {
-    display: flex;
-    flex-direction: row;
-    text-align: center;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  align-items: center;
 
-    &:hover {
-        cursor: pointer;
-        color: $main-color;
-    }
+  &:hover {
+    cursor: pointer;
+    color: $main-color;
+  }
 }
 
 .notifications {
-    translate: 10%;
-    padding: 0px 5px;
-    max-height: 150px;
-    width: 22wch;
-    overflow-y: auto;
-    border: 1px solid black;
-    box-shadow: $main-shadow;
-    background-color: white;
-    border-radius: 6px;
-    gap: .2rem;
+  translate: 10%;
+  padding: 0px 5px;
+  max-height: 150px;
+  width: 22wch;
+  overflow-y: auto;
+  border: 1px solid black;
+  box-shadow: $main-shadow;
+  background-color: white;
+  border-radius: 6px;
+  gap: 0.2rem;
 }
 
 .notification {
-    display: flex;
-    margin: 5px;
-    flex-direction: row;
-    gap: 1rem;
-    padding-bottom: 3px;
+  display: flex;
+  margin: 5px;
+  flex-direction: row;
+  gap: 1rem;
+  padding-bottom: 3px;
 }

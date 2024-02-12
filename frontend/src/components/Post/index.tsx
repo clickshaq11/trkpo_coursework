@@ -32,9 +32,9 @@ function Post({
           {authorLogin} &bull; {dayjs(createdAt).format(dateFormat)}
         </span>
       </header>
-      <p className={styles.body}
-        onClick={() => navigate(`/posts/${id}`)}
-      >{body}</p>
+      <p className={styles.body} onClick={() => navigate(`/posts/${id}`)}>
+        {body}
+      </p>
       <div
         className={styles.likes}
         onClick={() =>
