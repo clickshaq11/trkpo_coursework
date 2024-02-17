@@ -20,9 +20,8 @@ jobs:
 
       - name: Run `npm ci`
         run: |
-          npm i -g pnpm
-          pnpm install --frozen-lockfile
-          pnpm run build
+          npm ci
+          npm run build
 
       - name: Run vitest and report issues
         uses: roerohan/vitest-github-action@v1
