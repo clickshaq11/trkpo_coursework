@@ -7,6 +7,9 @@ on:
 
 jobs:
   test:
+    defaults: 
+      run:
+        working-directory: ./frontend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -25,3 +28,4 @@ jobs:
         with:
           config: ./frontend/vitest.config.ts
           coverage: true
+          
