@@ -33,8 +33,6 @@ describe('useUpdatePost', () => {
 
     await waitFor(() => expect(getPostQuery.current.isSuccess).toBe(true));
 
-    console.log(queryClient.current.getQueryCache().getAll());
-
     expect(queryClient.current.getQueryData(getPostQueryKey(POST_ID))).toEqual(
       expect.objectContaining(post),
     );
