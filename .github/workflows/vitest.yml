@@ -20,8 +20,9 @@ jobs:
 
       - name: Run `npm ci`
         run: |
-          npm ci
-          npm run build
+          npm i -g pnpm
+          pnpm ci
+          pnpm run build
 
       - name: Run vitest and report issues
         uses: roerohan/vitest-github-action@v1
