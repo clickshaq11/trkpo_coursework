@@ -5,14 +5,8 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      // coverage: {
-      //   exclude: [
-      //     'src/types/**',
-      //     'src/test/**'
-      //   ],
-      // },
       globals: true,
-      environment: 'jsdom',
+      environment: 'node',
       setupFiles: [
         'src/test/mockEndpoints.ts',
         'src/test/QueryProviderTestWrapper.tsx',
