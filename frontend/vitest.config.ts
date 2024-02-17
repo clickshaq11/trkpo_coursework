@@ -13,6 +13,7 @@ export default mergeConfig(
         'src/test/mockLocalStorage.ts',
         'src/test/setupTests.ts',
       ],
+      reporters: process.env.GITHUB_ACTIONS ? ['default', 'github-actions'] : ['default'],
     },
   }),
 );
