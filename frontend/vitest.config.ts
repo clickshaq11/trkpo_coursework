@@ -6,7 +6,7 @@ export default mergeConfig(
   defineConfig({
     test: {
       globals: true,
-      environment: 'node',
+      environment: 'jsdom',
       setupFiles: [
         'src/test/mockEndpoints.ts',
         'src/test/QueryProviderTestWrapper.tsx',
