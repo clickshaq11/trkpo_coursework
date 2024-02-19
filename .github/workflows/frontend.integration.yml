@@ -1,4 +1,4 @@
-name: "Run frontend unit tests"
+name: "Run frontend integration tests"
 on:
   push:
     branches: [ "main", "develop" ]
