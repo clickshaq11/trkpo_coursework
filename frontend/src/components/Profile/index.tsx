@@ -55,7 +55,7 @@ function Profile({
     <>
       <article className={styles.profile}>
         <header className={styles.header}>
-          <h2 className={styles.login}>{profileData.login}</h2>
+          <h2 className={styles.login} data-testid='profile-login'>{profileData.login}</h2>
           {!isOwnProfile ? (
             <StyledButton
               onClick={() => subscribe?.(profileData.subscribed)}
@@ -68,8 +68,8 @@ function Profile({
               <Modal
                 open={isEditProfileModalOpen}
                 onClose={() => setIsEditProfileModalOpen(false)}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
+                aria-labelledby="update profile"
+                aria-describedby="Opens modal to update profile data"
               >
                 <DialogContent>
                   <EditProfileModal
@@ -82,7 +82,10 @@ function Profile({
                   />
                 </DialogContent>
               </Modal>
-              <StyledButton onClick={() => setIsEditProfileModalOpen(true)}>
+              <StyledButton
+                aria-label='Open profile update modal'
+                onClick={() => setIsEditProfileModalOpen(true)}
+              >
                 Редактировать
               </StyledButton>
             </>

@@ -10,8 +10,8 @@ import {
   post,
   posts,
   profiles,
-} from '@/test/mocks';
-import { queryClient } from '@/test/QueryProviderTestWrapper';
+} from '@/test/unit/mocks';
+import { queryClient } from '@/test/unit/QueryProviderTestWrapper';
 
 export const b = (path: string) => {
   return new URL(path, `${BASE_URL}/`).toString();
@@ -72,7 +72,7 @@ export const restHandlers = [
   }),
 ];
 
-const server = setupServer(...restHandlers);
+export const server = setupServer(...restHandlers);
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 beforeEach(() => queryClient.clear());

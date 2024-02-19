@@ -27,12 +27,12 @@ function Post({
   return (
     <article className={styles.post}>
       <header className={styles.block}>
-        <h2 className={styles.title}>{title}</h2>
+        <h2 className={styles.title} data-testid='post-title'>{title}</h2>
         <span className={styles.author}>
           {authorLogin} &bull; {dayjs(createdAt).format(dateFormat)}
         </span>
       </header>
-      <p className={styles.body} onClick={() => navigate(`/posts/${id}`)}>
+      <p className={styles.body} onClick={() => navigate(`/posts/${id}`)} data-testid='post-body'>
         {body}
       </p>
       <div

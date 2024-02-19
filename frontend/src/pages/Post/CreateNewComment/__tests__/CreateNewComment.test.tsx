@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render } from '@testing-library/react';
 import { CreateNewComment } from '@/pages/Post/CreateNewComment';
-import { pagination } from '@/test/mocks';
+import { pagination } from '@/test/unit/mocks';
 import userEvent from '@testing-library/user-event';
-import { createWrapper } from '@/test/QueryProviderTestWrapper';
+import { createWrapper } from '@/test/unit/QueryProviderTestWrapper';
 
 import * as module from '@/api/hooks/post/useCreateComment';
 

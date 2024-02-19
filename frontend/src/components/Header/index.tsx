@@ -21,13 +21,13 @@ function Header() {
       <Notifications />
       <SearchBar />
       <div className={styles.links}>
-        <StyledLink className={styles.link} to="/">
+        <StyledLink className={styles.link} to="/" aria-label='Новости'>
           <FeedIcon /> <span>Новости</span>
         </StyledLink>
-        <StyledLink className={styles.link} to="/me">
+        <StyledLink className={styles.link} to="/me" aria-label='Мой профиль'>
           <Person2Icon /> <span>Мой профиль</span>
         </StyledLink>
-        <StyledButton variant="secondary" onClick={logout}>
+        <StyledButton variant="secondary" aria-label='Выйти из аккаунта' onClick={logout}>
           <LogoutIcon />
         </StyledButton>
       </div>

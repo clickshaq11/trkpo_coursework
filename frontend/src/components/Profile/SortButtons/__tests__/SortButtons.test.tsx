@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { render } from '@testing-library/react';
 import SortButtons from '@/components/Profile/SortButtons';
-import { pagination } from '@/test/mocks';
+import { pagination } from '@/test/unit/mocks';
 import userEvent from '@testing-library/user-event';
 
 // order: asc

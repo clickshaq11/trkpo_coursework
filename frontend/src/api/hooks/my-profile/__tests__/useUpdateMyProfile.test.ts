@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { act, renderHook, waitFor } from '@testing-library/react';
-import { createWrapper } from '@/test/QueryProviderTestWrapper';
+import { createWrapper } from '@/test/unit/QueryProviderTestWrapper';
 import { useUpdateMyProfile } from '@/api/hooks/my-profile/useUpdateMyProfile';
-import { editProfileEntity, myProfile } from '@/test/mocks';
+import { editProfileEntity, myProfile } from '@/test/unit/mocks';
 import { useQueryClient } from 'react-query';
 import {
   MY_PROFILE_QUERY_KEY,

@@ -2,8 +2,8 @@ import { afterAll, describe, expect, it, vi } from 'vitest';
 import { PostPage } from '@/pages/Post';
 import * as useGetPostModule from '@/api/hooks/post/useGetPost';
 import * as useGetPostCommentsModule from '@/api/hooks/post/useGetPostComments';
-import { postPage } from '@/test/mocks';
-import { renderWithRouter } from '@/test/renderWithRouter';
+import { postPage } from '@/test/unit/mocks';
+import { renderWithRouter } from '@/test/unit/renderWithRouter';
 import dayjs from 'dayjs';
 import { dateFormat } from '@/const/dates';
 

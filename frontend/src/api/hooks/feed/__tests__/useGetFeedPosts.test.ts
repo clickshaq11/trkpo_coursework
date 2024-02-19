@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
-import { createWrapper } from '@/test/QueryProviderTestWrapper';
+import { createWrapper } from '@/test/unit/QueryProviderTestWrapper';
 import { useGetFeedPosts } from '@/api/hooks/feed/useGetFeedPosts';
 
 describe('useGetFeedPosts', () => {

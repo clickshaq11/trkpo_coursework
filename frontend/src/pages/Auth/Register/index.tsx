@@ -6,7 +6,7 @@ import {
   FIELD_MIN_LENGTH,
   FIELD_REGEX,
   SHORT_INFO_MAX_LENGTH,
-  SHORT_INFO_MIN_LENGTH,
+  SHORT_INFO_MIN_LENGTH
 } from '../const';
 import { RegisterFields } from '@/types/auth';
 import { StyledLink } from '@/components/Link';
@@ -18,7 +18,7 @@ function Register() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid }
   } = useForm<RegisterFields>({ mode: 'onTouched' });
 
   const navigate = useNavigate();
@@ -31,17 +31,17 @@ function Register() {
     <form onSubmit={handleSubmit(onSubmit)} className={styles.stack}>
       <h1>Регистрация</h1>
       <div className={styles.field}>
-        <label htmlFor="login">Логин</label>
+        <label htmlFor='login'>Логин</label>
         <input
           className={styles.input}
-          autoComplete="username"
-          id="login"
-          defaultValue=""
+          autoComplete='username'
+          id='login'
+          defaultValue=''
           {...register('login', {
             required: true,
             maxLength: FIELD_MAX_LENGTH,
             minLength: FIELD_MIN_LENGTH,
-            pattern: FIELD_REGEX,
+            pattern: FIELD_REGEX
           })}
         />
         {errors.login && (
@@ -53,18 +53,18 @@ function Register() {
       </div>
 
       <div className={styles.field}>
-        <label htmlFor="password">Пароль</label>
+        <label htmlFor='password'>Пароль</label>
         <input
-          autoComplete="new-password"
-          type="password"
+          autoComplete='new-password'
+          type='password'
           className={styles.input}
-          id="password"
-          defaultValue=""
+          id='password'
+          defaultValue=''
           {...register('password', {
             required: true,
             maxLength: FIELD_MAX_LENGTH,
             minLength: FIELD_MIN_LENGTH,
-            pattern: FIELD_REGEX,
+            pattern: FIELD_REGEX
           })}
         />
         {errors.password && (
@@ -76,13 +76,13 @@ function Register() {
       </div>
 
       <div className={styles.field}>
-        <label htmlFor="repeat-password">Повторите пароль</label>
+        <label htmlFor='repeat-password'>Повторите пароль</label>
         <input
-          type="password"
-          autoComplete="new-password"
+          type='password'
+          autoComplete='new-password'
           className={styles.input}
-          id="repeat-password"
-          defaultValue=""
+          id='repeat-password'
+          defaultValue=''
           {...register('repeatPassword', {
             required: true,
             maxLength: FIELD_MAX_LENGTH,
@@ -90,8 +90,8 @@ function Register() {
             pattern: FIELD_REGEX,
             validate: {
               passwordsMatch: (value, formValues) =>
-                formValues.password === value,
-            },
+                formValues.password === value
+            }
           })}
         />
         {errors.repeatPassword?.type === 'passwordsMatch' && (
@@ -100,15 +100,15 @@ function Register() {
       </div>
 
       <div className={`${styles.field} ${styles.multiline}`}>
-        <label htmlFor="short-info">Краткая информация</label>
+        <label htmlFor='short-info'>Краткая информация</label>
         <textarea
           className={styles.input}
-          id="short-info"
-          defaultValue=""
+          id='short-info'
+          defaultValue=''
           {...register('shortInfo', {
             required: true,
             maxLength: SHORT_INFO_MAX_LENGTH,
-            minLength: SHORT_INFO_MIN_LENGTH,
+            minLength: SHORT_INFO_MIN_LENGTH
           })}
         />
         {errors.shortInfo && (
@@ -117,15 +117,15 @@ function Register() {
           </span>
         )}
         {isError && (
-          <span className={styles.error}>{error.response?.data.message}</span>
+          <span className={styles.error} role='alert'>{error.response?.data.message}</span>
         )}
       </div>
 
-      <StyledButton type="submit" disabled={!isValid} className={styles.button}>
-        {isLoading ? <CircularProgress color="inherit" size="1rem" /> : 'Войти'}
+      <StyledButton type='submit' disabled={!isValid} className={styles.button}>
+        {isLoading ? <CircularProgress color='inherit' size='1rem' /> : 'Войти'}
       </StyledButton>
-      <div className="link_wrapper">
-        <StyledLink to="/login">Страница авторизации</StyledLink>
+      <div className='link_wrapper'>
+        <StyledLink to='/login'>Страница авторизации</StyledLink>
       </div>
     </form>
   );

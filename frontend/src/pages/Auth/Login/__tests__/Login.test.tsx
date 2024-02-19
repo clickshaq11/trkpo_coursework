@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { Login, Register } from '@/pages';
 import userEvent from '@testing-library/user-event';
-import { renderWithRouter } from '@/test/renderWithRouter';
+import { renderWithRouter } from '@/test/unit/renderWithRouter';
 
 const VALID_LOGIN = 'Abcabc123';
 const VALID_PASSWORD = 'Abcabc123';

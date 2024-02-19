@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
-import { createWrapper } from '@/test/QueryProviderTestWrapper';
+import { createWrapper } from '@/test/unit/QueryProviderTestWrapper';
 import { useGetNotifications } from '@/api/hooks/misc/useGetNotifications';
-import { notifications } from '@/test/mocks';
+import { notifications } from '@/test/unit/mocks';
 
 describe('useGetNotifications', () => {
   it('should get notifications', async () => {

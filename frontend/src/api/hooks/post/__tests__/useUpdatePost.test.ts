@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { act, renderHook, waitFor } from '@testing-library/react';
-import { createWrapper } from '@/test/QueryProviderTestWrapper';
-import { editPost, post } from '@/test/mocks';
+import { createWrapper } from '@/test/unit/QueryProviderTestWrapper';
+import { editPost, post } from '@/test/unit/mocks';
 import { useQueryClient } from 'react-query';
 import { useUpdatePost } from '@/api/hooks/post/useUpdatePost';
 import { getPostQueryKey, useGetPost } from '@/api/hooks/post/useGetPost';

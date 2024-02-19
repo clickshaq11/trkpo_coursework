@@ -1,7 +1,7 @@
 import { it, describe, vi, expect } from 'vitest';
 import { renderHook, waitFor, act } from '@testing-library/react';
 import { useSignIn } from '@/api/hooks/auth/useSignIn';
-import { createWrapper } from '@/test/QueryProviderTestWrapper';
+import { createWrapper } from '@/test/unit/QueryProviderTestWrapper';
 
 const mockNavigate = vi.fn();
 

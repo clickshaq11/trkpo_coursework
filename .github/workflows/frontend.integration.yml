@@ -1,4 +1,4 @@
-name: "Run vitest tests"
+name: "Run frontend unit tests"
 on:
   push:
     branches: [ "main", "develop" ]
@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    defaults: 
+    defaults:
       run:
         working-directory: ./frontend
     runs-on: ubuntu-latest
@@ -25,5 +25,4 @@ jobs:
 
       - name: Run vitest and report issues
         run:
-          npm run test
-          
+          npm run test:integration

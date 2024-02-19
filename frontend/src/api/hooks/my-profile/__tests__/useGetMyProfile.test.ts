@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
-import { createWrapper } from '@/test/QueryProviderTestWrapper';
+import { createWrapper } from '@/test/unit/QueryProviderTestWrapper';
 import { useGetMyProfile } from '@/api/hooks/my-profile/useGetMyProfile';
-import { myProfile } from '@/test/mocks';
+import { myProfile } from '@/test/unit/mocks';
 
 describe('useGetMyProfile', () => {
   it('should get own user profile', async () => {

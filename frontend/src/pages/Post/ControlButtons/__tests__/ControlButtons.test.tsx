@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { ControlButtons } from '@/pages/Post/ControlButtons';
-import { renderWithRouter } from '@/test/renderWithRouter';
+import { renderWithRouter } from '@/test/unit/renderWithRouter';
 import userEvent from '@testing-library/user-event';
 
 import * as useDeletePostModule from '@/api/hooks/post/useDeletePost';

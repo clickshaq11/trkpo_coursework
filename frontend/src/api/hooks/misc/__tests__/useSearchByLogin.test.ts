@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { act, renderHook, waitFor } from '@testing-library/react';
-import { createWrapper } from '@/test/QueryProviderTestWrapper';
+import { createWrapper } from '@/test/unit/QueryProviderTestWrapper';
 import { useSearchByLogin } from '@/api/hooks/misc/useSearchByLogin';
-import { profiles } from '@/test/mocks';
+import { profiles } from '@/test/unit/mocks';
 
 describe('useSearchByLogin', () => {
   it('should fetch users by login', async () => {

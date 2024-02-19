@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
-import { createWrapper } from '@/test/QueryProviderTestWrapper';
-import { posts, pagination } from '@/test/mocks';
+import { createWrapper } from '@/test/unit/QueryProviderTestWrapper';
+import { posts, pagination } from '@/test/unit/mocks';
 import { useGetMyProfilePosts } from '@/api/hooks/my-profile/useGetMyProfilePosts';
 
 describe('useGetMyProfilePosts', () => {

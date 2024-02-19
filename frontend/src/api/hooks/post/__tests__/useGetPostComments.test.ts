@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
-import { createWrapper } from '@/test/QueryProviderTestWrapper';
-import { comments, pagination } from '@/test/mocks';
+import { createWrapper } from '@/test/unit/QueryProviderTestWrapper';
+import { comments, pagination } from '@/test/unit/mocks';
 import { useGetPostComments } from '@/api/hooks/post/useGetPostComments';
 
 describe('useGetPostComments', () => {

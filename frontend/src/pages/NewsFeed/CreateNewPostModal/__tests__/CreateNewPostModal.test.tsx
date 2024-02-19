@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { fireEvent } from '@testing-library/react';
-import { renderWithRouter } from '@/test/renderWithRouter';
+import { renderWithRouter } from '@/test/unit/renderWithRouter';
 import {
   CreateNewPostModal,
   CreateNewPostModalProps,

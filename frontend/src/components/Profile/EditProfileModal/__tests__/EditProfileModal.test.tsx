@@ -1,11 +1,11 @@
 import { describe, expect, it, vi } from 'vitest';
 import { fireEvent } from '@testing-library/react';
-import { renderWithRouter } from '@/test/renderWithRouter';
+import { renderWithRouter } from '@/test/unit/renderWithRouter';
 import {
   EditProfileModal,
   EditProfileModalProps,
 } from '@/components/Profile/EditProfileModal';
-import { editProfileEntity } from '@/test/mocks';
+import { editProfileEntity } from '@/test/unit/mocks';
 
 const setup = ({ save, onClose, defaultValues }: EditProfileModalProps) => {
   const rendered = renderWithRouter(

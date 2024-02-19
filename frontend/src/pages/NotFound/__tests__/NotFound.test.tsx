@@ -1,6 +1,6 @@
 import { afterAll, beforeEach, describe, expect, it } from 'vitest';
 import { render, waitFor } from '@testing-library/react';
-import { createWrapper } from '@/test/RouterProviderTestWrapper';
+import { createWrapper } from '@/test/unit/RouterProviderTestWrapper';
 import userEvent from '@testing-library/user-event';
 
 beforeEach(() => {

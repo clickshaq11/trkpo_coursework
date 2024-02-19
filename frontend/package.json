@@ -9,7 +9,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "prettier": "prettier . --write --ignore-unknown",
-    "test": "vitest",
+    "test:unit": "vitest --config vitest.config.unit.ts",
+    "test:integration": "vitest --config vitest.config.integration.ts",
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
