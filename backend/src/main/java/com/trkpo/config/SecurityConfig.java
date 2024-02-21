@@ -33,19 +33,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, JwtService jwtService) throws Exception {
         return http.authorizeHttpRequests()
             .antMatchers("/security/**").permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .cors().configurationSource(corsConfigurationSource())
-            .and()
+            .anyRequest().authenticated().and()
+            .cors().configurationSource(corsConfigurationSource()).and()
             .csrf(AbstractHttpConfigurer::disable)
             .addFilterBefore(new JwtFilter(jwtService), UsernamePasswordAuthenticationFilter.class)
             .httpBasic(AbstractHttpConfigurer::disable)
             .formLogin(AbstractHttpConfigurer::disable)
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .exceptionHandling(
-                e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-            )
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+            .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
             .build();
     }
 

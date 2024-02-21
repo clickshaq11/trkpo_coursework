@@ -22,13 +22,12 @@ function SearchBar() {
 
   const search = () => {
     setAnchorEl(ref.current);
-    setAreResultsOpen(true)
+    setAreResultsOpen(true);
     refetch();
   };
 
   return (
-    <div className={styles.wrapper}
-    >
+    <div className={styles.wrapper}>
       <input
         ref={ref}
         className={styles.search}
@@ -36,7 +35,7 @@ function SearchBar() {
         value={searchQuery}
         onKeyDown={e => {
           if (e.key === 'Enter') {
-            search()
+            search();
           }
         }}
         onChange={e => setSearchQuery(e.target.value)}

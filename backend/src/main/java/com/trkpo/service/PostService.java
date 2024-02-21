@@ -1,6 +1,5 @@
 package com.trkpo.service;
 
-import com.trkpo.config.DbConfigProperties;
 import com.trkpo.config.TagProperties;
 import com.trkpo.model.dto.request.CreatePostDto;
 import com.trkpo.model.dto.request.UpdatePostDto;
@@ -18,10 +17,8 @@ import com.trkpo.repository.PostRepository;
 import com.trkpo.repository.UserRepository;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -39,21 +36,22 @@ import org.springframework.web.client.HttpClientErrorException;
 @Service
 @RequiredArgsConstructor
 public class PostService {
+
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final LikeRepository likeRepository;
     private final UserRepository userRepository;
     private final NotificationRepository notificationRepository;
-    private final DbConfigProperties dbConfigProperties;
 
     @Transactional
     public void createPost(String login, CreatePostDto dto) {
-        var post = postRepository.save(PostEntity.builder()
-            .title(dto.getTitle())
-            .body(dto.getBody())
-            .createdAt(Instant.now().toEpochMilli())
-            .user(userRepository.findByLoginOrThrow(login))
-            .build()
+        var post = postRepository.save(
+            PostEntity.builder()
+                .title(dto.getTitle())
+                .body(dto.getBody())
+                .createdAt(Instant.now().toEpochMilli())
+                .user(userRepository.findByLoginOrThrow(login))
+                .build()
         );
         var matcher = TagProperties.TAG_PATTERN.matcher(dto.getBody());
         var tags = new ArrayList<String>();
@@ -71,17 +69,18 @@ public class PostService {
         var projections = postRepository.findPostsByUserId(user.getId(), pageable);
         log.info("Getting my posts for login {}", login);
         return projections
-            .map(projection -> MyPostDto.builder()
-                .id(projection.getId())
-                .title(projection.getTitle())
-                .body(projection.getBody())
-                .authorId(projection.getAuthorId())
-                .authorLogin(projection.getAuthorLogin())
-                .likeCounter(projection.getLikeCounter())
-                .createdAt(projection.getCreatedAt())
-                .hitLike(likeRepository.existsByUserIdAndPostId(user.getId(), projection.getId()))
-                .firstComments(getFirstComments(projection.getId()))
-                .build()
+            .map(
+                projection -> MyPostDto.builder()
+                    .id(projection.getId())
+                    .title(projection.getTitle())
+                    .body(projection.getBody())
+                    .authorId(projection.getAuthorId())
+                    .authorLogin(projection.getAuthorLogin())
+                    .likeCounter(projection.getLikeCounter())
+                    .createdAt(projection.getCreatedAt())
+                    .hitLike(likeRepository.existsByUserIdAndPostId(user.getId(), projection.getId()))
+                    .firstComments(getFirstComments(projection.getId()))
+                    .build()
             );
     }
 
@@ -93,24 +92,27 @@ public class PostService {
         var projections = postRepository.findPostsByUserId(id, pageable);
         log.info("Getting other posts for userId {}", id);
         return projections
-            .map(projection -> OtherPostDto.builder()
-                .id(projection.getId())
-                .title(projection.getTitle())
-                .body(projection.getBody())
-                .authorId(projection.getAuthorId())
-                .authorLogin(projection.getAuthorLogin())
-                .likeCounter(projection.getLikeCounter())
-                .createdAt(projection.getCreatedAt())
-                .hitLike(likeRepository.existsByUserIdAndPostId(requestingUser.getId(), projection.getId()))
-                .firstComments(getFirstComments(projection.getId()))
-                .build()
+            .map(
+                projection -> OtherPostDto.builder()
+                    .id(projection.getId())
+                    .title(projection.getTitle())
+                    .body(projection.getBody())
+                    .authorId(projection.getAuthorId())
+                    .authorLogin(projection.getAuthorLogin())
+                    .likeCounter(projection.getLikeCounter())
+                    .createdAt(projection.getCreatedAt())
+                    .hitLike(likeRepository.existsByUserIdAndPostId(requestingUser.getId(), projection.getId()))
+                    .firstComments(getFirstComments(projection.getId()))
+                    .build()
             );
     }
 
     public PostDto getById(String login, Integer id) {
         var user = userRepository.findByLoginOrThrow(login);
         var post = postRepository.findById(id)
-            .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND, "Could not find post with id " + id));
+            .orElseThrow(
+                () -> new HttpClientErrorException(HttpStatus.NOT_FOUND, "Could not find post with id " + id)
+            );
         return PostDto.builder()
             .title(post.getTitle())
             .body(post.getBody())
@@ -128,17 +130,18 @@ public class PostService {
         log.info("Getting news feed for user {}", login);
         var projections = postRepository.findNewsFeedByUserId(user.getId());
         return projections.stream()
-            .map(projection -> NewsFeedPostDto.builder()
-                .id(projection.getId())
-                .title(projection.getTitle())
-                .body(projection.getBody())
-                .authorId(projection.getAuthorId())
-                .authorLogin(projection.getAuthorLogin())
-                .likeCounter(projection.getLikeCounter())
-                .createdAt(projection.getCreatedAt())
-                .hitLike(likeRepository.existsByUserIdAndPostId(user.getId(), projection.getId()))
-                .firstComments(getFirstComments(projection.getId()))
-                .build()
+            .map(
+                projection -> NewsFeedPostDto.builder()
+                    .id(projection.getId())
+                    .title(projection.getTitle())
+                    .body(projection.getBody())
+                    .authorId(projection.getAuthorId())
+                    .authorLogin(projection.getAuthorLogin())
+                    .likeCounter(projection.getLikeCounter())
+                    .createdAt(projection.getCreatedAt())
+                    .hitLike(likeRepository.existsByUserIdAndPostId(user.getId(), projection.getId()))
+                    .firstComments(getFirstComments(projection.getId()))
+                    .build()
             ).toList();
     }
 
@@ -146,7 +149,9 @@ public class PostService {
     public void updateById(String login, UpdatePostDto dto, Integer id) {
         var user = userRepository.findByLoginOrThrow(login);
         var post = postRepository.findById(id)
-            .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND, "Could not find post with id " + id));
+            .orElseThrow(
+                () -> new HttpClientErrorException(HttpStatus.NOT_FOUND, "Could not find post with id " + id)
+            );
         if (!Objects.equals(post.getUser().getId(), user.getId())) {
             throw new HttpClientErrorException(
                 HttpStatus.FORBIDDEN,
@@ -181,7 +186,9 @@ public class PostService {
     public void deleteById(String login, Integer id) {
         var user = userRepository.findByLoginOrThrow(login);
         var post = postRepository.findById(id)
-            .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND, "Could not find post with id " + id));
+            .orElseThrow(
+                () -> new HttpClientErrorException(HttpStatus.NOT_FOUND, "Could not find post with id " + id)
+            );
         if (!Objects.equals(post.getUser().getId(), user.getId())) {
             throw new HttpClientErrorException(
                 HttpStatus.FORBIDDEN,
@@ -193,23 +200,15 @@ public class PostService {
 
     private List<FirstCommentDto> getFirstComments(Integer postId) {
         var realComments = commentRepository.findByPostId(postId, PageRequest.of(0, 3, Sort.by(Direction.ASC, "id"))).stream()
-            .map(entity -> FirstCommentDto.builder()
-                .id(entity.getId())
-                .authorLogin(entity.getUser().getLogin())
-                .body(entity.getBody())
-                .build()
+            .map(
+                entity -> FirstCommentDto.builder()
+                    .id(entity.getId())
+                    .authorLogin(entity.getUser().getLogin())
+                    .body(entity.getBody())
+                    .build()
             )
             .toList();
         log.info("{} real comments for post {}", realComments.size(), postId);
-        if (realComments.size() < 3 && dbConfigProperties.getGeneration()) {
-            var phantomComment = FirstCommentDto.builder()
-                .id(-1)
-                .authorLogin("phantomUser")
-                .body("hey, phantomUser is here to help you match the requirements:"
-                    + " whenever you need a comment out of a thin air, i got you!")
-                .build();
-            return Stream.concat(realComments.stream(), Collections.nCopies(3 - realComments.size(), phantomComment).stream()).toList();
-        }
         return realComments;
     }
 
@@ -221,11 +220,12 @@ public class PostService {
             return;
         }
         log.info("Creating tag {} for postId {}", tag, postId);
-        notificationRepository.save(NotificationEntity.builder()
-            .user(userOptional.get())
-            .post(postRepository.getReferenceById(postId))
-            .createdAt(Instant.now().toEpochMilli())
-            .build()
+        notificationRepository.save(
+            NotificationEntity.builder()
+                .user(userOptional.get())
+                .post(postRepository.getReferenceById(postId))
+                .createdAt(Instant.now().toEpochMilli())
+                .build()
         );
     }
 }

@@ -35,10 +35,11 @@ public class SubscriptionService {
             subscriptionRepository.deleteById(subscriptionOptional.get().getId());
             return new SubscriptionResultDto(false);
         }
-        subscriptionRepository.save(SubscriptionEntity.builder()
-            .creator(userRepository.getReferenceById(creatorId))
-            .subscriber(subscribingUser)
-            .build()
+        subscriptionRepository.save(
+            SubscriptionEntity.builder()
+                .creator(userRepository.getReferenceById(creatorId))
+                .subscriber(subscribingUser)
+                .build()
         );
         return new SubscriptionResultDto(true);
     }

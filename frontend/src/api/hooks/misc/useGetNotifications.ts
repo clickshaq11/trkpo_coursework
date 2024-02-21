@@ -1,23 +1,23 @@
-import axios from "@/api/axios";
-import { Notification } from "@/types/notifications";
-import { AxiosError } from "axios";
-import { useQuery } from "react-query";
+import axios from '@/api/axios';
+import { Notification } from '@/types/notifications';
+import { AxiosError } from 'axios';
+import { useQuery } from 'react-query';
 
 const QUERY_KEY = 'notifications';
 
 async function getNotifications(signal: AbortSignal | undefined) {
   const { data } = await axios.get<Notification[]>('notification', {
-    signal
-  })
+    signal,
+  });
 
-  return data
+  return data;
 }
 
 function useGetNotifications() {
   return useQuery<Notification[], AxiosError>({
-    queryFn: ({signal}) => getNotifications(signal),
+    queryFn: ({ signal }) => getNotifications(signal),
     queryKey: QUERY_KEY,
-  })
+  });
 }
 
 export { useGetNotifications };

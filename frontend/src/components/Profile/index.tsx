@@ -8,11 +8,7 @@ import { StyledButton } from '../Button';
 import { StyledLink } from '../Link';
 import { PostEntity } from '@/types/posts';
 import { Post } from '../Post';
-import {
-  Modal,
-  DialogContent,
-  CircularProgress,
-} from '@mui/material';
+import { Modal, DialogContent, CircularProgress } from '@mui/material';
 import { PaginationParamsWithOneSetter } from '@/types/pages';
 import { useState } from 'react';
 import { EditProfileModal } from './EditProfileModal';
@@ -59,7 +55,7 @@ function Profile({
     <>
       <article className={styles.profile}>
         <header className={styles.header}>
-          <h2 className={styles.login}>{profileData.login}</h2>
+          <h2 className={styles.login} data-testid='profile-login'>{profileData.login}</h2>
           {!isOwnProfile ? (
             <StyledButton
               onClick={() => subscribe?.(profileData.subscribed)}
@@ -72,8 +68,8 @@ function Profile({
               <Modal
                 open={isEditProfileModalOpen}
                 onClose={() => setIsEditProfileModalOpen(false)}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
+                aria-labelledby="update profile"
+                aria-describedby="Opens modal to update profile data"
               >
                 <DialogContent>
                   <EditProfileModal
@@ -86,7 +82,10 @@ function Profile({
                   />
                 </DialogContent>
               </Modal>
-              <StyledButton onClick={() => setIsEditProfileModalOpen(true)}>
+              <StyledButton
+                aria-label='Open profile update modal'
+                onClick={() => setIsEditProfileModalOpen(true)}
+              >
                 Редактировать
               </StyledButton>
             </>
@@ -121,10 +120,7 @@ function Profile({
           ) : (
             <>
               <div className={styles.pagination}>
-                <Pagination 
-                  pagination={pagination}
-                  totalPages={totalPages}
-                />
+                <Pagination pagination={pagination} totalPages={totalPages} />
                 <SortButtons pagination={pagination} />
               </div>
               <div className={styles.posts}>

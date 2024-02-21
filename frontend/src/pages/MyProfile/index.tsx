@@ -14,10 +14,12 @@ function MyProfile() {
     type: 'likeCounter',
   });
 
-  const { data: myProfile, isSuccess: isGetMyProfileSucceed } = useGetMyProfile();
-  const { data: myPosts,  isSuccess: isGetMyPostsSucceed  } = useGetMyProfilePosts({
-    pagination: paginationParams,
-  });
+  const { data: myProfile, isSuccess: isGetMyProfileSucceed } =
+    useGetMyProfile();
+  const { data: myPosts, isSuccess: isGetMyPostsSucceed } =
+    useGetMyProfilePosts({
+      pagination: paginationParams,
+    });
 
   const { mutate: onProfileEdit } = useUpdateMyProfile();
 

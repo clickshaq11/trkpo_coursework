@@ -3,7 +3,7 @@ import styles from './CreateNewPostModal.module.scss';
 import { EditableContent } from '@/types/posts';
 import { StyledButton } from '@/components/Button';
 
-interface CreateNewPostModalProps {
+export interface CreateNewPostModalProps {
   onClose: () => void;
   save: (content: EditableContent) => void;
 }
@@ -44,6 +44,7 @@ const CreateNewPostModal = forwardRef<HTMLDivElement, CreateNewPostModalProps>(
         <h2>Создание нового поста</h2>
         <label htmlFor="title">Заголовок</label>
         <textarea
+          aria-label="title"
           placeholder="Введите заголовок..."
           id="title"
           className={`${styles.input} ${styles.title_input}`}
@@ -52,6 +53,7 @@ const CreateNewPostModal = forwardRef<HTMLDivElement, CreateNewPostModalProps>(
         />
         <label htmlFor="body">Тело</label>
         <textarea
+          aria-label="body"
           placeholder="Введите тело поста..."
           id="body"
           className={`${styles.input} ${styles.body_input}`}
@@ -60,12 +62,16 @@ const CreateNewPostModal = forwardRef<HTMLDivElement, CreateNewPostModalProps>(
         />
         <div className={styles.buttons}>
           <StyledButton
+            aria-label="publish"
             onClick={onClickSave}
             disabled={isPublishButtonDisabled}
+            role="button"
           >
             Опубликовать
           </StyledButton>
-          <StyledButton onClick={onClose}>Закрыть</StyledButton>
+          <StyledButton onClick={onClose} aria-label="close">
+            Закрыть
+          </StyledButton>
         </div>
       </div>
     );

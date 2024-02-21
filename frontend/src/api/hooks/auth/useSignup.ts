@@ -18,7 +18,11 @@ async function signUp({ password, login, shortInfo }: RegisterRequestFields) {
 }
 
 function useSignup(navigate: NavigateFunction) {
-  return useMutation<AuthResponse, AxiosError<AxiosErrorMessage>, RegisterRequestFields>({
+  return useMutation<
+    AuthResponse,
+    AxiosError<AxiosErrorMessage>,
+    RegisterRequestFields
+  >({
     mutationFn: signUp,
     onSuccess: response => {
       localStorage.setItem('token', response.token);

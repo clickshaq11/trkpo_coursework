@@ -27,6 +27,7 @@ function NewsFeed() {
   return (
     <div className={styles.content}>
       <StyledButton
+        data-testid='create-post'
         className={styles.button}
         onClick={() => setIsCreateNewPostModalOpen(true)}
       >

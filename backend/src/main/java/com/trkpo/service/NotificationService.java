@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
+
     private final NotificationRepository notificationRepository;
     private final UserRepository userRepository;
 
@@ -25,10 +26,11 @@ public class NotificationService {
         notificationRepository.deleteAllOlderThan30Days(Instant.now().toEpochMilli());
         return notificationRepository.findByUserId(user.getId()).stream()
             .filter(entity -> entity.getCreatedAt() + Duration.ofDays(30).toMillis() > Instant.now().toEpochMilli())
-            .map(entity -> NotificationDto.builder()
-                .id(entity.getId())
-                .postId(entity.getPost().getId())
-                .build()
+            .map(
+                entity -> NotificationDto.builder()
+                    .id(entity.getId())
+                    .postId(entity.getPost().getId())
+                    .build()
             ).toList();
     }
 }
