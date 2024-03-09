@@ -58,6 +58,7 @@ function Profile({
           <h2 className={styles.login} data-testid='profile-login'>{profileData.login}</h2>
           {!isOwnProfile ? (
             <StyledButton
+              data-testid='subscribe'
               onClick={() => subscribe?.(profileData.subscribed)}
               variant={profileData.subscribed ? 'tertiary' : 'primary'}
             >
@@ -114,7 +115,7 @@ function Profile({
       <div className={styles.feed}>
         {posts &&
           (posts.length === 0 ? (
-            <span>
+            <span data-testid='no-posts'>
               {isOwnProfile ? 'У вас нет постов' : 'У пользователя нет постов'}
             </span>
           ) : (

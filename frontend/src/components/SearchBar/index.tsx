@@ -29,6 +29,7 @@ function SearchBar() {
   return (
     <div className={styles.wrapper}>
       <input
+        id='search-by-login'
         ref={ref}
         className={styles.search}
         placeholder="Введите логин для поиска..."
@@ -41,6 +42,7 @@ function SearchBar() {
         onChange={e => setSearchQuery(e.target.value)}
       />
       <StyledButton
+        id='search-button'
         className={styles.icon}
         disabled={!searchQuery}
         variant="secondary"
@@ -50,7 +52,7 @@ function SearchBar() {
       </StyledButton>
       <Popper open={areResultsOpen} anchorEl={anchorEl}>
         <ClickAwayListener onClickAway={() => setAreResultsOpen(false)}>
-          <div className={styles.results}>
+          <div className={styles.results} id='search-results'>
             {profiles && !isLoading ? (
               profiles?.map(profile => (
                 <div className={styles.result} key={profile.id}>

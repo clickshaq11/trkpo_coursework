@@ -19,13 +19,17 @@ function Notifications() {
 
   return (
     <div>
-      <div className={styles.notification_btn} onClick={handleClick}>
+      <div
+        className={styles.notification_btn}
+        onClick={handleClick}
+        aria-label='Уведомления'
+      >
         <NotificationsIcon />
         <span>Уведомления</span>
       </div>
       <Popper open={areNotificationsOpen} anchorEl={anchorEl}>
         <ClickAwayListener onClickAway={() => setAreNotificationsOpen(false)}>
-          <div className={styles.notifications}>
+          <div className={styles.notifications} id='notifications-container'>
             {notifications ? (
               notifications?.map(notification => (
                 <div className={styles.notification} key={notification.id}>
