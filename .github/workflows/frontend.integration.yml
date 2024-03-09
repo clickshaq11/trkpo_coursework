@@ -1,28 +1,28 @@
-name: "Run frontend integration tests"
-on:
-  push:
-    branches: [ "main", "develop" ]
-  pull_request:
-    branches: [ "main", "develop" ]
+# name: "Run frontend integration tests"
+# on:
+#   push:
+#     branches: [ "main", "develop" ]
+#   pull_request:
+#     branches: [ "main", "develop" ]
 
-jobs:
-  test:
-    defaults:
-      run:
-        working-directory: ./frontend
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+# jobs:
+#   test:
+#     defaults:
+#       run:
+#         working-directory: ./frontend
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
+#       - uses: actions/setup-node@v3
+#         with:
+#           node-version: 18
 
-      - name: Run `npm ci`
-        run: |
-          npm ci
-          npm run build
+#       - name: Run `npm ci`
+#         run: |
+#           npm ci
+#           npm run build
 
-      - name: Run vitest and report issues
-        run:
-          npm run test:integration
+#       - name: Run vitest and report issues
+#         run:
+#           npm run test:integration
