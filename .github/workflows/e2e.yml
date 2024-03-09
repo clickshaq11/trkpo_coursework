@@ -1,0 +1,53 @@
+name: "Run e2e tests"
+on:
+  push:
+    branches: [ "main", "develop", "feature/e2e" ]
+  pull_request:
+    branches: [ "main", "develop", "feature/e2e" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15.2
+        env:
+          POSTGRES_DB: "main"
+          POSTGRES_USER: "postgres"
+          POSTGRES_PASSWORD: "postgres"
+        ports:
+          - "5432:5432"
+      
+      back:
+        container_name: "back"
+        build:
+          dockerfile: "docker/backend.dockerfile"
+        environment:
+          DB_URL: "jdbc:postgresql://postgres:5432/main"
+        ports:
+          - "8080:8080"
+        depends_on:
+          - "postgres"     
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Run `npm ci`
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
