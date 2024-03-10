@@ -6,6 +6,6 @@ const sql = postgres({
   database: 'main',
   username: 'postgres',
   password: 'postgres',
-}) //TODO fill envs
+})
 
 export default sql

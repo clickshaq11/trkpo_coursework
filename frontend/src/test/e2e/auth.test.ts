@@ -10,8 +10,6 @@ const hasToken = (storage: Awaited<ReturnType<BrowserContext['storageState']>> ,
 const LOGIN_URL = 'login';
 const REGISTER_URL = 'register';
 
-// TODO get all these from env ?
-
 const CORRECT_LOGIN = 'login123';
 const CORRECT_PASSWORD = 'password';
 const INCORRECT_PASSWORD = 'incorrect123';
@@ -21,11 +19,9 @@ const CORRECT_SHORT_INFO = '123';
 const TAKEN_LOGIN = 'login123';
 const NON_EXISTENT_LOGIN = 'user123123';
 
-// TODO get this from env ?
 const NON_EXISTENT_LOGIN_MESSAGE = /User with that login does not exist/;
 const INVALID_PASSWORD_MESSAGE = /Passwords don't match/;
 
-// TODO get this from env ?
 const LOGIN_TAKEN_MESSAGE = /Login is already taken/;
 
 test.describe('Auth', () => {

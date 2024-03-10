@@ -10,7 +10,6 @@ export default defineConfig({
   reporter: [[process.env.GITHUB_ACTIONS ? 'github' : 'list'],
     ['html', { outputDir: "playwright-report" }]],
   use: {
-    // TODO add port from .env
     baseURL: 'http://localhost:12345',
     trace: 'off',
   },
