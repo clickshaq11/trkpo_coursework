@@ -87,7 +87,7 @@ test.describe('Post', () => {
 
       await notifications.click();
 
-      await expect(page.getByText(/Вас отметили/)).toBeVisible();
+      await expect(newPageForSecondUser.getByText(/Вас отметили/)).toBeVisible();
     });
   });
 
