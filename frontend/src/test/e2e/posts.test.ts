@@ -19,7 +19,7 @@ test.describe('Post', () => {
 
       await expect(page.getByTestId(/like-counter/)).toHaveText('1');
 
-      await expect(likeButton).toHaveCSS('color', 'red');
+      await expect(likeButton).toHaveCSS('color', 'rgb(255, 0, 0)');
     });
 
     test('should correctly remove like from liked post', async ({ page }) => {
@@ -34,7 +34,7 @@ test.describe('Post', () => {
 
       await expect(page.getByTestId(/like-counter/)).toHaveText('0');
 
-      await expect(likeButton).toHaveCSS('color', 'red');
+      await expect(likeButton).toHaveCSS('color', 'rgb(255, 255, 255)');
     });
   });
 
@@ -87,7 +87,7 @@ test.describe('Post', () => {
 
       await notifications.click();
 
-      await expect(page.getByText(/Вас отметили'/)).toBeVisible();
+      await expect(page.getByText(/Вас отметили/)).toBeVisible();
     });
   });
 

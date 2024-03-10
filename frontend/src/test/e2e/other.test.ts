@@ -23,11 +23,11 @@ test.describe('Other', () => {
       const login2 = 'logout111';
       const shortInfo2 = 'logoutInfo';
 
-      await expect(page.getByText(login1)).toBeVisible();
-      await expect(page.getByText(shortInfo1)).toBeVisible();
+      await expect(page.getByText(login1, {exact: true})).toBeVisible();
+      await expect(page.getByText(shortInfo1, {exact: true})).toBeVisible();
 
-      await expect(page.getByText(login2)).toBeVisible();
-      await expect(page.getByText(shortInfo2)).toBeVisible();
+      await expect(page.getByText(login2, {exact: true})).toBeVisible();
+      await expect(page.getByText(shortInfo2, {exact: true})).toBeVisible();
     });
   });
 
