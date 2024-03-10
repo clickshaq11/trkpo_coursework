@@ -11,6 +11,7 @@
     "prettier": "prettier . --write --ignore-unknown",
     "test:unit": "vitest --config vitest.config.unit.ts",
     "test:integration": "vitest --config vitest.config.integration.ts",
+    "test:e2e": "npx playwright test",
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
@@ -21,6 +22,7 @@
     "axios": "^1.5.1",
     "dayjs": "^1.11.10",
     "immer": "^10.0.3",
+    "postgres": "^3.4.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.47.0",
@@ -28,6 +30,7 @@
     "react-router-dom": "^6.16.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.42.1",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.1",
     "@testing-library/user-event": "^14.5.2",

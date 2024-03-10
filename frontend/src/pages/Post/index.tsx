@@ -58,7 +58,7 @@ function PostPage() {
     <div className={styles.content}>
       <article className={styles.post}>
         <header className={styles.block}>
-          <h2 className={styles.title}>{title}</h2>
+          <h2 className={styles.title} data-testid='title'>{title}</h2>
           <span className={styles.author}>
             {
               <StyledLink to={`/profiles/${authorId}`}>
@@ -68,7 +68,7 @@ function PostPage() {
             &bull; {dayjs(createdAt).format(dateFormat)}
           </span>
         </header>
-        <p className={styles.body}>{body}</p>
+        <p className={styles.body} data-testid='body'>{body}</p>
         <ControlButtons
           title={title}
           body={body}
@@ -79,7 +79,7 @@ function PostPage() {
         />
       </article>
       <CreateNewComment postId={postId} pagination={pagination} />
-      <div className={styles.comments}>
+      <div className={styles.comments} id='comments'>
         <h3>Комментарии</h3>
         <Pagination
           pagination={{

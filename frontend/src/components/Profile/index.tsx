@@ -58,6 +58,7 @@ function Profile({
           <h2 className={styles.login} data-testid='profile-login'>{profileData.login}</h2>
           {!isOwnProfile ? (
             <StyledButton
+              data-testid='subscribe'
               onClick={() => subscribe?.(profileData.subscribed)}
               variant={profileData.subscribed ? 'tertiary' : 'primary'}
             >
@@ -83,6 +84,7 @@ function Profile({
                 </DialogContent>
               </Modal>
               <StyledButton
+                role='button'
                 aria-label='Open profile update modal'
                 onClick={() => setIsEditProfileModalOpen(true)}
               >
@@ -92,7 +94,7 @@ function Profile({
           )}
         </header>
 
-        <p className={styles.info}>{profileData.shortInfo}</p>
+        <p className={styles.info} data-testid='profile-shortinfo'>{profileData.shortInfo}</p>
         {isOwnProfile && (
           <div className={styles.subblock}>
             <h3>Подписки</h3>
@@ -114,7 +116,7 @@ function Profile({
       <div className={styles.feed}>
         {posts &&
           (posts.length === 0 ? (
-            <span>
+            <span data-testid='no-posts'>
               {isOwnProfile ? 'У вас нет постов' : 'У пользователя нет постов'}
             </span>
           ) : (

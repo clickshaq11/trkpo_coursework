@@ -27,12 +27,15 @@ function CreateNewComment(props: CreateNewCommentProps) {
     <div className={styles.create}>
       <h3>Добавить комментарий</h3>
       <textarea
+        id='comment-text'
         placeholder="Введите текст комментария"
         value={currentCommentText}
         onChange={e => setCurrentCommentText(e.target.value)}
         className={styles.input}
       />
-      <StyledButton onClick={onComment} disabled={isCommentButtonDisabled}>
+      <StyledButton
+        id='create-comment'
+        onClick={onComment} disabled={isCommentButtonDisabled}>
         Прокомментировать ({currentCommentText.length} из 600)
       </StyledButton>
     </div>

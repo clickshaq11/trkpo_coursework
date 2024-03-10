@@ -36,6 +36,7 @@ function Post({
         {body}
       </p>
       <div
+        id='likes'
         className={styles.likes}
         onClick={() =>
           likePost({ currentLikeState: hitLike, postId: id, userId })

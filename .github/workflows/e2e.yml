@@ -1,0 +1,50 @@
+name: "Run e2e tests"
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  test:
+    defaults:
+      run:
+        working-directory: ./frontend     
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Start all containers
+        run: docker compose -f ../docker-compose.yaml up --detach
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Run `npm ci`
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright tests
+        run: npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: frontend/playwright-report/
+          retention-days: 30
+
+      - name: Save container logs
+        if: always()
+        run: docker compose -f ../docker-compose.yaml logs --no-color > ../logs.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: docker-logs
+          path: logs.txt
+          retention-days: 30
+

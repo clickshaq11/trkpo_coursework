@@ -32,7 +32,7 @@ axios.interceptors.response.use(
     if (error.code === '401') {
       router.navigate('login');
     }
-    //throw error;
+    throw error;
   },
 );
 

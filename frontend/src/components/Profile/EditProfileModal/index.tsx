@@ -48,31 +48,31 @@ const EditProfileModal = forwardRef<HTMLDivElement, EditProfileModalProps>(
     return (
       <div className={styles.content} ref={ref}>
         <h2>Обновление информации профиля</h2>
-        <label htmlFor="short-info">Краткая информация</label>
+        <label htmlFor="update_short-info">Краткая информация</label>
         <textarea
           aria-label="short-info"
           placeholder="Введите краткую информацию"
-          id="short-info"
+          id="update_short-info"
           className={`${styles.input} ${styles.short_info}`}
           value={content.shortInfo}
           onChange={e => onChangeField('shortInfo', e.target.value)}
         />
-        <label htmlFor="password">Пароль</label>
+        <label htmlFor="update_password">Пароль</label>
         <input
           aria-label="password"
           type="password"
-          placeholder="Введите пароль..."
-          id="password"
+          placeholder="Введите пароль"
+          id="update_password"
           className={`${styles.input} ${styles.password}`}
           value={content.password}
           onChange={e => onChangeField('password', e.target.value)}
         />
-        <label htmlFor="repeat-password">Повторите пароль</label>
+        <label htmlFor="update_repeat-password">Повторите пароль</label>
         <input
           aria-label="repeat-password"
           type="password"
-          placeholder="Введите пароль..."
-          id="repeat-password"
+          placeholder="Повторите пароль"
+          id="update_repeat-password"
           className={`${styles.input} ${styles.password}`}
           value={content.repeatPassword}
           onChange={e => onChangeField('repeatPassword', e.target.value)}
